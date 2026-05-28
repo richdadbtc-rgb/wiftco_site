@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SwiftCom — UI/UX Design (Print)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  html, body { margin: 0; padding: 0; background: #f0eee9; font-family: Outfit, system-ui, sans-serif; color: #1a1a2e; }
+  * { box-sizing: border-box; }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: 0.5 } }
+
+  /* --- print-only paged layout --- */
+  @page { size: A4 portrait; margin: 14mm 12mm; }
+
+  .pp {
+    /* A4 portrait minus 2x14mm margins = 269mm tall */
+    width: 100%;
+    min-height: 269mm;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    page-break-after: always;
+    break-after: page;
+    padding-top: 6mm;
+  }
+  .pp:last-child { page-break-after: auto; break-after: auto; }
+
+  .pp-head {
+    width: 100%;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: 6mm;
+    border-bottom: 1px solid #E5E7EB;
+    margin-bottom: 8mm;
+  }
+  .pp-flow  { font-size: 9pt; font-weight: 800; color: #5E17EB; letter-spacing: 1.5px; }
+  .pp-title { font-size: 16pt; font-weight: 700; color: #1A1A2E; letter-spacing: -0.4px; }
+  .pp-sub   { font-size: 9pt; color: #6B7280; margin-left: 8px; }
+  .pp-frame { font-size: 9pt; color: #9CA3AF; font-weight: 500; }
+
+  .pp-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .pp-card {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.05);
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .pp-foot {
+    width: 100%;
+    padding-top: 6mm;
+    margin-top: 6mm;
+    border-top: 1px solid #E5E7EB;
+    display: flex;
+    justify-content: space-between;
+    font-size: 8pt;
+    color: #9CA3AF;
+  }
+
+  /* Cover page */
+  .pp-cover {
+    width: 100%;
+    min-height: 269mm;
+    display: flex;
+    flex-direction: column;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  /* TOC */
+  .pp-toc h2 { font-size: 22pt; font-weight: 800; margin: 0 0 4mm; letter-spacing: -0.6px; }
+  .pp-toc .toc-row { display: flex; align-items: baseline; gap: 6mm; padding: 3mm 0; border-bottom: 1px dashed #E5E7EB; }
+  .pp-toc .toc-name { flex: 1; font-size: 11pt; font-weight: 600; }
+  .pp-toc .toc-pg { font-size: 11pt; color: #6B7280; font-variant-numeric: tabular-nums; }
+
+  @media print {
+    body { background: #fff; }
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    .pp, .pp-cover, .pp-card, * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="tokens.jsx"></script>
+<script type="text/babel" src="screens-1-onboarding.jsx"></script>
+<script type="text/babel" src="screens-2-auth.jsx"></script>
+<script type="text/babel" src="screens-3-kyc.jsx"></script>
+<script type="text/babel" src="screens-4-dashboard.jsx"></script>
+<script type="text/babel" src="screens-5-messaging.jsx"></script>
+<script type="text/babel" src="screens-6-wallet.jsx"></script>
+<script type="text/babel" src="screens-7-esim.jsx"></script>
+<script type="text/babel" src="screens-8-aibot-profile.jsx"></script>
+<script type="text/babel" src="components-library.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+const W = 390, H = 844;
+
+// One page per artboard. Each page contains a header (flow + screen name),
+// the artboard scaled to fit ~165mm wide, and a footer.
+function Page({ flow, label, frameName, scale = 0.48, w = W, h = H, children, last }) {
+  return (
+    <div className="pp">
+      <div className="pp-head">
+        <div>
+          <div className="pp-flow">{flow}</div>
+          <div className="pp-title">{label}</div>
+        </div>
+        <div className="pp-frame">{frameName}</div>
+      </div>
+      <div className="pp-wrap">
+        <div className="pp-card" style={{ width: w * scale, height: h * scale, position: 'relative' }}>
+          <div style={{ width: w, height: h, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
+            {children}
+          </div>
+        </div>
+      </div>
+      <div className="pp-foot">
+        <span>SwiftCom · UI/UX System · ⚡</span>
+        <span>iPhone 14 Pro · 390 × 844 · Outfit</span>
+      </div>
+    </div>
+  );
+}
+
+// Frame catalog — used for both TOC and rendering.
+const FRAMES = [
+  { name: 'Frame 1 · Splash + Onboarding', screens: [
+    { label: '01 · Splash',             Comp: () => <ScreenSplash/> },
+    { label: '02 · Onboarding · Chat',  Comp: () => <ScreenOnboard1/> },
+    { label: '03 · Onboarding · Money', Comp: () => <ScreenOnboard2/> },
+    { label: '04 · Onboarding · eSIM',  Comp: () => <ScreenOnboard3/> },
+  ]},
+  { name: 'Frame 2 · Authentication', screens: [
+    { label: '05 · Sign Up',           Comp: () => <ScreenSignUp/> },
+    { label: '06 · Email OTP',         Comp: () => <ScreenOTP/> },
+    { label: '07 · Sign In',           Comp: () => <ScreenSignIn/> },
+  ]},
+  { name: 'Frame 3 · KYC Verification', screens: [
+    { label: '08 · KYC · Method',      Comp: () => <ScreenKYCMethod/> },
+    { label: '09 · KYC · NIN Input',   Comp: () => <ScreenKYCInput/> },
+    { label: '10 · KYC · Success',     Comp: () => <ScreenKYCSuccess/> },
+  ]},
+  { name: 'Frame 4 · Dashboard + Feed', screens: [
+    { label: '11 · Dashboard',         Comp: () => <ScreenDashboard/> },
+    { label: '12 · Feed',              Comp: () => <ScreenFeed/> },
+  ]},
+  { name: 'Frame 5 · Messaging + Calls', screens: [
+    { label: '13 · Messages list',     Comp: () => <ScreenMessages/> },
+    { label: '14 · 1-on-1 Chat',       Comp: () => <ScreenChat/> },
+    { label: '15 · Voice Call',        Comp: () => <ScreenVoiceCall/> },
+  ]},
+  { name: 'Frame 6 · Wallet + Bills', screens: [
+    { label: '16 · Wallet',            Comp: () => <ScreenWallet/> },
+    { label: '17 · Pay Bills',         Comp: () => <ScreenBills/> },
+  ]},
+  { name: 'Frame 7 · eSIM + Alerts', screens: [
+    { label: '18 · My eSIM',           Comp: () => <ScreenESIM/> },
+    { label: 'Alerts (extra)',         Comp: () => <ScreenNotifications/> },
+  ]},
+  { name: 'Frame 8 · AI Bot + Profile', screens: [
+    { label: '19 · SwiftBot AI',       Comp: () => <ScreenAIBot/> },
+    { label: '20 · Profile',           Comp: () => <ScreenProfile/> },
+  ]},
+];
+
+function CoverPage() {
+  return (
+    <div className="pp-cover" style={{
+      background: 'linear-gradient(135deg, #5E17EB 0%, #3A0CAA 100%)',
+      color: '#fff',
+      padding: '24mm 20mm',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      <svg style={{ position: 'absolute', top: '20mm', right: '-20mm', opacity: 0.10 }} width="320" height="320" viewBox="0 0 24 24"><path d="M13.5 2L4 14h6l-1.5 8L19 10h-6l.5-8z" fill="#fff"/></svg>
+      <div style={{ position: 'absolute', bottom: '-30mm', left: '-30mm', width: '120mm', height: '120mm', borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }}/>
+
+      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 30 }}>
+          <div style={{ width: 84, height: 84, borderRadius: 22, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#5E17EB', boxShadow: '0 12px 30px rgba(0,0,0,0.25)' }}>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 2L4 14h6l-1.5 8L19 10h-6l.5-8z"/></svg>
+          </div>
+          <div>
+            <div style={{ fontSize: 10, opacity: 0.7, letterSpacing: 3, fontWeight: 700 }}>FINTECH · SUPER-APP · NIGERIA</div>
+            <div style={{ fontSize: 64, fontWeight: 800, letterSpacing: -1.6, lineHeight: 1, marginTop: 2 }}>SwiftCom</div>
+            <div style={{ fontSize: 16, opacity: 0.75, marginTop: 6 }}>Connecting people...</div>
+          </div>
+        </div>
+
+        <div style={{ marginTop: 10 }}>
+          <div style={{ fontSize: 14, opacity: 0.75, fontWeight: 600, letterSpacing: 1 }}>UI/UX DESIGN SYSTEM</div>
+          <div style={{ fontSize: 32, fontWeight: 800, letterSpacing: -0.8, marginTop: 4 }}>20 screens · 10 flows · 1 library</div>
+          <div style={{ fontSize: 13, opacity: 0.75, marginTop: 12, maxWidth: 460, lineHeight: 1.55 }}>
+            A Nigerian super-app combining messaging, voice calls, AI assistant, digital wallet,
+            bill payments, and eSIM management. Designed for iPhone 14 Pro (390 × 844).
+          </div>
+        </div>
+
+        <div style={{ marginTop: 'auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+          {[
+            ['SCOPE', '20 screens + library'],
+            ['PALETTE', 'Electric purple · WCAG AA'],
+            ['TYPOGRAPHY', 'Outfit · 4 weights'],
+          ].map(([k, v], i) => (
+            <div key={i} style={{ padding: 14, borderRadius: 14, background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)' }}>
+              <div style={{ fontSize: 9, opacity: 0.7, letterSpacing: 1.5, fontWeight: 700 }}>{k}</div>
+              <div style={{ fontSize: 13, fontWeight: 700, marginTop: 4 }}>{v}</div>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop: 18, display: 'flex', gap: 6 }}>
+          {['#5E17EB','#3A0CAA','#10B981','#F59E0B','#EF4444','#1A1A2E'].map((c, i) => (
+            <div key={i} style={{ width: 28, height: 28, borderRadius: 8, background: c, border: '1.5px solid rgba(255,255,255,0.3)' }}/>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TOCPage() {
+  let pageNum = 3; // cover=1, toc=2, content starts at 3
+  return (
+    <div className="pp pp-toc">
+      <div className="pp-head">
+        <div>
+          <div className="pp-flow">CONTENTS</div>
+          <div className="pp-title">Index</div>
+        </div>
+        <div className="pp-frame">SwiftCom · UI Kit</div>
+      </div>
+      <div style={{ width: '100%', flex: 1 }}>
+        {FRAMES.map((f, fi) => {
+          const rows = (
+            <div key={fi} style={{ marginBottom: 14 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#5E17EB', letterSpacing: 1, marginBottom: 4 }}>{f.name.toUpperCase()}</div>
+              {f.screens.map((s, si) => {
+                const row = <div key={si} className="toc-row"><div className="toc-name">{s.label}</div><div className="toc-pg">p. {pageNum}</div></div>;
+                pageNum += 1;
+                return row;
+              })}
+            </div>
+          );
+          return rows;
+        })}
+        <div style={{ fontSize: 11, fontWeight: 700, color: '#5E17EB', letterSpacing: 1, marginBottom: 4, marginTop: 4 }}>FRAME 9 · COMPONENT LIBRARY</div>
+        <div className="toc-row"><div className="toc-name">Component library sheet</div><div className="toc-pg">p. {pageNum}</div></div>
+      </div>
+      <div className="pp-foot">
+        <span>SwiftCom · UI/UX System · ⚡</span>
+        <span>{Object.values(FRAMES).reduce((a, f) => a + f.screens.length, 0) + 3} pages total</span>
+      </div>
+    </div>
+  );
+}
+
+function ComponentLibraryPage() {
+  // The library is 880 wide and ~1900 tall — landscape would help but we
+  // keep portrait and scale to fit page width (~186mm = ~702px @ 96dpi).
+  const scale = 186 / (880 * 0.265);  // approx mm-per-px; refine empirically
+  return (
+    <div className="pp">
+      <div className="pp-head">
+        <div>
+          <div className="pp-flow">FRAME 9</div>
+          <div className="pp-title">Component Library</div>
+        </div>
+        <div className="pp-frame">Atoms · primitives</div>
+      </div>
+      <div className="pp-wrap" style={{ alignItems: 'flex-start' }}>
+        <div className="pp-card" style={{ width: 880 * 0.22, height: 1900 * 0.22, position: 'relative' }}>
+          <div style={{ width: 880, height: 1900, transform: 'scale(0.22)', transformOrigin: 'top left' }}>
+            <ComponentLibrary/>
+          </div>
+        </div>
+      </div>
+      <div className="pp-foot">
+        <span>SwiftCom · UI/UX System · ⚡</span>
+        <span>scaled to fit · view standalone HTML for full resolution</span>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <>
+      <CoverPage/>
+      <TOCPage/>
+      {FRAMES.map((f, fi) =>
+        f.screens.map((s, si) => (
+          <Page key={`${fi}-${si}`}
+                flow={`SCREEN ${s.label.split('·')[0].trim().replace(/^0/, '')}`}
+                label={s.label}
+                frameName={f.name}>
+            <s.Comp/>
+          </Page>
+        ))
+      )}
+      <ComponentLibraryPage/>
+    </>
+  );
+}
+
+// Wait for fonts + a small delay, then auto-print.
+(async () => {
+  ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+  try { await document.fonts.ready; } catch {}
+  await new Promise(r => setTimeout(r, 700));
+  window.print();
+})();
+</script>
+</body>
+</html>

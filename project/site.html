@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>SwiftCom — Website</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  html, body { margin: 0; padding: 0; background: #f0eee9; font-family: Outfit, system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  @keyframes shimmer { 0% { background-position: -200% 0 } 100% { background-position: 200% 0 } }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: 0.5 } }
+
+  /* Tweaks panel */
+  #tweaks { position: fixed; top: 16px; right: 16px; z-index: 99999; width: 270px;
+    background: #fff; border: 1px solid #E5E7EB; border-radius: 16px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.18); font-family: Outfit, system-ui, sans-serif;
+    overflow: hidden; }
+  #tweaks.hidden { display: none; }
+  .tw-head { padding: 14px 16px; border-bottom: 1px solid #F3F4F6; display: flex; align-items: center; justify-content: space-between; }
+  .tw-title { font-size: 13px; font-weight: 700; color: #1A1A2E; letter-spacing: 0.2px; display: flex; align-items: center; gap: 7px; }
+  .tw-body { padding: 14px 16px 18px; max-height: 80vh; overflow: auto; }
+  .tw-sec { font-size: 10.5px; font-weight: 700; color: #9CA3AF; letter-spacing: 1.2px; margin: 16px 0 8px; }
+  .tw-sec:first-child { margin-top: 0; }
+  .tw-seg { display: flex; gap: 4px; background: #F3F4F6; padding: 4px; border-radius: 10px; }
+  .tw-opt { flex: 1; text-align: center; padding: 7px 4px; border-radius: 7px; font-size: 12px; font-weight: 600; color: #6B7280; cursor: pointer; border: none; background: transparent; font-family: inherit; transition: all .15s; }
+  .tw-opt.on { background: #fff; color: #5E17EB; box-shadow: 0 1px 3px rgba(0,0,0,0.10); }
+  .tw-sw { display: flex; gap: 6px; }
+  .tw-swatch { flex: 1; height: 34px; border-radius: 9px; cursor: pointer; border: 2px solid transparent; position: relative; }
+  .tw-swatch.on { border-color: #1A1A2E; }
+  .tw-hint { font-size: 11px; color: #9CA3AF; margin-top: 8px; line-height: 1.4; }
+</style>
+</head>
+<body>
+<div id="tweaks" class="hidden">
+  <div class="tw-head">
+    <div class="tw-title"><span style="display:inline-flex;width:18px;height:18px;border-radius:5px;background:#5E17EB;align-items:center;justify-content:center"><svg width="11" height="11" viewBox="0 0 24 24" fill="#fff"><path d="M13.5 2L4 14h6l-1.5 8L19 10h-6l.5-8z"/></svg></span>Tweaks</div>
+    <span id="tw-close" style="cursor:pointer;color:#9CA3AF;font-size:18px;line-height:1">×</span>
+  </div>
+  <div class="tw-body">
+    <div class="tw-sec">COLOR PALETTE</div>
+    <div class="tw-sw" id="tw-palette"></div>
+    <div class="tw-hint" id="tw-palette-hint">Electric purple — the SwiftCom default.</div>
+
+    <div class="tw-sec">DENSITY</div>
+    <div class="tw-seg" id="tw-density"></div>
+
+    <div class="tw-sec">BODY FONT</div>
+    <div class="tw-seg" id="tw-font"></div>
+  </div>
+</div>
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="tokens.jsx"></script>
+<script type="text/babel" src="screens-1-onboarding.jsx"></script>
+<script type="text/babel" src="screens-2-auth.jsx"></script>
+<script type="text/babel" src="screens-3-kyc.jsx"></script>
+<script type="text/babel" src="screens-4-dashboard.jsx"></script>
+<script type="text/babel" src="screens-5-messaging.jsx"></script>
+<script type="text/babel" src="screens-6-wallet.jsx"></script>
+<script type="text/babel" src="screens-7-esim.jsx"></script>
+<script type="text/babel" src="screens-8-aibot-profile.jsx"></script>
+<script type="text/babel" src="site-primitives.jsx"></script>
+<script type="text/babel" src="site-home.jsx"></script>
+<script type="text/babel" src="site-features-pricing.jsx"></script>
+<script type="text/babel" src="site-business-security.jsx"></script>
+<script type="text/babel" src="site-company.jsx"></script>
+<script type="text/babel" src="site-help-blog-download.jsx"></script>
+<script type="text/babel" src="site-responsive.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+function App() {
+  return (
+    <DesignCanvas>
+      <DCSection id="cover" title="SwiftCom · Website" subtitle="Multi-page marketing site · 11 pages + 2 home variants + responsive · Toggle Tweaks (toolbar) for palette / density / font">
+        <DCArtboard id="home-v1"  label="Home · Variant A (centered + floating phones)" width={1440} height={4200}><HomeV1/></DCArtboard>
+        <DCArtboard id="home-v2"  label="Home · Variant B (editorial dark hero)" width={1440} height={4700}><HomeV2/></DCArtboard>
+      </DCSection>
+
+      <DCSection id="pages" title="Core pages" subtitle="Features · Pricing · Business · Security">
+        <DCArtboard id="features" label="Features (deep dive)" width={1440} height={3700}><FeaturesPage/></DCArtboard>
+        <DCArtboard id="pricing"  label="Pricing / Fees" width={1440} height={3050}><PricingPage/></DCArtboard>
+        <DCArtboard id="business" label="Business / API" width={1440} height={2900}><BusinessPage/></DCArtboard>
+        <DCArtboard id="security" label="Security & Trust" width={1440} height={2550}><SecurityPage/></DCArtboard>
+      </DCSection>
+
+      <DCSection id="company" title="Company" subtitle="About · Press · Careers">
+        <DCArtboard id="about"   label="About / Company" width={1440} height={3050}><AboutPage/></DCArtboard>
+        <DCArtboard id="press"   label="Press / Newsroom" width={1440} height={2150}><PressPage/></DCArtboard>
+        <DCArtboard id="careers" label="Careers" width={1440} height={2150}><CareersPage/></DCArtboard>
+      </DCSection>
+
+      <DCSection id="support" title="Support & content" subtitle="Help center · Blog · Download">
+        <DCArtboard id="help"     label="Help Center" width={1440} height={1750}><HelpPage/></DCArtboard>
+        <DCArtboard id="blog"     label="Blog" width={1440} height={2050}><BlogPage/></DCArtboard>
+        <DCArtboard id="download" label="Download / Get the app" width={1440} height={1500}><DownloadPage/></DCArtboard>
+      </DCSection>
+
+      <DCSection id="responsive" title="Responsive · Home" subtitle="Same page, three breakpoints">
+        <DCArtboard id="tablet" label="Tablet · 834w" width={834} height={2400}><HomeTablet/></DCArtboard>
+        <DCArtboard id="mobile" label="Mobile · 390w" width={390} height={2500}><HomeMobile/></DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+
+// ── Tweaks system ──────────────────────────────────────────
+// Mutates the shared SC / WEB token objects + re-renders so every page
+// (which reads SC.* inline at render time) picks up the new values live.
+(function setupTweaks() {
+  const recomputeGradients = () => {
+    SC.purpleGrad     = `linear-gradient(180deg, ${SC.primary} 0%, ${SC.primaryDark} 100%)`;
+    SC.purpleGradDiag = `linear-gradient(135deg, ${SC.primary} 0%, ${SC.primaryDark} 100%)`;
+    SC.purpleDeepGrad = `radial-gradient(circle at 50% 35%, ${SC.primary} 0%, ${SC.primaryDark} 55%, #120736 100%)`;
+  };
+
+  const palettes = [
+    { id: 'electric', name: 'Electric purple — the SwiftCom default.', primary: '#5E17EB', dark: '#3A0CAA', light: '#7B3CF0', sw: 'linear-gradient(135deg,#5E17EB,#3A0CAA)' },
+    { id: 'deep',     name: 'Deeper indigo — more corporate, more trust.', primary: '#3A0CAA', dark: '#23036B', light: '#5E17EB', sw: 'linear-gradient(135deg,#3A0CAA,#23036B)' },
+    { id: 'light',    name: 'Lighter violet — friendlier, more consumer.', primary: '#7B3CF0', dark: '#5E17EB', light: '#9D6BF5', sw: 'linear-gradient(135deg,#7B3CF0,#5E17EB)' },
+    { id: 'royal',    name: 'Royal blurple — a cooler, techier tone.', primary: '#4F46E5', dark: '#3730A3', light: '#6366F1', sw: 'linear-gradient(135deg,#4F46E5,#3730A3)' },
+  ];
+  const fonts = [
+    { id: 'outfit', label: 'Outfit', stack: 'Outfit, system-ui, sans-serif' },
+    { id: 'jakarta', label: 'Jakarta', stack: '"Plus Jakarta Sans", system-ui, sans-serif' },
+    { id: 'inter', label: 'Inter', stack: 'Inter, system-ui, sans-serif' },
+  ];
+  const densities = [
+    { id: 'airy', label: 'Airy', scale: 1 },
+    { id: 'cozy', label: 'Cozy', scale: 0.96 },
+    { id: 'compact', label: 'Compact', scale: 0.92 },
+  ];
+
+  const state = { palette: 'electric', font: 'outfit', density: 'airy' };
+
+  const applyDensity = () => {
+    const d = densities.find(x => x.id === state.density);
+    document.querySelectorAll('.dc-card').forEach(card => {
+      // dark card bg so any strip revealed below the (dark) footer at <1 zoom
+      // reads as footer breathing room rather than a gap
+      card.style.background = '#1A1A2E';
+      const page = card.firstElementChild;
+      if (page) { page.style.zoom = d.scale; }
+    });
+  };
+
+  const apply = () => {
+    const p = palettes.find(x => x.id === state.palette);
+    SC.primary = p.primary; SC.primaryDark = p.dark; SC.primaryLight = p.light;
+    recomputeGradients();
+    const f = fonts.find(x => x.id === state.font);
+    SC.font = f.stack; WEB.font = f.stack;
+    root.render(<App/>);
+    requestAnimationFrame(applyDensity);
+  };
+
+  // build palette swatches
+  const palWrap = document.getElementById('tw-palette');
+  const palHint = document.getElementById('tw-palette-hint');
+  palettes.forEach(p => {
+    const b = document.createElement('div');
+    b.className = 'tw-swatch' + (p.id === state.palette ? ' on' : '');
+    b.style.background = p.sw;
+    b.title = p.id;
+    b.onclick = () => {
+      state.palette = p.id;
+      palWrap.querySelectorAll('.tw-swatch').forEach(s => s.classList.remove('on'));
+      b.classList.add('on');
+      palHint.textContent = p.name;
+      apply();
+    };
+    palWrap.appendChild(b);
+  });
+
+  // build segmented controls
+  const buildSeg = (containerId, opts, key) => {
+    const wrap = document.getElementById(containerId);
+    opts.forEach(o => {
+      const b = document.createElement('button');
+      b.className = 'tw-opt' + (o.id === state[key] ? ' on' : '');
+      b.textContent = o.label;
+      b.onclick = () => {
+        state[key] = o.id;
+        wrap.querySelectorAll('.tw-opt').forEach(x => x.classList.remove('on'));
+        b.classList.add('on');
+        apply();
+      };
+      wrap.appendChild(b);
+    });
+  };
+  buildSeg('tw-density', densities, 'density');
+  buildSeg('tw-font', fonts, 'font');
+
+  document.getElementById('tw-close').onclick = () => {
+    document.getElementById('tweaks').classList.add('hidden');
+    try { window.parent.postMessage({ type: 'tweaks-visibility', visible: false }, '*'); } catch {}
+  };
+
+  // host protocol: show/hide panel when user toggles Tweaks in the toolbar
+  window.addEventListener('message', (e) => {
+    const d = e.data || {};
+    if (d.type === 'tweaks-visibility' || d.type === 'set-tweaks-visibility' || d.type === 'tweaks') {
+      const vis = d.visible !== undefined ? d.visible : d.show;
+      document.getElementById('tweaks').classList.toggle('hidden', !vis);
+    }
+  });
+  try { window.parent.postMessage({ type: 'tweaks-capable', capable: true }, '*'); } catch {}
+})();
+</script>
+</body>
+</html>
