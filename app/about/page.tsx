@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -7,6 +8,7 @@ import PageHeader from '@/components/PageHeader';
 import StatsStrip from '@/components/StatsStrip';
 import Avatar from '@/components/Avatar';
 import { SC, WEB } from '@/lib/tokens';
+import { useResponsive } from '@/lib/useResponsive';
 
 const TEAM = [
   { name: 'Chinedu Okwu', role: 'CEO · ex-Paystack' },
@@ -29,6 +31,8 @@ const TIMELINE = [
 const INVESTORS = ['Future Africa', 'Y Combinator', 'Ventures Platform', 'LoftyInc', 'Tekedia', 'Angels'];
 
 export default function AboutPage() {
+  const { isMobile } = useResponsive();
+
   return (
     <div style={{ fontFamily: SC.font, color: SC.ink }}>
       <Nav />
@@ -42,7 +46,7 @@ export default function AboutPage() {
       <div style={{ padding: '80px 0', background: '#fff' }}>
         <Container w={920}>
           <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2, marginBottom: 16 }}>OUR STORY</div>
-          <p style={{ fontSize: 22, lineHeight: 1.55, color: SC.ink, fontWeight: 500 }}>
+          <p style={{ fontSize: isMobile ? 18 : 22, lineHeight: 1.55, color: SC.ink, fontWeight: 500 }}>
             In 2024 our CEO needed to send rent, top up his sister&apos;s airtime, pay DStv, and renew a SIM —
             all between two meetings. He used <em>five apps</em>, a USSD code, and lost ₦650 in transfer fees.
           </p>
@@ -66,13 +70,13 @@ export default function AboutPage() {
         <Container>
           <div style={{ marginBottom: 48 }}>
             <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2, marginBottom: 14 }}>LEADERSHIP</div>
-            <h2 style={{ margin: 0, fontSize: 44, fontWeight: 800, letterSpacing: -1.4 }}>The team behind the bolt.</h2>
+            <h2 style={{ margin: 0, fontSize: isMobile ? 32 : 44, fontWeight: 800, letterSpacing: -1.4 }}>The team behind the bolt.</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(3, 1fr)', gap: 24 }}>
             {TEAM.map((p, i) => (
-              <div key={i} style={{ background: '#FAFAFB', borderRadius: 18, padding: 24, border: `1px solid ${SC.hairline}`, textAlign: 'center' }}>
-                <Avatar name={p.name} size={88} style={{ margin: '0 auto 16px' }} />
-                <div style={{ fontSize: 17, fontWeight: 700, letterSpacing: -0.3 }}>{p.name}</div>
+              <div key={i} style={{ background: '#FAFAFB', borderRadius: 18, padding: isMobile ? 16 : 24, border: `1px solid ${SC.hairline}`, textAlign: 'center' }}>
+                <Avatar name={p.name} size={isMobile ? 64 : 88} style={{ margin: '0 auto 16px' }} />
+                <div style={{ fontSize: isMobile ? 14 : 17, fontWeight: 700, letterSpacing: -0.3 }}>{p.name}</div>
                 <div style={{ fontSize: 13, color: SC.muted, marginTop: 4 }}>{p.role}</div>
               </div>
             ))}
@@ -90,7 +94,7 @@ export default function AboutPage() {
           <div style={{ position: 'relative', paddingLeft: 32 }}>
             <div style={{ position: 'absolute', left: 10, top: 8, bottom: 8, width: 2, background: SC.hairline }} />
             {TIMELINE.map((t, i) => (
-              <div key={i} style={{ position: 'relative', display: 'grid', gridTemplateColumns: '140px 1fr', gap: 36, padding: '16px 0', alignItems: 'baseline' }}>
+              <div key={i} style={{ position: 'relative', display: 'grid', gridTemplateColumns: isMobile ? '100px 1fr' : '140px 1fr', gap: isMobile ? 16 : 36, padding: '16px 0', alignItems: 'baseline' }}>
                 <div style={{
                   position: 'absolute', left: -32 + 4, top: 18,
                   width: 14, height: 14, borderRadius: 7,
@@ -113,9 +117,9 @@ export default function AboutPage() {
       <div style={{ padding: '60px 0', background: '#fff' }}>
         <Container>
           <div style={{ textAlign: 'center', fontSize: 11.5, fontWeight: 700, color: SC.muted, letterSpacing: 2, marginBottom: 22 }}>BACKED BY</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 24, alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(3, 1fr)' : 'repeat(6, 1fr)', gap: 24, alignItems: 'center' }}>
             {INVESTORS.map((b, i) => (
-              <div key={i} style={{ textAlign: 'center', fontSize: 18, fontWeight: 700, color: SC.faint, letterSpacing: -0.3, fontFamily: i % 2 ? 'Georgia, serif' : WEB.font }}>{b}</div>
+              <div key={i} style={{ textAlign: 'center', fontSize: isMobile ? 14 : 18, fontWeight: 700, color: SC.faint, letterSpacing: -0.3, fontFamily: i % 2 ? 'Georgia, serif' : WEB.font }}>{b}</div>
             ))}
           </div>
         </Container>

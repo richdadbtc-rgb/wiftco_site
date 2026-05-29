@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -5,6 +6,7 @@ import Container from '@/components/Container';
 import PageHeader from '@/components/PageHeader';
 import WBtn from '@/components/WBtn';
 import { SC, WEB } from '@/lib/tokens';
+import { useResponsive } from '@/lib/useResponsive';
 
 const ARTICLES = [
   { src: 'TechCabal', date: '22 May 2026', title: 'Wiftco: the Lagos team trying to collapse five apps into one' },
@@ -18,6 +20,8 @@ const ARTICLES = [
 const FILTERS = ['All', 'Funding', 'Product', 'Regulation'];
 
 export default function PressPage() {
+  const { isMobile } = useResponsive();
+
   return (
     <div style={{ fontFamily: SC.font, color: SC.ink }}>
       <Nav />
@@ -30,13 +34,13 @@ export default function PressPage() {
       {/* Featured quote */}
       <div style={{ padding: '60px 0', background: '#fff' }}>
         <Container>
-          <div style={{ background: SC.purpleGradDiag, color: '#fff', borderRadius: 24, padding: '48px 56px', position: 'relative', overflow: 'hidden' }}>
+          <div style={{ background: SC.purpleGradDiag, color: '#fff', borderRadius: 24, padding: isMobile ? '32px 24px' : '48px 56px', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: -20, right: 20, opacity: 0.10 }}>
               <svg width="200" height="200" viewBox="0 0 24 24"><path d="M13.5 2L4 14h6l-1.5 8L19 10h-6l.5-8z" fill="#fff" /></svg>
             </div>
             <div style={{ position: 'relative', maxWidth: 820 }}>
               <div style={{ fontSize: 60, lineHeight: 1, marginBottom: 16, opacity: 0.5 }}>&quot;</div>
-              <div style={{ fontSize: 32, fontWeight: 600, letterSpacing: -0.6, lineHeight: 1.3 }}>
+              <div style={{ fontSize: isMobile ? 22 : 32, fontWeight: 600, letterSpacing: -0.6, lineHeight: 1.3 }}>
                 The most ambitious consumer fintech bet in West Africa since OPay&apos;s launch — and arguably the most thoughtfully designed.
               </div>
               <div style={{ marginTop: 24, fontSize: 14, fontWeight: 600, letterSpacing: 1 }}>— TECHCABAL · MAY 2026</div>
@@ -48,9 +52,9 @@ export default function PressPage() {
       {/* Articles list */}
       <div style={{ padding: '40px 0 80px', background: '#fff' }}>
         <Container>
-          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 24 }}>
+          <div style={{ display: 'flex', alignItems: isMobile ? 'flex-start' : 'baseline', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', marginBottom: 24, gap: isMobile ? 12 : 0 }}>
             <h2 style={{ margin: 0, fontSize: 28, fontWeight: 800, letterSpacing: -0.8 }}>In the news</h2>
-            <div style={{ display: 'flex', gap: 8 }}>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {FILTERS.map((c, i) => (
                 <span key={i} style={{
                   padding: '6px 12px', borderRadius: 999, cursor: 'pointer',
@@ -64,16 +68,31 @@ export default function PressPage() {
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {ARTICLES.map((it, i) => (
-              <div key={i} style={{
-                display: 'grid', gridTemplateColumns: '160px 110px 1fr auto', gap: 24,
-                padding: '20px 24px', background: '#FAFAFB',
-                borderRadius: 14, border: `1px solid ${SC.hairline}`, alignItems: 'center',
-              }}>
-                <div style={{ fontSize: 14, fontWeight: 800, color: SC.ink, letterSpacing: -0.3, fontStyle: i % 2 ? 'italic' : 'normal', fontFamily: i % 2 ? 'Georgia, serif' : WEB.font }}>{it.src}</div>
-                <div style={{ fontSize: 12.5, color: SC.muted }}>{it.date}</div>
-                <div style={{ fontSize: 15.5, fontWeight: 600, color: SC.ink }}>{it.title}</div>
-                <div style={{ color: SC.primary, fontSize: 13, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>Read →</div>
-              </div>
+              isMobile ? (
+                // Simplified mobile: title + Read link
+                <div key={i} style={{
+                  display: 'grid', gridTemplateColumns: '1fr auto', gap: 12,
+                  padding: '16px 20px', background: '#FAFAFB',
+                  borderRadius: 14, border: `1px solid ${SC.hairline}`, alignItems: 'center',
+                }}>
+                  <div>
+                    <div style={{ fontSize: 11, fontWeight: 800, color: SC.muted, letterSpacing: 0.5, marginBottom: 4, fontStyle: i % 2 ? 'italic' : 'normal', fontFamily: i % 2 ? 'Georgia, serif' : WEB.font }}>{it.src}</div>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: SC.ink, lineHeight: 1.35 }}>{it.title}</div>
+                  </div>
+                  <div style={{ color: SC.primary, fontSize: 13, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>Read →</div>
+                </div>
+              ) : (
+                <div key={i} style={{
+                  display: 'grid', gridTemplateColumns: '160px 110px 1fr auto', gap: 24,
+                  padding: '20px 24px', background: '#FAFAFB',
+                  borderRadius: 14, border: `1px solid ${SC.hairline}`, alignItems: 'center',
+                }}>
+                  <div style={{ fontSize: 14, fontWeight: 800, color: SC.ink, letterSpacing: -0.3, fontStyle: i % 2 ? 'italic' : 'normal', fontFamily: i % 2 ? 'Georgia, serif' : WEB.font }}>{it.src}</div>
+                  <div style={{ fontSize: 12.5, color: SC.muted }}>{it.date}</div>
+                  <div style={{ fontSize: 15.5, fontWeight: 600, color: SC.ink }}>{it.title}</div>
+                  <div style={{ color: SC.primary, fontSize: 13, fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>Read →</div>
+                </div>
+              )
             ))}
           </div>
         </Container>
@@ -82,7 +101,7 @@ export default function PressPage() {
       {/* Press kit */}
       <div style={{ padding: '60px 0', background: '#FAFAFB', borderTop: `1px solid ${SC.hairline}` }}>
         <Container>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 32 }}>
             <div style={{ background: '#fff', borderRadius: 18, padding: 32, border: `1px solid ${SC.hairline}` }}>
               <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2 }}>PRESS KIT</div>
               <h3 style={{ margin: '10px 0 8px', fontSize: 24, fontWeight: 800, letterSpacing: -0.6 }}>Logos, screenshots, brand colors</h3>

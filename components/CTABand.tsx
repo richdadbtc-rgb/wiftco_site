@@ -4,6 +4,7 @@ import { SC } from '@/lib/tokens';
 import { IcoShield } from '@/components/icons';
 import Container from '@/components/Container';
 import WBtn from '@/components/WBtn';
+import { useResponsive } from '@/lib/useResponsive';
 
 interface CTABandProps {
   title?: string;
@@ -16,6 +17,7 @@ export default function CTABand({
 }: CTABandProps) {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const { isMobile } = useResponsive();
 
   const handleSubmit = () => {
     if (email.includes('@')) setSubmitted(true);
@@ -23,7 +25,7 @@ export default function CTABand({
 
   return (
     <div style={{
-      padding: '88px 0',
+      padding: isMobile ? '60px 0' : '88px 0',
       background: SC.purpleGradDiag,
       color: '#fff',
       position: 'relative',
@@ -34,13 +36,13 @@ export default function CTABand({
         <svg width="240" height="240" viewBox="0 0 24 24"><path d="M13.5 2L4 14h6l-1.5 8L19 10h-6l.5-8z" fill="currentColor" /></svg>
       </div>
       <Container>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 40, position: 'relative' }}>
-          <div style={{ maxWidth: 560 }}>
+        <div style={{ display: 'flex', alignItems: isMobile ? 'stretch' : 'center', justifyContent: 'space-between', gap: 40, position: 'relative', flexDirection: isMobile ? 'column' : 'row' }}>
+          <div style={{ maxWidth: isMobile ? '100%' : 560 }}>
             <div style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.7)', letterSpacing: 2, marginBottom: 12 }}>EARLY ACCESS</div>
-            <h2 style={{ margin: 0, fontSize: 44, fontWeight: 800, letterSpacing: -1.4, lineHeight: 1.05 }}>{title}</h2>
+            <h2 style={{ margin: 0, fontSize: isMobile ? 32 : 44, fontWeight: 800, letterSpacing: -1.4, lineHeight: 1.05 }}>{title}</h2>
             <p style={{ marginTop: 12, fontSize: 16, color: 'rgba(255,255,255,0.8)', lineHeight: 1.5 }}>{sub}</p>
           </div>
-          <div style={{ width: 460 }}>
+          <div style={{ width: isMobile ? '100%' : 460 }}>
             {submitted ? (
               <div style={{
                 padding: '20px 24px', borderRadius: 14,
@@ -48,10 +50,10 @@ export default function CTABand({
                 border: '1px solid rgba(255,255,255,0.25)',
                 textAlign: 'center', fontSize: 16, fontWeight: 600,
               }}>
-                ⚡ You're on the list! We'll notify you soon.
+                ⚡ You&apos;re on the list! We&apos;ll notify you soon.
               </div>
             ) : (
-              <div style={{ display: 'flex', gap: 8, padding: 6, background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: 14, backdropFilter: 'blur(20px)' }}>
+              <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 8, padding: 6, background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: 14, backdropFilter: 'blur(20px)' }}>
                 <input
                   type="email"
                   value={email}
@@ -64,7 +66,7 @@ export default function CTABand({
                     fontFamily: SC.font,
                   } as React.CSSProperties}
                 />
-                <WBtn variant="light" size="md" onClick={handleSubmit}>Notify me ⚡</WBtn>
+                <WBtn variant="light" size="md" onClick={handleSubmit} style={isMobile ? { width: '100%' } : {}}>Notify me ⚡</WBtn>
               </div>
             )}
             <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.6)', marginTop: 12, display: 'flex', alignItems: 'center', gap: 12 }}>

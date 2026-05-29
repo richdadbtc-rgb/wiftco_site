@@ -1,7 +1,9 @@
+'use client';
 import React from 'react';
 import { SC } from '@/lib/tokens';
 import { IcoBolt } from '@/components/icons';
 import Container from '@/components/Container';
+import { useResponsive } from '@/lib/useResponsive';
 
 interface PageHeaderProps {
   eyebrow: string;
@@ -11,9 +13,11 @@ interface PageHeaderProps {
 }
 
 export default function PageHeader({ eyebrow, title, subtitle, dark = false }: PageHeaderProps) {
+  const { isMobile } = useResponsive();
+
   return (
     <div style={{
-      padding: '64px 0 56px',
+      padding: isMobile ? '44px 0 36px' : '64px 0 56px',
       background: dark ? SC.purpleGradDiag : '#FAFAFB',
       color: dark ? '#fff' : SC.ink,
       borderBottom: dark ? 'none' : `1px solid ${SC.hairline}`,
@@ -29,8 +33,11 @@ export default function PageHeader({ eyebrow, title, subtitle, dark = false }: P
           {eyebrow}
         </div>
         <h1 style={{
-          margin: '12px 0 14px', fontSize: 56, fontWeight: 800,
-          letterSpacing: -2, lineHeight: 1.05, maxWidth: 820,
+          margin: '12px 0 14px',
+          fontSize: isMobile ? 34 : 56,
+          fontWeight: 800,
+          letterSpacing: isMobile ? -1 : -2,
+          lineHeight: 1.05, maxWidth: 820,
         }}>
           {title}
         </h1>

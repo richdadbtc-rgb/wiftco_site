@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -7,6 +8,7 @@ import PageHeader from '@/components/PageHeader';
 import PhoneMockup from '@/components/PhoneMockup';
 import { SC } from '@/lib/tokens';
 import { IcoChat, IcoPhone, IcoMic, IcoShield, IcoSend, IcoAirtime, IcoElectric, IcoTv, IcoSim, IcoGlobe, IcoBell, IcoBolt, IcoBot, IcoHistory, IcoLock } from '@/components/icons';
+import { useResponsive } from '@/lib/useResponsive';
 
 const FEATURE_SECTIONS = [
   {
@@ -80,6 +82,8 @@ function DividerBolt() {
 }
 
 export default function FeaturesPage() {
+  const { isMobile } = useResponsive();
+
   return (
     <div style={{ fontFamily: SC.font, color: SC.ink }}>
       <Nav />
@@ -89,47 +93,59 @@ export default function FeaturesPage() {
         subtitle="A guided tour through the four pillars of Wiftco. Each is a complete product on its own — together they collapse half your home screen."
       />
 
-      {/* Anchor nav */}
-      <div style={{ position: 'sticky', top: 0, background: '#fff', borderBottom: `1px solid ${SC.hairline}`, padding: '14px 0', zIndex: 10 }}>
-        <Container>
-          <div style={{ display: 'flex', gap: 32, fontSize: 14, fontWeight: 500, color: SC.muted }}>
-            <span style={{ color: SC.primary, fontWeight: 700, position: 'relative' }}>Chat &amp; Calls
-              <span style={{ position: 'absolute', bottom: -16, left: 0, right: 0, height: 2, background: SC.primary, display: 'block' }} />
-            </span>
-            <span>Wallet</span>
-            <span>eSIM</span>
-            <span>SwiftBot AI</span>
-            <span style={{ marginLeft: 'auto', color: SC.faint }}>↓ Scroll to explore</span>
-          </div>
-        </Container>
-      </div>
+      {/* Anchor nav — hidden on mobile */}
+      {!isMobile && (
+        <div style={{ position: 'sticky', top: 0, background: '#fff', borderBottom: `1px solid ${SC.hairline}`, padding: '14px 0', zIndex: 10 }}>
+          <Container>
+            <div style={{ display: 'flex', gap: 32, fontSize: 14, fontWeight: 500, color: SC.muted }}>
+              <span style={{ color: SC.primary, fontWeight: 700, position: 'relative' }}>Chat &amp; Calls
+                <span style={{ position: 'absolute', bottom: -16, left: 0, right: 0, height: 2, background: SC.primary, display: 'block' }} />
+              </span>
+              <span>Wallet</span>
+              <span>eSIM</span>
+              <span>SwiftBot AI</span>
+              <span style={{ marginLeft: 'auto', color: SC.faint }}>↓ Scroll to explore</span>
+            </div>
+          </Container>
+        </div>
+      )}
 
       {FEATURE_SECTIONS.map((sec, idx) => (
         <div key={sec.n}>
-          <div style={{ padding: '88px 0', background: sec.bg }}>
+          <div style={{ padding: isMobile ? '56px 0' : '88px 0', background: sec.bg }}>
             <Container>
-              <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr', gap: 64, alignItems: 'center' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.1fr 1fr', gap: isMobile ? 40 : 64, alignItems: 'center' }}>
+                {/* On mobile: phone goes above the copy */}
+                {isMobile && (
+                  <div style={{ position: 'relative', height: 340, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ position: 'absolute', inset: '10% 10%', background: 'radial-gradient(circle, rgba(94,23,235,0.18) 0%, transparent 60%)' }} />
+                    <div style={{ position: 'relative', zIndex: 2 }}>
+                      <PhoneMockup screen={sec.screen} scale={0.5} />
+                    </div>
+                  </div>
+                )}
+
                 {/* Copy */}
                 <div>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 18, marginBottom: 16 }}>
                     <span style={{ fontSize: 64, fontWeight: 800, color: SC.primary, lineHeight: 1, letterSpacing: -2, opacity: 0.18 }}>{sec.n}</span>
                     <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2 }}>{sec.eyebrow}</div>
                   </div>
-                  <h2 style={{ margin: 0, fontSize: 52, fontWeight: 800, letterSpacing: -1.8, lineHeight: 1.05 }}>{sec.title}</h2>
+                  <h2 style={{ margin: 0, fontSize: isMobile ? 32 : 52, fontWeight: 800, letterSpacing: -1.8, lineHeight: 1.05 }}>{sec.title}</h2>
                   <p style={{ marginTop: 20, fontSize: 17, color: SC.muted, lineHeight: 1.6, maxWidth: 520 }}>{sec.body}</p>
 
                   {/* KPIs */}
-                  <div style={{ display: 'flex', gap: 36, margin: '32px 0' }}>
+                  <div style={{ display: 'flex', gap: isMobile ? 20 : 36, margin: '32px 0' }}>
                     {sec.kpis.map((k, i) => (
                       <div key={i}>
-                        <div style={{ fontSize: 32, fontWeight: 800, color: SC.ink, letterSpacing: -0.8 }}>{k.v}</div>
+                        <div style={{ fontSize: isMobile ? 24 : 32, fontWeight: 800, color: SC.ink, letterSpacing: -0.8 }}>{k.v}</div>
                         <div style={{ fontSize: 12, color: SC.muted, marginTop: 2 }}>{k.l}</div>
                       </div>
                     ))}
                   </div>
 
                   {/* Feature mini-cards */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 14 }}>
                     {sec.features.map((f, i) => (
                       <div key={i} style={{
                         display: 'flex', gap: 12, padding: 14,
@@ -148,13 +164,15 @@ export default function FeaturesPage() {
                   </div>
                 </div>
 
-                {/* Phone */}
-                <div style={{ position: 'relative', height: 580, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <div style={{ position: 'absolute', inset: '10% 10%', background: 'radial-gradient(circle, rgba(94,23,235,0.18) 0%, transparent 60%)' }} />
-                  <div style={{ position: 'relative', zIndex: 2 }}>
-                    <PhoneMockup screen={sec.screen} scale={0.66} />
+                {/* Phone — desktop only */}
+                {!isMobile && (
+                  <div style={{ position: 'relative', height: 580, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ position: 'absolute', inset: '10% 10%', background: 'radial-gradient(circle, rgba(94,23,235,0.18) 0%, transparent 60%)' }} />
+                    <div style={{ position: 'relative', zIndex: 2 }}>
+                      <PhoneMockup screen={sec.screen} scale={0.66} />
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </Container>
           </div>

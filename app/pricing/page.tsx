@@ -7,6 +7,7 @@ import CTABand from '@/components/CTABand';
 import PageHeader from '@/components/PageHeader';
 import { SC } from '@/lib/tokens';
 import { IcoCheck, IcoChevD, IcoChevR } from '@/components/icons';
+import { useResponsive } from '@/lib/useResponsive';
 
 const TIERS = [
   {
@@ -74,6 +75,7 @@ const FAQS = [
 export default function PricingPage() {
   const [annual, setAnnual] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const { isMobile } = useResponsive();
 
   return (
     <div style={{ fontFamily: SC.font, color: SC.ink }}>
@@ -110,7 +112,7 @@ export default function PricingPage() {
         </div>
 
         {/* Pricing cards */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, paddingBottom: 80 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 20, paddingBottom: 80 }}>
           {TIERS.map((tier, i) => (
             <div key={i} style={{
               background: tier.featured ? SC.purpleGradDiag : '#fff',
@@ -119,7 +121,7 @@ export default function PricingPage() {
               borderRadius: 24, padding: 32,
               position: 'relative',
               boxShadow: tier.featured ? '0 20px 60px rgba(94,23,235,0.30)' : 'none',
-              marginTop: tier.featured ? -8 : 0,
+              marginTop: tier.featured && !isMobile ? -8 : 0,
             }}>
               {tier.featured && (
                 <div style={{
@@ -146,7 +148,8 @@ export default function PricingPage() {
                 color: tier.featured ? SC.primary : tier.name === 'Business' ? '#fff' : SC.ink,
                 border: tier.featured || tier.name === 'Business' ? 'none' : `1.5px solid ${SC.hairline}`,
                 boxShadow: tier.featured ? '0 10px 24px rgba(0,0,0,0.10)' : tier.name === 'Business' ? '0 10px 24px rgba(26,26,46,0.25)' : 'none',
-              }}>{tier.cta}</a>
+                boxSizing: 'border-box',
+              } as React.CSSProperties}>{tier.cta}</a>
 
               <div style={{ paddingTop: 24, borderTop: `1px solid ${tier.featured ? 'rgba(255,255,255,0.15)' : SC.hairline}`, display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {tier.features.map((f, fi) => (
@@ -166,25 +169,27 @@ export default function PricingPage() {
         <Container>
           <h2 style={{ margin: 0, fontSize: 32, fontWeight: 800, letterSpacing: -1, marginBottom: 8 }}>The full fee table</h2>
           <p style={{ marginTop: 0, fontSize: 14.5, color: SC.muted, marginBottom: 32 }}>What you&apos;ll pay, by action. No surprises.</p>
-          <div style={{ background: '#fff', borderRadius: 14, border: `1px solid ${SC.hairline}`, overflow: 'hidden' }}>
-            {FEE_ROWS.map((row, i) => (
-              <div key={i} style={{
-                display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 16,
-                padding: '14px 24px',
-                borderBottom: i < FEE_ROWS.length - 1 ? `1px solid ${SC.hairline}` : 'none',
-                background: i === 0 ? SC.bg : '#fff',
-              }}>
-                {row.map((cell, ci) => (
-                  <div key={ci} style={{
-                    fontSize: i === 0 ? 11 : 13.5,
-                    color: i === 0 ? SC.muted : SC.ink,
-                    fontWeight: i === 0 ? 700 : ci === 0 ? 500 : 400,
-                    letterSpacing: i === 0 ? 1 : 0,
-                    fontVariantNumeric: 'tabular-nums',
-                  }}>{cell}</div>
-                ))}
-              </div>
-            ))}
+          <div style={{ overflowX: isMobile ? 'auto' : 'visible' }}>
+            <div style={{ background: '#fff', borderRadius: 14, border: `1px solid ${SC.hairline}`, overflow: 'hidden', minWidth: isMobile ? 560 : 'auto' }}>
+              {FEE_ROWS.map((row, i) => (
+                <div key={i} style={{
+                  display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: 16,
+                  padding: '14px 24px',
+                  borderBottom: i < FEE_ROWS.length - 1 ? `1px solid ${SC.hairline}` : 'none',
+                  background: i === 0 ? SC.bg : '#fff',
+                }}>
+                  {row.map((cell, ci) => (
+                    <div key={ci} style={{
+                      fontSize: i === 0 ? 11 : 13.5,
+                      color: i === 0 ? SC.muted : SC.ink,
+                      fontWeight: i === 0 ? 700 : ci === 0 ? 500 : 400,
+                      letterSpacing: i === 0 ? 1 : 0,
+                      fontVariantNumeric: 'tabular-nums',
+                    }}>{cell}</div>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
         </Container>
       </div>
@@ -192,7 +197,7 @@ export default function PricingPage() {
       {/* FAQ */}
       <div style={{ padding: '80px 0', background: '#fff' }}>
         <Container>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 60 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1.5fr', gap: isMobile ? 32 : 60 }}>
             <div>
               <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2 }}>FAQ</div>
               <h2 style={{ margin: '12px 0 18px', fontSize: 40, fontWeight: 800, letterSpacing: -1.4, lineHeight: 1.1 }}>Pricing, plainly.</h2>

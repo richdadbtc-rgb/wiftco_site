@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -8,6 +9,7 @@ import Pill from '@/components/Pill';
 import { SC } from '@/lib/tokens';
 import { IcoShield, IcoLock, IcoBot, IcoCheck } from '@/components/icons';
 import Link from 'next/link';
+import { useResponsive } from '@/lib/useResponsive';
 
 const PILLARS = [
   { ico: IcoShield, title: 'CBN-licensed PSP', body: 'Operating under the Payment Service Provider license from the Central Bank of Nigeria.' },
@@ -34,6 +36,8 @@ const CERTS = [
 ];
 
 export default function SecurityPage() {
+  const { isMobile } = useResponsive();
+
   return (
     <div style={{ fontFamily: SC.font, color: SC.ink }}>
       <Nav />
@@ -47,13 +51,13 @@ export default function SecurityPage() {
       {/* Pillars */}
       <div style={{ padding: '80px 0', background: '#fff' }}>
         <Container>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: 16 }}>
             {PILLARS.map((p, i) => (
-              <div key={i} style={{ padding: 28, background: '#FAFAFB', borderRadius: 18, border: `1px solid ${SC.hairline}` }}>
+              <div key={i} style={{ padding: isMobile ? 20 : 28, background: '#FAFAFB', borderRadius: 18, border: `1px solid ${SC.hairline}` }}>
                 <div style={{ width: 48, height: 48, borderRadius: 14, background: SC.primary, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
                   <p.ico size={24} />
                 </div>
-                <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 6, letterSpacing: -0.3 }}>{p.title}</div>
+                <div style={{ fontSize: isMobile ? 14 : 17, fontWeight: 700, marginBottom: 6, letterSpacing: -0.3 }}>{p.title}</div>
                 <div style={{ fontSize: 13, color: SC.muted, lineHeight: 1.55 }}>{p.body}</div>
               </div>
             ))}
@@ -64,10 +68,10 @@ export default function SecurityPage() {
       {/* Detail sections */}
       <div style={{ padding: '60px 0', background: '#FAFAFB', borderTop: `1px solid ${SC.hairline}`, borderBottom: `1px solid ${SC.hairline}` }}>
         <Container>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 40 : 48 }}>
             {/* Protections */}
             <div>
-              <h2 style={{ margin: 0, fontSize: 32, fontWeight: 800, letterSpacing: -1, marginBottom: 24 }}>How we protect your account</h2>
+              <h2 style={{ margin: 0, fontSize: isMobile ? 24 : 32, fontWeight: 800, letterSpacing: -1, marginBottom: 24 }}>How we protect your account</h2>
               {PROTECTIONS.map((row, i) => (
                 <div key={i} style={{ display: 'flex', gap: 16, padding: '16px 0', borderTop: i ? `1px solid ${SC.hairline}` : 'none' }}>
                   <div style={{ width: 28, height: 28, borderRadius: 14, background: SC.success, color: '#fff', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 2 }}>
@@ -83,10 +87,10 @@ export default function SecurityPage() {
 
             {/* Compliance */}
             <div>
-              <h2 style={{ margin: 0, fontSize: 32, fontWeight: 800, letterSpacing: -1, marginBottom: 24 }}>Compliance &amp; certifications</h2>
-              <div style={{ background: '#fff', borderRadius: 18, padding: 28, border: `1px solid ${SC.hairline}`, boxShadow: SC.shadowSoft }}>
+              <h2 style={{ margin: 0, fontSize: isMobile ? 24 : 32, fontWeight: 800, letterSpacing: -1, marginBottom: 24 }}>Compliance &amp; certifications</h2>
+              <div style={{ background: '#fff', borderRadius: 18, padding: isMobile ? 16 : 28, border: `1px solid ${SC.hairline}`, boxShadow: SC.shadowSoft }}>
                 {CERTS.map((row, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '90px 1fr auto', gap: 16, padding: '14px 0', borderTop: i ? `1px solid ${SC.hairline}` : 'none', alignItems: 'center' }}>
+                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '90px 1fr auto', gap: isMobile ? 8 : 16, padding: '14px 0', borderTop: i ? `1px solid ${SC.hairline}` : 'none', alignItems: 'center' }}>
                     <div style={{ fontSize: 13, fontWeight: 800, color: SC.primary, letterSpacing: 0.5 }}>{row[0]}</div>
                     <div>
                       <div style={{ fontSize: 13.5, fontWeight: 600 }}>{row[1]}</div>
@@ -108,18 +112,18 @@ export default function SecurityPage() {
       {/* Bug bounty */}
       <div style={{ padding: '60px 0', background: '#fff' }}>
         <Container>
-          <div style={{ background: SC.ink, color: '#fff', borderRadius: 20, padding: '40px 48px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 40, position: 'relative', overflow: 'hidden' }}>
+          <div style={{ background: SC.ink, color: '#fff', borderRadius: 20, padding: isMobile ? '32px 24px' : '40px 48px', display: 'flex', alignItems: isMobile ? 'stretch' : 'center', justifyContent: 'space-between', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 24 : 40, position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: -20, right: -20, opacity: 0.08 }}>
               <svg width="200" height="200" viewBox="0 0 24 24"><path d="M13.5 2L4 14h6l-1.5 8L19 10h-6l.5-8z" fill="#fff" /></svg>
             </div>
             <div style={{ position: 'relative' }}>
               <div style={{ fontSize: 12, fontWeight: 700, color: SC.primaryLight, letterSpacing: 2, marginBottom: 10 }}>BUG BOUNTY</div>
-              <h3 style={{ margin: 0, fontSize: 32, fontWeight: 800, letterSpacing: -1, lineHeight: 1.1 }}>Find a vulnerability. Get paid up to ₦5,000,000.</h3>
+              <h3 style={{ margin: 0, fontSize: isMobile ? 24 : 32, fontWeight: 800, letterSpacing: -1, lineHeight: 1.1 }}>Find a vulnerability. Get paid up to ₦5,000,000.</h3>
               <p style={{ marginTop: 12, fontSize: 14.5, color: 'rgba(255,255,255,0.7)', maxWidth: 540, lineHeight: 1.5 }}>
                 Responsible disclosure earns Naira rewards, public credit, and an invite to our SOC dinner in Lagos.
               </p>
             </div>
-            <button style={{ padding: '16px 30px', background: '#fff', color: SC.primary, borderRadius: 14, fontSize: 15.5, fontWeight: 600, cursor: 'pointer', border: 'none', boxShadow: '0 10px 24px rgba(0,0,0,0.10)', whiteSpace: 'nowrap' }}>
+            <button style={{ padding: '16px 30px', background: '#fff', color: SC.primary, borderRadius: 14, fontSize: 15.5, fontWeight: 600, cursor: 'pointer', border: 'none', boxShadow: '0 10px 24px rgba(0,0,0,0.10)', whiteSpace: 'nowrap', width: isMobile ? '100%' : 'auto' }}>
               View the program →
             </button>
           </div>

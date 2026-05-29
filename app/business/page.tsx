@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -6,6 +7,7 @@ import CTABand from '@/components/CTABand';
 import { SC } from '@/lib/tokens';
 import { IcoQR, IcoChat, IcoTransfer, IcoShield, IcoHistory, IcoBot } from '@/components/icons';
 import Link from 'next/link';
+import { useResponsive } from '@/lib/useResponsive';
 
 const MERCHANT_PROPS = [
   { ico: IcoQR, t: 'A SwiftID is your storefront', s: 'Share @kiosko.lekki on a flyer or IG bio. Customers tap and pay — no card details.' },
@@ -21,30 +23,32 @@ const API_ENDPOINTS = ['Transfers', 'Checkout & invoices', 'Wallets', 'Bill paym
 const BUSINESSES = ['Kiosko', 'BoltFood', 'Lekkimart', 'Naijapay', 'Aje', 'Trove'];
 
 export default function BusinessPage() {
+  const { isMobile } = useResponsive();
+
   return (
     <div style={{ fontFamily: SC.font, color: SC.ink }}>
       <Nav />
 
       {/* Dark hero */}
-      <div style={{ background: SC.ink, color: '#fff', padding: '80px 0 100px', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ background: SC.ink, color: '#fff', padding: isMobile ? '60px 0 72px' : '80px 0 100px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: 40, right: -50, opacity: 0.06, color: '#fff' }}>
           <svg width="320" height="320" viewBox="0 0 24 24"><path d="M13.5 2L4 14h6l-1.5 8L19 10h-6l.5-8z" fill="currentColor" /></svg>
         </div>
         <Container>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 40 : 60, alignItems: 'center' }}>
             <div>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 12px', background: 'rgba(94,23,235,0.20)', border: `1px solid ${SC.primary}`, borderRadius: 999, fontSize: 12.5, color: '#fff', marginBottom: 24 }}>
                 <span style={{ width: 6, height: 6, borderRadius: 3, background: SC.success, boxShadow: '0 0 8px #10B981', display: 'inline-block' }} />
                 For Nigerian merchants &amp; developers
               </div>
-              <h1 style={{ margin: 0, fontSize: 60, fontWeight: 800, letterSpacing: -2.2, lineHeight: 1.02 }}>
+              <h1 style={{ margin: 0, fontSize: isMobile ? 40 : 60, fontWeight: 800, letterSpacing: isMobile ? -1.4 : -2.2, lineHeight: 1.02 }}>
                 Take ₦ where your customers{' '}
                 <em style={{ fontStyle: 'italic', color: SC.primaryLight, fontFamily: 'Georgia, serif', fontWeight: 500 }}>already chat</em>.
               </h1>
               <p style={{ marginTop: 24, fontSize: 18, color: 'rgba(255,255,255,0.7)', lineHeight: 1.55, maxWidth: 520 }}>
                 Merchant SwiftIDs, pay-by-message checkout, a clean REST API, and T+0 settlement to any Nigerian bank.
               </p>
-              <div style={{ display: 'flex', gap: 12, marginTop: 36 }}>
+              <div style={{ display: 'flex', gap: 12, marginTop: 36, flexWrap: 'wrap' }}>
                 <Link href="/download" style={{ padding: '16px 30px', background: '#fff', color: SC.primary, borderRadius: 14, fontSize: 15.5, fontWeight: 600, textDecoration: 'none', boxShadow: '0 10px 24px rgba(0,0,0,0.10)' }}>
                   Open a merchant account
                 </Link>
@@ -52,7 +56,7 @@ export default function BusinessPage() {
                   Read API docs →
                 </button>
               </div>
-              <div style={{ display: 'flex', gap: 32, marginTop: 36 }}>
+              <div style={{ display: 'flex', gap: 32, marginTop: 36, flexWrap: 'wrap' }}>
                 {[['T+0','Settlement'], ['99.99%','API uptime'], ['<400ms','Median latency']].map(([v, l], i) => (
                   <div key={i}>
                     <div style={{ fontSize: 24, fontWeight: 800 }}>{v}</div>
@@ -62,8 +66,8 @@ export default function BusinessPage() {
               </div>
             </div>
 
-            {/* Code panel */}
-            <div style={{ background: '#0F0F1F', borderRadius: 18, padding: 24, fontFamily: 'ui-monospace, monospace', fontSize: 13, lineHeight: 1.7, border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
+            {/* Code panel — below on mobile */}
+            <div style={{ background: '#0F0F1F', borderRadius: 18, padding: 24, fontFamily: 'ui-monospace, monospace', fontSize: isMobile ? 12 : 13, lineHeight: 1.7, border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 16, paddingBottom: 16, borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
                 {['#FF5F56','#FFBD2E','#27C93F'].map((c, i) => <div key={i} style={{ width: 11, height: 11, borderRadius: 6, background: c }} />)}
                 <span style={{ marginLeft: 12, fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>kiosko/server.ts</span>
@@ -92,9 +96,9 @@ export default function BusinessPage() {
         <Container>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2, marginBottom: 14 }}>FOR MERCHANTS</div>
-            <h2 style={{ margin: 0, fontSize: 44, fontWeight: 800, letterSpacing: -1.4, lineHeight: 1.05 }}>From kioskos to enterprises.</h2>
+            <h2 style={{ margin: 0, fontSize: isMobile ? 32 : 44, fontWeight: 800, letterSpacing: -1.4, lineHeight: 1.05 }}>From kioskos to enterprises.</h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 20 }}>
             {MERCHANT_PROPS.map((f, i) => (
               <div key={i} style={{ padding: 24, background: '#FAFAFB', borderRadius: 18, border: `1px solid ${SC.hairline}` }}>
                 <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(94,23,235,0.10)', color: SC.primary, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
@@ -112,9 +116,9 @@ export default function BusinessPage() {
       <div style={{ padding: '60px 0', background: '#FAFAFB', borderTop: `1px solid ${SC.hairline}`, borderBottom: `1px solid ${SC.hairline}` }}>
         <Container>
           <div style={{ textAlign: 'center', fontSize: 11.5, fontWeight: 700, color: SC.muted, letterSpacing: 2, marginBottom: 22 }}>TRUSTED BY 4,200+ NIGERIAN BUSINESSES</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 24, alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(3, 1fr)' : 'repeat(6, 1fr)', gap: 24, alignItems: 'center' }}>
             {BUSINESSES.map((b, i) => (
-              <div key={i} style={{ textAlign: 'center', fontSize: 22, fontWeight: 800, color: SC.faint, letterSpacing: -0.6, fontFamily: i % 2 ? 'Georgia, serif' : SC.font, fontStyle: i === 3 ? 'italic' : 'normal' }}>{b}</div>
+              <div key={i} style={{ textAlign: 'center', fontSize: isMobile ? 16 : 22, fontWeight: 800, color: SC.faint, letterSpacing: -0.6, fontFamily: i % 2 ? 'Georgia, serif' : SC.font, fontStyle: i === 3 ? 'italic' : 'normal' }}>{b}</div>
             ))}
           </div>
         </Container>
@@ -123,10 +127,10 @@ export default function BusinessPage() {
       {/* API reference */}
       <div style={{ padding: '88px 0', background: '#fff' }}>
         <Container>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: 60 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1.4fr', gap: isMobile ? 40 : 60 }}>
             <div>
               <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2, marginBottom: 14 }}>API REFERENCE</div>
-              <h2 style={{ margin: 0, fontSize: 40, fontWeight: 800, letterSpacing: -1.2, lineHeight: 1.05 }}>One REST API for everything.</h2>
+              <h2 style={{ margin: 0, fontSize: isMobile ? 28 : 40, fontWeight: 800, letterSpacing: -1.2, lineHeight: 1.05 }}>One REST API for everything.</h2>
               <p style={{ marginTop: 16, fontSize: 15.5, color: SC.muted, lineHeight: 1.55 }}>
                 Transfers, invoices, bills, eSIM provisioning, webhooks. Idempotent by default. Versioned forever. Sandbox is free.
               </p>
