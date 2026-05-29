@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
@@ -11,6 +13,7 @@ import PhoneMockup from '@/components/PhoneMockup';
 import { SC } from '@/lib/tokens';
 import { IcoCheck, IcoBolt, IcoPlay } from '@/components/icons';
 import Link from 'next/link';
+import { useResponsive } from '@/lib/useResponsive';
 
 const FEATURES = [
   {
@@ -46,13 +49,15 @@ const TRUST_BADGES = [
 ];
 
 export default function HomePage() {
+  const { isMobile } = useResponsive();
+
   return (
     <div style={{ fontFamily: SC.font, color: SC.ink }}>
       <Nav />
 
       {/* HERO */}
       <div style={{
-        position: 'relative', padding: '88px 0 100px',
+        position: 'relative', padding: isMobile ? '60px 0 80px' : '88px 0 100px',
         overflow: 'hidden',
         background: 'linear-gradient(180deg, #FAFAFB 0%, #F3EEFE 100%)',
       }}>
@@ -61,15 +66,15 @@ export default function HomePage() {
 
         <Container style={{ position: 'relative' }}>
           {/* Pill badge */}
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '6px 6px 6px 14px', background: '#fff', border: `1px solid ${SC.hairline}`, borderRadius: 999, fontSize: 12.5, color: SC.muted, marginBottom: 32, boxShadow: '0 4px 14px rgba(0,0,0,0.04)' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, padding: '6px 6px 6px 14px', background: '#fff', border: `1px solid ${SC.hairline}`, borderRadius: 999, fontSize: isMobile ? 11 : 12.5, color: SC.muted, marginBottom: 32, boxShadow: '0 4px 14px rgba(0,0,0,0.04)' }}>
             <span>✨ Now in private beta · 62,400+ on the waitlist</span>
             <Link href="/download" style={{ padding: '3px 10px', background: SC.primary, color: '#fff', borderRadius: 999, fontSize: 11, fontWeight: 600, textDecoration: 'none' }}>Join now →</Link>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 1fr', gap: 60, alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.05fr 1fr', gap: isMobile ? 40 : 60, alignItems: isMobile ? 'center' : 'center' }}>
             {/* Copy */}
             <div>
-              <h1 style={{ margin: 0, fontSize: 88, fontWeight: 800, letterSpacing: -3.5, lineHeight: 0.96 }}>
+              <h1 style={{ margin: 0, fontSize: isMobile ? 48 : 88, fontWeight: 800, letterSpacing: isMobile ? -2 : -3.5, lineHeight: isMobile ? 1.1 : 0.96, textAlign: isMobile ? 'center' : 'left' }}>
                 Chat. Send.{' '}
                 <span style={{ color: SC.primary, position: 'relative', display: 'inline-block' }}>
                   Connect.
@@ -79,28 +84,30 @@ export default function HomePage() {
                 </span>
                 <br />All in one tap.
               </h1>
-              <p style={{ marginTop: 28, fontSize: 19, color: SC.muted, lineHeight: 1.55, maxWidth: 520 }}>
+              <p style={{ marginTop: isMobile ? 20 : 28, fontSize: isMobile ? 16 : 19, color: SC.muted, lineHeight: 1.55, maxWidth: isMobile ? '100%' : 520, textAlign: isMobile ? 'center' : 'left' }}>
                 Messages, voice calls, an AI assistant, a digital wallet, bill payments, and eSIM —
                 everything Nigerian life runs on, in one app. Built for Lagos speed.
               </p>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 36 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 36, flexDirection: isMobile ? 'column' : 'row', width: isMobile ? '100%' : 'auto' }}>
                 <Link href="/download" style={{
                   padding: '16px 30px', background: SC.primary, color: '#fff',
                   borderRadius: 14, fontSize: 15.5, fontWeight: 600, textDecoration: 'none',
                   boxShadow: '0 10px 24px rgba(94,23,235,0.30)',
                   display: 'inline-flex', alignItems: 'center', gap: 8,
+                  width: isMobile ? '100%' : 'auto', justifyContent: 'center',
                 }}>Get early access ⚡</Link>
                 <button style={{
                   padding: '16px 30px', background: 'transparent', color: SC.ink,
                   border: `1.5px solid ${SC.hairline}`, borderRadius: 14, fontSize: 15.5, fontWeight: 600, cursor: 'pointer',
                   display: 'inline-flex', alignItems: 'center', gap: 8,
+                  width: isMobile ? '100%' : 'auto', justifyContent: 'center',
                 }}>
                   Watch demo <IcoPlay size={14} />
                 </button>
               </div>
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: 28, marginTop: 36 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? 16 : 28, marginTop: 36, flexDirection: isMobile ? 'column' : 'row', justifyContent: isMobile ? 'center' : 'flex-start' }}>
                 {TRUST_BADGES.map((badge, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <span style={{ color: SC.success }}><IcoCheck size={16} /></span>
@@ -111,39 +118,47 @@ export default function HomePage() {
             </div>
 
             {/* Phone cluster */}
-            <div style={{ position: 'relative', height: 640, display: 'flex', justifyContent: 'center' }}>
+            <div style={{ position: 'relative', height: isMobile ? 400 : 640, display: 'flex', justifyContent: 'center', marginTop: isMobile ? 40 : 0 }}>
               {/* Main phone */}
-              <div style={{ position: 'absolute', left: 110, top: 20, zIndex: 3 }}>
-                <PhoneMockup screen="dashboard" scale={0.62} />
+              <div style={{ position: 'absolute', left: isMobile ? '50%' : 110, top: isMobile ? 20 : 20, transform: isMobile ? 'translateX(-50%)' : 'none', zIndex: 3 }}>
+                <PhoneMockup screen="dashboard" scale={isMobile ? 0.45 : 0.62} />
               </div>
-              {/* Left phone */}
-              <div style={{ position: 'absolute', left: -10, top: 110, zIndex: 2 }}>
-                <PhoneMockup screen="chat" scale={0.5} tilt={-8} />
-              </div>
-              {/* Right phone */}
-              <div style={{ position: 'absolute', right: -20, top: 220, zIndex: 2 }}>
-                <PhoneMockup screen="wallet" scale={0.5} tilt={8} />
-              </div>
+              {/* Left phone - hide on mobile */}
+              {!isMobile && (
+                <div style={{ position: 'absolute', left: -10, top: 110, zIndex: 2 }}>
+                  <PhoneMockup screen="chat" scale={0.5} tilt={-8} />
+                </div>
+              )}
+              {/* Right phone - hide on mobile */}
+              {!isMobile && (
+                <div style={{ position: 'absolute', right: -20, top: 220, zIndex: 2 }}>
+                  <PhoneMockup screen="wallet" scale={0.5} tilt={8} />
+                </div>
+              )}
 
-              {/* Transfer callout */}
-              <div style={{ position: 'absolute', left: 20, top: 0, padding: '10px 14px', borderRadius: 14, background: '#fff', boxShadow: '0 12px 30px rgba(0,0,0,0.15)', display: 'flex', alignItems: 'center', gap: 10, zIndex: 4 }}>
-                <div style={{ width: 32, height: 32, borderRadius: 10, background: 'rgba(16,185,129,0.15)', color: SC.success, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800 }}>₦</div>
-                <div>
-                  <div style={{ fontSize: 11, color: SC.muted }}>Sent in 2.4s</div>
-                  <div style={{ fontSize: 13, fontWeight: 700 }}>₦25,000 → Tunde</div>
+              {/* Transfer callout - hide on mobile */}
+              {!isMobile && (
+                <div style={{ position: 'absolute', left: 20, top: 0, padding: '10px 14px', borderRadius: 14, background: '#fff', boxShadow: '0 12px 30px rgba(0,0,0,0.15)', display: 'flex', alignItems: 'center', gap: 10, zIndex: 4 }}>
+                  <div style={{ width: 32, height: 32, borderRadius: 10, background: 'rgba(16,185,129,0.15)', color: SC.success, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800 }}>₦</div>
+                  <div>
+                    <div style={{ fontSize: 11, color: SC.muted }}>Sent in 2.4s</div>
+                    <div style={{ fontSize: 13, fontWeight: 700 }}>₦25,000 → Tunde</div>
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {/* AI callout */}
-              <div style={{ position: 'absolute', right: 30, top: 90, padding: '10px 14px', borderRadius: 14, background: SC.ink, color: '#fff', boxShadow: '0 12px 30px rgba(0,0,0,0.25)', display: 'flex', alignItems: 'center', gap: 10, zIndex: 4 }}>
-                <div style={{ width: 32, height: 32, borderRadius: 10, background: SC.purpleGradDiag, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <IcoBolt size={18} />
+              {/* AI callout - hide on mobile */}
+              {!isMobile && (
+                <div style={{ position: 'absolute', right: 30, top: 90, padding: '10px 14px', borderRadius: 14, background: SC.ink, color: '#fff', boxShadow: '0 12px 30px rgba(0,0,0,0.25)', display: 'flex', alignItems: 'center', gap: 10, zIndex: 4 }}>
+                  <div style={{ width: 32, height: 32, borderRadius: 10, background: SC.purpleGradDiag, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <IcoBolt size={18} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)' }}>SwiftBot</div>
+                    <div style={{ fontSize: 13, fontWeight: 700 }}>&quot;Renew your eSIM?&quot;</div>
+                  </div>
                 </div>
-                <div>
-                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)' }}>SwiftBot</div>
-                  <div style={{ fontSize: 13, fontWeight: 700 }}>&quot;Renew your eSIM?&quot;</div>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </Container>
@@ -158,37 +173,37 @@ export default function HomePage() {
       ]} />
 
       {/* FEATURE GRID */}
-      <div style={{ padding: '100px 0', background: '#fff' }}>
+      <div style={{ padding: isMobile ? '60px 0' : '100px 0', background: '#fff' }}>
         <Container>
-          <div style={{ textAlign: 'center', marginBottom: 64 }}>
+          <div style={{ textAlign: 'center', marginBottom: isMobile ? 40 : 64 }}>
             <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2, marginBottom: 14 }}>WHY SWIFTCOM</div>
-            <h2 style={{ margin: 0, fontSize: 52, fontWeight: 800, letterSpacing: -1.8, lineHeight: 1.05 }}>Four super-powers, one app.</h2>
-            <p style={{ margin: '16px auto 0', fontSize: 17, color: SC.muted, maxWidth: 580, lineHeight: 1.55 }}>
+            <h2 style={{ margin: 0, fontSize: isMobile ? 32 : 52, fontWeight: 800, letterSpacing: isMobile ? -1 : -1.8, lineHeight: 1.05 }}>Four super-powers, one app.</h2>
+            <p style={{ margin: '16px auto 0', fontSize: isMobile ? 15 : 17, color: SC.muted, maxWidth: isMobile ? '100%' : 580, lineHeight: 1.55 }}>
               Stop juggling four apps and a USSD code. SwiftCom collapses chat, money, AI, and connectivity into a single thumb-friendly experience.
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: 20 }}>
             {FEATURES.map((f, i) => (
               <div key={i} style={{
                 background: '#fff', border: `1px solid ${SC.hairline}`, borderRadius: 24,
-                padding: 32, display: 'flex', flexDirection: 'column', minHeight: 340,
+                padding: isMobile ? 24 : 32, display: 'flex', flexDirection: 'column', minHeight: isMobile ? 280 : 340,
                 position: 'relative', overflow: 'hidden',
               }}>
                 <div style={{ fontSize: 11.5, fontWeight: 700, color: f.tint, letterSpacing: 2 }}>{f.eyebrow}</div>
-                <h3 style={{ margin: '12px 0 8px', fontSize: 28, fontWeight: 700, letterSpacing: -0.8, lineHeight: 1.15 }}>{f.title}</h3>
-                <p style={{ margin: 0, fontSize: 14.5, color: SC.muted, lineHeight: 1.55, maxWidth: 360 }}>{f.body}</p>
+                <h3 style={{ margin: '12px 0 8px', fontSize: isMobile ? 22 : 28, fontWeight: 700, letterSpacing: -0.8, lineHeight: 1.15 }}>{f.title}</h3>
+                <p style={{ margin: 0, fontSize: isMobile ? 13.5 : 14.5, color: SC.muted, lineHeight: 1.55, maxWidth: isMobile ? '100%' : 360 }}>{f.body}</p>
 
                 <div style={{ marginTop: 24, paddingTop: 24, borderTop: `1px solid ${SC.hairline}`, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                   <div>
-                    <div style={{ fontSize: 36, fontWeight: 800, color: f.tint, letterSpacing: -1.2, lineHeight: 1 }}>{f.metric}</div>
+                    <div style={{ fontSize: isMobile ? 28 : 36, fontWeight: 800, color: f.tint, letterSpacing: -1.2, lineHeight: 1 }}>{f.metric}</div>
                     <div style={{ fontSize: 12, color: SC.muted, marginTop: 4 }}>{f.metricLabel}</div>
                   </div>
                   <Link href="/features" style={{ fontSize: 13, color: f.tint, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 4, textDecoration: 'none' }}>Learn more →</Link>
                 </div>
 
                 <div style={{ position: 'absolute', bottom: -80, right: -20, opacity: 0.9, pointerEvents: 'none' }}>
-                  <PhoneMockup screen={f.screen} scale={0.38} />
+                  <PhoneMockup screen={f.screen} scale={isMobile ? 0.3 : 0.38} />
                 </div>
               </div>
             ))}
@@ -197,14 +212,14 @@ export default function HomePage() {
       </div>
 
       {/* PULL QUOTE */}
-      <div style={{ padding: '100px 0', background: '#FAFAFB', borderTop: `1px solid ${SC.hairline}`, borderBottom: `1px solid ${SC.hairline}` }}>
-        <Container w={920}>
-          <div style={{ fontSize: 60, color: SC.primary, lineHeight: 1, marginBottom: 16 }}>&quot;</div>
-          <div style={{ fontSize: 32, fontWeight: 600, letterSpacing: -0.8, lineHeight: 1.3, color: SC.ink }}>
+      <div style={{ padding: isMobile ? '60px 0' : '100px 0', background: '#FAFAFB', borderTop: `1px solid ${SC.hairline}`, borderBottom: `1px solid ${SC.hairline}` }}>
+        <Container w={isMobile ? '100%' : 920}>
+          <div style={{ fontSize: isMobile ? 40 : 60, color: SC.primary, lineHeight: 1, marginBottom: 16 }}>&quot;</div>
+          <div style={{ fontSize: isMobile ? 22 : 32, fontWeight: 600, letterSpacing: -0.8, lineHeight: 1.3, color: SC.ink }}>
             I sent my landlord rent and the receipt arrived before her &quot;good evening.&quot; SwiftCom is just… faster than the rest of Lagos.
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 32 }}>
-            <Avatar name="Amaka Eze" size={48} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 32, flexDirection: isMobile ? 'column' : 'row', textAlign: isMobile ? 'center' : 'left' }}>
+            <Avatar name="Amaka Eze" size={isMobile ? 40 : 48} />
             <div>
               <div style={{ fontSize: 14, fontWeight: 700 }}>Amaka Eze</div>
               <div style={{ fontSize: 13, color: SC.muted }}>Product designer, Lagos · beta user since March</div>
@@ -214,22 +229,22 @@ export default function HomePage() {
       </div>
 
       {/* MERCHANT CTA */}
-      <div style={{ padding: '88px 0', background: '#fff' }}>
+      <div style={{ padding: isMobile ? '60px 0' : '88px 0', background: '#fff' }}>
         <Container>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 40 : 60, alignItems: isMobile ? 'center' : 'center' }}>
             <div>
-              <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2, marginBottom: 14 }}>FOR BUSINESSES</div>
-              <h2 style={{ margin: 0, fontSize: 44, fontWeight: 800, letterSpacing: -1.4, lineHeight: 1.05 }}>
+              <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2, marginBottom: 14, textAlign: isMobile ? 'center' : 'left' }}>FOR BUSINESSES</div>
+              <h2 style={{ margin: 0, fontSize: isMobile ? 32 : 44, fontWeight: 800, letterSpacing: isMobile ? -1 : -1.4, lineHeight: 1.05, textAlign: isMobile ? 'center' : 'left' }}>
                 Accept ₦ where your customers already chat.
               </h2>
-              <p style={{ marginTop: 16, fontSize: 16, color: SC.muted, lineHeight: 1.6, maxWidth: 520 }}>
+              <p style={{ marginTop: 16, fontSize: isMobile ? 15 : 16, color: SC.muted, lineHeight: 1.6, maxWidth: isMobile ? '100%' : 520, textAlign: isMobile ? 'center' : 'left' }}>
                 Merchant accounts, SwiftIDs, in-chat checkout, and APIs that play nice with Paystack, Flutterwave and your existing stack.
               </p>
-              <div style={{ display: 'flex', gap: 12, marginTop: 28 }}>
-                <Link href="/business" style={{ padding: '12px 22px', background: SC.ink, color: '#fff', borderRadius: 12, fontSize: 14, fontWeight: 600, textDecoration: 'none', boxShadow: '0 10px 24px rgba(26,26,46,0.25)' }}>
+              <div style={{ display: 'flex', gap: 12, marginTop: 28, flexDirection: isMobile ? 'column' : 'row', width: isMobile ? '100%' : 'auto' }}>
+                <Link href="/business" style={{ padding: '12px 22px', background: SC.ink, color: '#fff', borderRadius: 12, fontSize: 14, fontWeight: 600, textDecoration: 'none', boxShadow: '0 10px 24px rgba(26,26,46,0.25)', width: isMobile ? '100%' : 'auto', textAlign: 'center', display: 'block' }}>
                   Open a merchant account
                 </Link>
-                <Link href="/business" style={{ padding: '12px 22px', background: 'transparent', color: SC.ink, borderRadius: 12, fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>
+                <Link href="/business" style={{ padding: '12px 22px', background: 'transparent', color: SC.ink, borderRadius: 12, fontSize: 14, fontWeight: 600, textDecoration: 'none', width: isMobile ? '100%' : 'auto', textAlign: 'center', display: 'block' }}>
                   Browse API docs →
                 </Link>
               </div>
@@ -237,8 +252,8 @@ export default function HomePage() {
 
             {/* Code panel */}
             <div style={{
-              background: SC.ink, color: '#fff', borderRadius: 20, padding: 28,
-              fontFamily: 'ui-monospace, "SF Mono", monospace', fontSize: 13, lineHeight: 1.6,
+              background: SC.ink, color: '#fff', borderRadius: 20, padding: isMobile ? 20 : 28,
+              fontFamily: 'ui-monospace, "SF Mono", monospace', fontSize: isMobile ? 11 : 13, lineHeight: 1.6,
               position: 'relative', overflow: 'hidden',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 16 }}>
