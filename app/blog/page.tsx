@@ -21,7 +21,7 @@ const POSTS = [
   { cat: 'COMPANY', title: "Closing our pre-seed: ₦1.2B and what we're doing with it", author: 'Chinedu Okwu', date: '12 May 2026', read: '5 min', bg: 'linear-gradient(135deg, #FEF4D9, #FCE3A9)' },
   { cat: 'REGULATION', title: 'What our CBN license means for our users', author: 'Funmi Olanrewaju', date: '03 May 2026', read: '4 min', bg: 'linear-gradient(135deg, #DBEAFE, #BFDBFE)' },
   { cat: 'PRODUCT', title: 'The case against custom keypads in fintech', author: 'Amaka Eze', date: '28 Apr 2026', read: '7 min', bg: 'linear-gradient(135deg, #FCE7F3, #FBCFE8)' },
-  { cat: 'ENGINEERING', title: 'Postgres + Kafka: the boring stack behind SwiftCom payments', author: 'Sade Bakare', date: '20 Apr 2026', read: '14 min', bg: 'linear-gradient(135deg, #F3F4F6, #E5E7EB)' },
+  { cat: 'ENGINEERING', title: 'Postgres + Kafka: the boring stack behind Wiftco payments', author: 'Sade Bakare', date: '20 Apr 2026', read: '14 min', bg: 'linear-gradient(135deg, #F3F4F6, #E5E7EB)' },
 ];
 
 const FILTERS = ['All', 'Engineering', 'Product', 'Design', 'Company', 'Regulation'];

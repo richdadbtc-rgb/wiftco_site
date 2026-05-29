@@ -86,7 +86,7 @@ export default function FeaturesPage() {
       <PageHeader
         eyebrow="FEATURES"
         title="Everything Nigerian life runs on. In one tap."
-        subtitle="A guided tour through the four pillars of SwiftCom. Each is a complete product on its own — together they collapse half your home screen."
+        subtitle="A guided tour through the four pillars of Wiftco. Each is a complete product on its own — together they collapse half your home screen."
       />
 
       {/* Anchor nav */}

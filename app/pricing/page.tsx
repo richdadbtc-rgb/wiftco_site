@@ -65,8 +65,8 @@ const FEE_ROWS = [
 
 const FAQS = [
   ['Are there any hidden fees?', 'No. The fee table above is the entire fee table. We make money on float and merchant fees, not on tricks.'],
-  ['What does "₦0 wallet → wallet" mean?', 'Sending naira between any two SwiftCom accounts is genuinely free. Forever. We earn when money leaves the network, not when it moves inside it.'],
-  ['Is SwiftCom regulated?', 'Yes — licensed by the Central Bank of Nigeria as a Payment Service Provider, with NDIC deposit insurance up to ₦500,000 per wallet.'],
+  ['What does "₦0 wallet → wallet" mean?', 'Sending naira between any two Wiftco accounts is genuinely free. Forever. We earn when money leaves the network, not when it moves inside it.'],
+  ['Is Wiftco regulated?', 'Yes — licensed by the Central Bank of Nigeria as a Payment Service Provider, with NDIC deposit insurance up to ₦500,000 per wallet.'],
   ['Can I switch plans later?', 'Any time. Upgrades are prorated. Downgrades take effect at your next billing cycle.'],
   ['How does the merchant tier work?', 'You get a merchant SwiftID (e.g. @kiosko.lekki), in-chat checkout links, an API, and T+0 settlement. Volume-based pricing kicks in past 5,000 transactions/month.'],
 ];

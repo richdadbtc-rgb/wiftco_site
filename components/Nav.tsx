@@ -38,17 +38,12 @@ export default function Nav({ dark = false }: NavProps) {
     }}>
       {/* Logo + links */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 44 }}>
-        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{
-            width: 34, height: 34, borderRadius: 10,
-            background: SC.primary,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 6px 16px rgba(94,23,235,0.35)',
-            color: '#fff',
-          }}>
-            <IcoBolt size={20} />
-          </div>
-          <span style={{ fontSize: 20, fontWeight: 800, letterSpacing: -0.6, color: ink }}>SwiftCom</span>
+        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+          <img 
+            src="/swiftco-logo.png" 
+            alt="Wiftco" 
+            style={{ height: 40, width: 'auto' }}
+          />
         </Link>
 
         <div style={{ display: 'flex', gap: 28 }}>

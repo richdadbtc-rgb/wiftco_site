@@ -176,10 +176,10 @@ export default function HomePage() {
       <div style={{ padding: isMobile ? '60px 0' : '100px 0', background: '#fff' }}>
         <Container>
           <div style={{ textAlign: 'center', marginBottom: isMobile ? 40 : 64 }}>
-            <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2, marginBottom: 14 }}>WHY SWIFTCOM</div>
+            <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2, marginBottom: 14 }}>WHY WIFTCO</div>
             <h2 style={{ margin: 0, fontSize: isMobile ? 32 : 52, fontWeight: 800, letterSpacing: isMobile ? -1 : -1.8, lineHeight: 1.05 }}>Four super-powers, one app.</h2>
             <p style={{ margin: '16px auto 0', fontSize: isMobile ? 15 : 17, color: SC.muted, maxWidth: isMobile ? '100%' : 580, lineHeight: 1.55 }}>
-              Stop juggling four apps and a USSD code. SwiftCom collapses chat, money, AI, and connectivity into a single thumb-friendly experience.
+              Stop juggling four apps and a USSD code. Wiftco collapses chat, money, AI, and connectivity into a single thumb-friendly experience.
             </p>
           </div>
 
@@ -213,10 +213,10 @@ export default function HomePage() {
 
       {/* PULL QUOTE */}
       <div style={{ padding: isMobile ? '60px 0' : '100px 0', background: '#FAFAFB', borderTop: `1px solid ${SC.hairline}`, borderBottom: `1px solid ${SC.hairline}` }}>
-        <Container w={isMobile ? '100%' : 920}>
+        <Container w={isMobile ? undefined : 920}>
           <div style={{ fontSize: isMobile ? 40 : 60, color: SC.primary, lineHeight: 1, marginBottom: 16 }}>&quot;</div>
           <div style={{ fontSize: isMobile ? 22 : 32, fontWeight: 600, letterSpacing: -0.8, lineHeight: 1.3, color: SC.ink }}>
-            I sent my landlord rent and the receipt arrived before her &quot;good evening.&quot; SwiftCom is just… faster than the rest of Lagos.
+            I sent my landlord rent and the receipt arrived before her &quot;good evening.&quot; Wiftco is just… faster than the rest of Lagos.
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 32, flexDirection: isMobile ? 'column' : 'row', textAlign: isMobile ? 'center' : 'left' }}>
             <Avatar name="Amaka Eze" size={isMobile ? 40 : 48} />

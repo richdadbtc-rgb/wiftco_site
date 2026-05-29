@@ -12,7 +12,7 @@ interface CTABandProps {
 
 export default function CTABand({
   title = 'Get early access',
-  sub = 'Be first in line when SwiftCom opens to the public.',
+  sub = 'Be first in line when Wiftco opens to the public.',
 }: CTABandProps) {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);

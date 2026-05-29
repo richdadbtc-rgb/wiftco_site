@@ -51,7 +51,7 @@ export default function CareersPage() {
                   See open roles ↓
                 </a>
                 <button style={{ padding: '16px 30px', background: 'transparent', color: SC.ink, border: `1.5px solid ${SC.hairline}`, borderRadius: 14, fontSize: 15.5, fontWeight: 600, cursor: 'pointer' }}>
-                  Life at SwiftCom
+                  Life at Wiftco
                 </button>
               </div>
             </div>

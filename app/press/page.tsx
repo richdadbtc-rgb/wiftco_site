@@ -7,12 +7,12 @@ import WBtn from '@/components/WBtn';
 import { SC, WEB } from '@/lib/tokens';
 
 const ARTICLES = [
-  { src: 'TechCabal', date: '22 May 2026', title: 'SwiftCom: the Lagos team trying to collapse five apps into one' },
-  { src: 'TechCrunch', date: '08 May 2026', title: 'African super-apps are heating up, and SwiftCom is the latest contender' },
+  { src: 'TechCabal', date: '22 May 2026', title: 'Wiftco: the Lagos team trying to collapse five apps into one' },
+  { src: 'TechCrunch', date: '08 May 2026', title: 'African super-apps are heating up, and Wiftco is the latest contender' },
   { src: 'Rest of World', date: '14 Apr 2026', title: 'Inside the bet that Nigerians will trade three apps for one super-app' },
-  { src: 'Stears', date: '02 Apr 2026', title: 'How SwiftCom is rethinking ₦ in chats' },
-  { src: 'BusinessDay', date: '18 Mar 2026', title: 'SwiftCom completes CBN licensing, eyes public launch in Q3' },
-  { src: 'Sifted', date: '04 Feb 2026', title: "The African super-app race: SwiftCom's case for collapsing categories" },
+  { src: 'Stears', date: '02 Apr 2026', title: 'How Wiftco is rethinking ₦ in chats' },
+  { src: 'BusinessDay', date: '18 Mar 2026', title: 'Wiftco completes CBN licensing, eyes public launch in Q3' },
+  { src: 'Sifted', date: '04 Feb 2026', title: "The African super-app race: Wiftco's case for collapsing categories" },
 ];
 
 const FILTERS = ['All', 'Funding', 'Product', 'Regulation'];
@@ -24,7 +24,7 @@ export default function PressPage() {
       <PageHeader
         eyebrow="PRESS"
         title="What people are saying."
-        subtitle="Coverage, press kits, and a place to find us. Media inquiries: press@swiftcom.ng"
+        subtitle="Coverage, press kits, and a place to find us. Media inquiries: press@wiftco.ng"
       />
 
       {/* Featured quote */}
@@ -95,9 +95,9 @@ export default function PressPage() {
               <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2 }}>CONTACTS</div>
               <h3 style={{ margin: '10px 0 12px', fontSize: 24, fontWeight: 800, letterSpacing: -0.6 }}>For journalists</h3>
               <div style={{ fontSize: 13.5, color: SC.muted, lineHeight: 1.7 }}>
-                <div><b style={{ color: SC.ink }}>Media:</b> press@swiftcom.ng</div>
-                <div><b style={{ color: SC.ink }}>Partnerships:</b> partners@swiftcom.ng</div>
-                <div><b style={{ color: SC.ink }}>Investor relations:</b> ir@swiftcom.ng</div>
+                <div><b style={{ color: SC.ink }}>Media:</b> press@wiftco.ng</div>
+                <div><b style={{ color: SC.ink }}>Partnerships:</b> partners@wiftco.ng</div>
+                <div><b style={{ color: SC.ink }}>Investor relations:</b> ir@wiftco.ng</div>
                 <div style={{ marginTop: 10 }}><b style={{ color: SC.ink }}>Office:</b> 11 Bourdillon Rd, Ikoyi, Lagos</div>
               </div>
             </div>

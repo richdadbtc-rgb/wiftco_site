@@ -9,7 +9,7 @@ const COLS = [
     { label: 'Wallet', href: '/features' },
     { label: 'Pay bills', href: '/features' },
     { label: 'eSIM', href: '/features' },
-    { label: 'SwiftBot AI', href: '/features' },
+    { label: 'WiftBot AI', href: '/features' },
     { label: 'Download', href: '/download' },
   ]},
   { title: 'Company', items: [
@@ -51,7 +51,7 @@ export default function Footer() {
               }}>
                 <IcoBolt size={20} />
               </div>
-              <span style={{ fontSize: 20, fontWeight: 800, letterSpacing: -0.6, color: '#fff' }}>SwiftCom</span>
+              <span style={{ fontSize: 20, fontWeight: 800, letterSpacing: -0.6, color: '#fff' }}>Wiftco</span>
             </Link>
             <p style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.65)', marginTop: 18, lineHeight: 1.6, maxWidth: 280 }}>
               The all-in-one Nigerian super-app for chat, money, and connectivity. Built in Lagos. ⚡
@@ -94,7 +94,7 @@ export default function Footer() {
           fontSize: 12, color: 'rgba(255,255,255,0.5)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span>© 2026 SwiftCom Technologies Ltd · RC 2104587</span>
+            <span>© 2026 Wiftco Technologies Ltd · RC 2104587</span>
             <span style={{ width: 4, height: 4, borderRadius: 2, background: 'rgba(255,255,255,0.3)', display: 'inline-block' }} />
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
               <IcoFlag size={12} /> Lagos, Nigeria

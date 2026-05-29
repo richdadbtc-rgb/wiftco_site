@@ -9,9 +9,9 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: 'SwiftCom — Chat. Send. Connect.',
+  title: 'Wiftco — Chat. Send. Connect.',
   description: 'The all-in-one Nigerian super-app for messaging, digital wallet, eSIM management, and AI assistant. Built for Lagos speed.',
-  keywords: ['SwiftCom', 'Nigeria', 'fintech', 'super-app', 'messaging', 'wallet', 'eSIM'],
+  keywords: ['Wiftco', 'Nigeria', 'fintech', 'super-app', 'messaging', 'wallet', 'eSIM'],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -12,7 +12,7 @@ import Link from 'next/link';
 const PILLARS = [
   { ico: IcoShield, title: 'CBN-licensed PSP', body: 'Operating under the Payment Service Provider license from the Central Bank of Nigeria.' },
   { ico: IcoLock, title: 'NDIC insured', body: 'Wallet balances are insured up to ₦500,000 per account via the NDIC.' },
-  { ico: IcoBot, title: 'E2EE messaging', body: 'Signal-protocol encryption for chats. Not even SwiftCom can read them.' },
+  { ico: IcoBot, title: 'E2EE messaging', body: 'Signal-protocol encryption for chats. Not even Wiftco can read them.' },
   { ico: IcoCheck, title: 'SOC 2 + ISO 27001', body: 'Type II SOC 2 and ISO 27001 certified. Audit reports available on request.' },
 ];
 
@@ -98,7 +98,7 @@ export default function SecurityPage() {
               </div>
               <div style={{ marginTop: 16, fontSize: 12.5, color: SC.muted, textAlign: 'center' }}>
                 Need audit reports?{' '}
-                <Link href="/help" style={{ color: SC.primary, fontWeight: 600, textDecoration: 'none' }}>security@swiftcom.ng →</Link>
+                <Link href="/help" style={{ color: SC.primary, fontWeight: 600, textDecoration: 'none' }}>security@wiftco.ng →</Link>
               </div>
             </div>
           </div>

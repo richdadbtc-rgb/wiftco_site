@@ -22,4 +22,4 @@ The design medium is **HTML/CSS/JS** — these are prototypes, not production co
 
 - `README.md` — this file
 - `chats/` — conversation transcripts (read these!)
-- `project/` — the `swiftcom` project files (HTML prototypes, assets, components)
+- `project/` — the `wiftco` project files (HTML prototypes, assets, components)

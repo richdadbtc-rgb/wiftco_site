@@ -47,7 +47,7 @@ export default function AboutPage() {
             all between two meetings. He used <em>five apps</em>, a USSD code, and lost ₦650 in transfer fees.
           </p>
           <p style={{ fontSize: 17, lineHeight: 1.7, color: SC.muted, marginTop: 24 }}>
-            SwiftCom is what comes out of refusing to accept that as normal. We believe Nigerians deserve a single app
+            Wiftco is what comes out of refusing to accept that as normal. We believe Nigerians deserve a single app
             that handles communication and money with the same speed and grace — built by people who actually live here.
             Not a wallet bolted onto a messenger. Not a chat plug-in on a banking app. One product. One vision. ₦ first.
           </p>
