@@ -1,9 +1,8 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import { SC } from '@/lib/tokens';
-import { IcoShield } from '@/components/icons';
 import Container from '@/components/Container';
-import WBtn from '@/components/WBtn';
+import LaunchSignup from '@/components/LaunchSignup';
 import { useResponsive } from '@/lib/useResponsive';
 
 interface CTABandProps {
@@ -15,13 +14,7 @@ export default function CTABand({
   title = 'Get early access',
   sub = 'Be first in line when Wiftco opens to the public.',
 }: CTABandProps) {
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
   const { isMobile } = useResponsive();
-
-  const handleSubmit = () => {
-    if (email.includes('@')) setSubmitted(true);
-  };
 
   return (
     <div style={{
@@ -43,39 +36,7 @@ export default function CTABand({
             <p style={{ marginTop: 12, fontSize: 16, color: 'rgba(255,255,255,0.8)', lineHeight: 1.5 }}>{sub}</p>
           </div>
           <div style={{ width: isMobile ? '100%' : 460 }}>
-            {submitted ? (
-              <div style={{
-                padding: '20px 24px', borderRadius: 14,
-                background: 'rgba(255,255,255,0.15)',
-                border: '1px solid rgba(255,255,255,0.25)',
-                textAlign: 'center', fontSize: 16, fontWeight: 600,
-              }}>
-                ⚡ You&apos;re on the list! We&apos;ll notify you soon.
-              </div>
-            ) : (
-              <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 8, padding: 6, background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: 14, backdropFilter: 'blur(20px)' }}>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  placeholder="you@email.com"
-                  onKeyDown={e => e.key === 'Enter' && handleSubmit()}
-                  style={{
-                    flex: 1, padding: '12px 16px', fontSize: 14,
-                    color: '#fff', background: 'transparent', border: 'none', outline: 'none',
-                    fontFamily: SC.font,
-                  } as React.CSSProperties}
-                />
-                <WBtn variant="light" size="md" onClick={handleSubmit} style={isMobile ? { width: '100%' } : {}}>Notify me ⚡</WBtn>
-              </div>
-            )}
-            <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.6)', marginTop: 12, display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-                <IcoShield size={12} /> No spam · No card
-              </span>
-              <span style={{ width: 3, height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.4)', display: 'inline-block' }} />
-              <span>62,400+ on the list</span>
-            </div>
+            <LaunchSignup source="cta" stacked={isMobile} />
           </div>
         </div>
       </Container>

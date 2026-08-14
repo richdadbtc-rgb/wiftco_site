@@ -28,7 +28,7 @@ const COLS = [
     { label: 'Status', href: '/business' },
   ]},
   { title: 'Legal', items: [
-    { label: 'Privacy', href: '/help' },
+    { label: 'Privacy', href: '/privacy' },
     { label: 'Terms', href: '/help' },
     { label: 'CBN disclosures', href: '/security' },
     { label: 'AML policy', href: '/security' },

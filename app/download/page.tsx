@@ -1,16 +1,14 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import Container from '@/components/Container';
-import WBtn from '@/components/WBtn';
+import LaunchSignup from '@/components/LaunchSignup';
 import PhoneMockup from '@/components/PhoneMockup';
 import { SC } from '@/lib/tokens';
 import { useResponsive } from '@/lib/useResponsive';
 
 export default function DownloadPage() {
-  const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
   const { isMobile } = useResponsive();
 
   return (
@@ -39,26 +37,8 @@ export default function DownloadPage() {
               </p>
 
               {/* Email capture */}
-              <div style={{ marginTop: 36 }}>
-                {submitted ? (
-                  <div style={{ padding: '20px 24px', borderRadius: 16, background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)', fontSize: 16, fontWeight: 600 }}>
-                    ⚡ You&apos;re on the list! We&apos;ll notify you soon.
-                  </div>
-                ) : (
-                  <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 8, padding: 6, background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: 16, maxWidth: 460 }}>
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                      placeholder="you@email.com"
-                      onKeyDown={e => e.key === 'Enter' && email.includes('@') && setSubmitted(true)}
-                      style={{ flex: 1, padding: '14px 18px', fontSize: 15, color: '#fff', background: 'transparent', border: 'none', outline: 'none', fontFamily: SC.font } as React.CSSProperties}
-                    />
-                    <WBtn variant="light" size="md" onClick={() => email.includes('@') && setSubmitted(true)} style={isMobile ? { width: '100%' } : {}}>
-                      Notify me ⚡
-                    </WBtn>
-                  </div>
-                )}
+              <div style={{ marginTop: 36, maxWidth: 460 }}>
+                <LaunchSignup source="download" stacked={isMobile} />
               </div>
 
               {/* App store badges */}
