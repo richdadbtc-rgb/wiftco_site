@@ -29,6 +29,7 @@ const COLS = [
   ]},
   { title: 'Legal', items: [
     { label: 'Privacy', href: '/privacy' },
+    { label: 'Delete my account', href: '/account-deletion' },
     { label: 'Terms', href: '/help' },
     { label: 'CBN disclosures', href: '/security' },
     { label: 'AML policy', href: '/security' },

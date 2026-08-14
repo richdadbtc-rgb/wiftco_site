@@ -3,6 +3,7 @@ import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import Container from '@/components/Container';
 import PageHeader from '@/components/PageHeader';
+import Link from 'next/link';
 import { SC } from '@/lib/tokens';
 
 export const metadata: Metadata = {
@@ -34,6 +35,13 @@ export default function PrivacyPage() {
           <div style={{ maxWidth: 820, margin: '0 auto' }}>
             <div style={{ padding: '18px 22px', borderRadius: 14, background: '#f6f1ff', border: `1px solid ${SC.hairline}`, color: SC.muted, fontSize: 13.5, lineHeight: 1.6, marginBottom: 38 }}>
               Effective 14 August 2026 · This notice is designed around the Nigeria Data Protection Act 2023. It is not a contract and does not reduce any rights the law gives you.
+            </div>
+            <div style={{ padding: '22px 24px', borderRadius: 16, background: SC.ink, color: '#fff', marginBottom: 38, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap' }}>
+              <div>
+                <strong style={{ display: 'block', fontSize: 17, marginBottom: 4 }}>Want to delete your Wiftco account?</strong>
+                <span style={{ color: 'rgba(255,255,255,.72)', fontSize: 13.5 }}>Submit an account and associated-data deletion request.</span>
+              </div>
+              <Link href="/account-deletion" style={{ padding: '11px 17px', borderRadius: 11, background: '#fff', color: SC.primary, textDecoration: 'none', fontWeight: 700, fontSize: 13.5 }}>Request deletion →</Link>
             </div>
             {sections.map(([title, body]) => (
               <section key={title} style={{ padding: '26px 0', borderTop: `1px solid ${SC.hairline}` }}>
