@@ -14,7 +14,7 @@ const CATEGORIES = [
   { ico: IcoSim, title: 'eSIM', count: 16, color: SC.warning },
   { ico: IcoShield, title: 'Security & KYC', count: 22, color: SC.success },
   { ico: IcoAirtime, title: 'Bill payments', count: 14, color: '#EC4899' },
-  { ico: IcoBot, title: 'SwiftBot AI', count: 11, color: SC.primary },
+  { ico: IcoBot, title: 'Ben', count: 11, color: SC.primary },
 ];
 
 const POPULAR = [
@@ -25,7 +25,7 @@ const POPULAR = [
   'How do I activate my eSIM?',
   'What happens if I lose my phone?',
   'Can I get a refund on a bill payment?',
-  'How do I change my SwiftID?',
+  'How do I change my Wiftco ID?',
 ];
 
 export default function HelpPage() {
@@ -42,7 +42,7 @@ export default function HelpPage() {
           <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2 }}>HELP CENTER</div>
           <h1 style={{ margin: '14px 0 14px', fontSize: isMobile ? 36 : 56, fontWeight: 800, letterSpacing: isMobile ? -1.2 : -2 }}>How can we help?</h1>
           <p style={{ fontSize: 17, color: SC.muted, marginBottom: 32, maxWidth: 540, marginLeft: 'auto', marginRight: 'auto' }}>
-            Search 400+ articles, or chat with SwiftBot — it answers most questions in under 5 seconds.
+            Search 400+ articles, or chat with Ben — it answers most questions in under 5 seconds.
           </p>
           <div style={{ maxWidth: 640, margin: '0 auto' }}>
             {isMobile ? (
@@ -60,7 +60,7 @@ export default function HelpPage() {
                     style={{ flex: 1, fontSize: 15.5, color: SC.ink, border: 'none', outline: 'none', background: 'transparent', fontFamily: SC.font }}
                   />
                 </div>
-                <WBtn variant="primary" size="md" style={{ width: '100%' }}>Ask SwiftBot ⚡</WBtn>
+                <WBtn variant="primary" size="md" style={{ width: '100%' }}>Ask Ben ⚡</WBtn>
               </div>
             ) : (
               <div style={{ display: 'flex', alignItems: 'center', padding: 8, background: '#fff', border: `1px solid ${SC.hairline}`, borderRadius: 16, boxShadow: '0 10px 30px rgba(0,0,0,0.08)' }}>
@@ -74,7 +74,7 @@ export default function HelpPage() {
                   placeholder="Try &quot;how to send money&quot; or &quot;my eSIM isn't activating&quot;"
                   style={{ flex: 1, fontSize: 15.5, color: SC.ink, border: 'none', outline: 'none', background: 'transparent', fontFamily: SC.font }}
                 />
-                <WBtn variant="primary" size="md">Ask SwiftBot ⚡</WBtn>
+                <WBtn variant="primary" size="md">Ask Ben ⚡</WBtn>
               </div>
             )}
             <div style={{ fontSize: 12.5, color: SC.muted, marginTop: 12 }}>
@@ -140,10 +140,10 @@ export default function HelpPage() {
                 </div>
                 <h3 style={{ margin: 0, fontSize: 22, fontWeight: 800, letterSpacing: -0.5 }}>Still stuck?</h3>
                 <p style={{ marginTop: 8, fontSize: 14, color: 'rgba(255,255,255,0.8)', lineHeight: 1.55 }}>
-                  SwiftBot answers most questions instantly. Human agents are 24/7 in English &amp; Pidgin.
+                  Ben answers most questions instantly. Human agents are 24/7 in English &amp; Pidgin.
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 20 }}>
-                  <WBtn variant="light" size="md" style={{ width: '100%' }}>Chat with SwiftBot</WBtn>
+                  <WBtn variant="light" size="md" style={{ width: '100%' }}>Chat with Ben</WBtn>
                   <button style={{ width: '100%', padding: '12px 22px', background: 'transparent', color: '#fff', border: '1.5px solid rgba(255,255,255,0.25)', borderRadius: 12, fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
                     Talk to a human →
                   </button>

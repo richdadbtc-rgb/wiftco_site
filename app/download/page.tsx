@@ -27,13 +27,13 @@ export default function DownloadPage() {
             <div>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 12px', background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: 999, fontSize: 12.5, marginBottom: 24 }}>
                 <span style={{ width: 6, height: 6, borderRadius: 3, background: SC.success, boxShadow: '0 0 8px #10B981', display: 'inline-block' }} />
-                Private beta · invite-only
+                Private development · early access
               </div>
               <h1 style={{ margin: 0, fontSize: isMobile ? 52 : 76, fontWeight: 800, letterSpacing: isMobile ? -2 : -2.8, lineHeight: 1 }}>
                 Get on the<br />list.
               </h1>
               <p style={{ marginTop: 24, fontSize: 18, color: 'rgba(255,255,255,0.75)', maxWidth: 480, lineHeight: 1.55 }}>
-                Drop your email and we&apos;ll text you the moment your invite is ready. App Store and Play Store, ready to go.
+                Join the Wiftco early-access list. We&apos;ll email you with genuine product and launch updates as release preparation progresses.
               </p>
 
               {/* Email capture */}
@@ -43,11 +43,11 @@ export default function DownloadPage() {
 
               {/* App store badges */}
               <div style={{ marginTop: 32 }}>
-                <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.55)', fontWeight: 600, letterSpacing: 2, marginBottom: 14 }}>OR, IF YOU HAVE AN INVITE</div>
+                <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.55)', fontWeight: 600, letterSpacing: 2, marginBottom: 14 }}>MOBILE RELEASE STATUS</div>
                 <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 12 }}>
                   {[
-                    { store: 'App Store', label: 'Download on the', icon: '' },
-                    { store: 'Google Play', label: 'GET IT ON', icon: '▶' },
+                    { store: 'iOS', label: 'PREPARING FOR RELEASE', icon: '' },
+                    { store: 'Android', label: 'PREPARING FOR RELEASE', icon: '▶' },
                   ].map((b, i) => (
                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 22px', background: '#000', borderRadius: 14, border: '1px solid rgba(255,255,255,0.15)', cursor: 'pointer' }}>
                       <div style={{ fontSize: 24 }}>{b.icon}</div>
@@ -61,7 +61,7 @@ export default function DownloadPage() {
               </div>
 
               <div style={{ display: 'flex', alignItems: isMobile ? 'flex-start' : 'center', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 12 : 28, marginTop: 36, fontSize: 13, color: 'rgba(255,255,255,0.75)' }}>
-                {[['62,400+', 'on the list'], ['4.8★', 'beta rating'], ['iOS 15+', 'Android 10+']].map(([v, l], i) => (
+                {[['Private', 'development'], ['Early access', 'updates'], ['Android', 'preparing for release']].map(([v, l], i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
                     <span style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>{v}</span>
                     <span>{l}</span>
@@ -92,9 +92,9 @@ export default function DownloadPage() {
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)', gap: 32, alignItems: 'center' }}>
             <div>
               <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2, marginBottom: 8 }}>SUPPORTED ON</div>
-              <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: -0.6 }}>iPhone, Android &amp;<br />Watch (soon).</div>
+              <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: -0.6 }}>Mobile-first,<br />release preparation.</div>
             </div>
-            {[['iOS 15+', '99% of devices'], ['Android 10+', 'Lite mode on 8+'], ['Watch OS', 'Coming Q3 2026']].map(([v, l], i) => (
+            {[['iOS', 'Release details to follow'], ['Android', 'Preparing for release'], ['Availability', 'Early-access updates']].map(([v, l], i) => (
               <div key={i} style={{ padding: 20, background: '#FAFAFB', borderRadius: 14, border: `1px solid ${SC.hairline}` }}>
                 <div style={{ fontSize: 18, fontWeight: 700 }}>{v}</div>
                 <div style={{ fontSize: 13, color: SC.muted, marginTop: 2 }}>{l}</div>

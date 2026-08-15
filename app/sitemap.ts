@@ -1,0 +1,2 @@
+import type { MetadataRoute } from 'next';
+export default function sitemap():MetadataRoute.Sitemap { const base='https://www.wiftco.com'; return ['','/features','/pricing','/business','/business/partnerships','/security','/about','/press','/blog','/careers','/help','/download','/privacy','/terms','/account-deletion'].map(path=>({url:`${base}${path}`,lastModified:new Date(),changeFrequency:path===''?'weekly':'monthly',priority:path===''?1:path==='/business/partnerships'?.9:.6})); }

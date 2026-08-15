@@ -4,7 +4,7 @@ import { SC, WEB } from '@/lib/tokens';
 import Container from '@/components/Container';
 import { useResponsive } from '@/lib/useResponsive';
 
-const OUTLETS = ['TechCabal', 'TechCrunch', 'Stears', 'BusinessDay', 'Rest of World', 'Sifted'];
+const OUTLETS = ['Private Development', 'Secure Architecture', 'Provider-Independent', 'Built in Nigeria'];
 
 export default function PressStrip() {
   const { isMobile } = useResponsive();
@@ -16,7 +16,7 @@ export default function PressStrip() {
           textAlign: 'center', fontSize: 11.5, fontWeight: 700,
           color: SC.muted, letterSpacing: 2, marginBottom: 22,
         }}>
-          AS COVERED IN
+          PRODUCT FOUNDATION
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(3, 1fr)' : `repeat(${OUTLETS.length}, 1fr)`, alignItems: 'center', gap: isMobile ? 12 : 16 }}>
           {OUTLETS.map((name, i) => (

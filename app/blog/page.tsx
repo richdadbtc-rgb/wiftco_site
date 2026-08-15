@@ -12,7 +12,7 @@ import { useResponsive } from '@/lib/useResponsive';
 
 const FEATURED = {
   cat: 'PRODUCT',
-  title: 'Why we built SwiftBot — and why an AI should never move your money without asking.',
+  title: 'Why we built Ben — and why an AI should never move your money without asking.',
   excerpt: "The internal arguments that shaped our assistant's first principle: confirm before commit. A look at how we made an AI feel safe with ₦.",
   author: 'Amaka Eze', role: 'Head of Design', date: '24 May 2026', read: '8 min read',
 };
@@ -21,7 +21,7 @@ const POSTS = [
   { cat: 'ENGINEERING', title: 'How we keep transfers under 3 seconds on 3G', author: 'Tunde Adeleke', date: '22 May 2026', read: '12 min', bg: 'linear-gradient(135deg, #F3EEFE, #C7B9F3)' },
   { cat: 'DESIGN', title: 'Designing for thumbs, in a country that prefers thumbs', author: 'Amaka Eze', date: '18 May 2026', read: '6 min', bg: 'linear-gradient(135deg, #E6F7EF, #C7EEDC)' },
   { cat: 'COMPANY', title: "Closing our pre-seed: ₦1.2B and what we're doing with it", author: 'Chinedu Okwu', date: '12 May 2026', read: '5 min', bg: 'linear-gradient(135deg, #FEF4D9, #FCE3A9)' },
-  { cat: 'REGULATION', title: 'What our CBN license means for our users', author: 'Funmi Olanrewaju', date: '03 May 2026', read: '4 min', bg: 'linear-gradient(135deg, #DBEAFE, #BFDBFE)' },
+  { cat: 'PRODUCT', title: 'Why provider partnerships matter for digital connectivity', author: 'Wiftco Team', date: '03 May 2026', read: '4 min', bg: 'linear-gradient(135deg, #DBEAFE, #BFDBFE)' },
   { cat: 'PRODUCT', title: 'The case against custom keypads in fintech', author: 'Amaka Eze', date: '28 Apr 2026', read: '7 min', bg: 'linear-gradient(135deg, #FCE7F3, #FBCFE8)' },
   { cat: 'ENGINEERING', title: 'Postgres + Kafka: the boring stack behind Wiftco payments', author: 'Sade Bakare', date: '20 Apr 2026', read: '14 min', bg: 'linear-gradient(135deg, #F3F4F6, #E5E7EB)' },
 ];

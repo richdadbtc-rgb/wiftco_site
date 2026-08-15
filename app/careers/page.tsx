@@ -14,7 +14,7 @@ const ROLES = [
   { team: 'Engineering', title: 'Mobile Engineer · Android', loc: 'Lagos · Hybrid', tags: ['Kotlin', 'Compose', '3+ yrs'] },
   { team: 'Design', title: 'Senior Product Designer', loc: 'Lagos · On-site', tags: ['Mobile', 'Fintech', 'Figma'] },
   { team: 'Design', title: 'Brand Designer', loc: 'Lagos · Hybrid', tags: ['Motion', 'Type', 'Web'] },
-  { team: 'Operations', title: 'Compliance Analyst', loc: 'Abuja · On-site', tags: ['CBN', 'AML', '3+ yrs'] },
+  { team: 'Operations', title: 'Compliance Analyst', loc: 'Abuja · On-site', tags: ['Governance', 'Risk', '3+ yrs'] },
   { team: 'Operations', title: 'Customer Success Lead', loc: 'Lagos · On-site', tags: ['Fintech', 'Team mgmt'] },
   { team: 'Growth', title: 'Growth Marketer', loc: 'Remote · NG', tags: ['Performance', 'Lagos'] },
 ];

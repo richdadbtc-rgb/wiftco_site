@@ -13,7 +13,7 @@ const screenColors: Record<string, { top: string; accent: string; label: string 
   chat: { top: SC.purpleGradDiag, accent: SC.primary, label: 'Messages' },
   wallet: { top: SC.purpleGradDiag, accent: SC.success, label: 'Wallet' },
   esim: { top: 'linear-gradient(135deg, #F59E0B 0%, #B45309 100%)', accent: SC.warning, label: 'eSIM' },
-  aibot: { top: SC.purpleDeepGrad, accent: SC.primaryLight, label: 'SwiftBot AI' },
+  aibot: { top: SC.purpleDeepGrad, accent: SC.primaryLight, label: 'Ben' },
 };
 
 export default function PhoneMockup({ screen = 'dashboard', scale = 0.62, tilt = 0, style = {} }: PhoneMockupProps) {

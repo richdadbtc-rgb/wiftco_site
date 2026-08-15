@@ -7,12 +7,11 @@ import { IcoBolt } from '@/components/icons';
 import { useResponsive } from '@/lib/useResponsive';
 
 const NAV_ITEMS = [
-  { label: 'Features', href: '/features' },
-  { label: 'Pricing', href: '/pricing' },
+  { label: 'Product', href: '/features' },
+  { label: 'Connectivity', href: '/features#connectivity' },
   { label: 'Business', href: '/business' },
   { label: 'Security', href: '/security' },
   { label: 'Company', href: '/about' },
-  { label: 'Help', href: '/help' },
 ];
 
 interface NavProps { dark?: boolean; }
@@ -52,6 +51,7 @@ export default function Nav({ dark = false }: NavProps) {
                 </Link>
               );
             })}
+            <Link href="/business/partnerships" style={{ fontSize:14,color:muted,fontWeight:500,textDecoration:'none',paddingBottom:22 }}>Partnerships</Link>
           </div>
         )}
 
@@ -103,6 +103,7 @@ export default function Nav({ dark = false }: NavProps) {
                 </Link>
               );
             })}
+            <Link href="/business/partnerships" onClick={() => setOpen(false)} style={{display:'block',padding:'14px 24px',fontSize:17,fontWeight:500,color:SC.ink,textDecoration:'none',borderLeft:'3px solid transparent'}}>Telecom Partnerships</Link>
             <div style={{ margin: '16px 24px 0' }}>
               <Link href="/download" onClick={() => setOpen(false)} style={{ display: 'block', textAlign: 'center', padding: '14px', background: SC.primary, color: '#fff', borderRadius: 12, fontSize: 15, fontWeight: 600, textDecoration: 'none', boxShadow: '0 8px 20px rgba(94,23,235,0.30)' }}>
                 Get early access ⚡

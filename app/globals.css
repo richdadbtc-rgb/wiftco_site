@@ -32,6 +32,91 @@ button {
   font-family: inherit;
 }
 
+:focus-visible { outline: 3px solid rgba(94,23,235,.35); outline-offset: 3px; }
+.marketing-page { overflow: hidden; }
+.hero-section { position: relative; min-height: 720px; padding: 96px 0 72px; background: radial-gradient(circle at 82% 15%,rgba(94,23,235,.16),transparent 34%),linear-gradient(180deg,#fff 0%,#f7f3ff 100%); }
+.hero-grid,.vision-grid { display:grid; grid-template-columns:1.02fr .98fr; align-items:center; gap:64px; }
+.eyebrow { color:#5e17eb; font-size:12px; font-weight:800; letter-spacing:2.2px; }
+.eyebrow.light { color:#cdb8ff; }
+.hero-copy h1 { max-width:650px; margin:18px 0 24px; font-size:76px; line-height:.98; letter-spacing:-3px; }
+.hero-copy h1 span { color:#5e17eb; }
+.hero-lead { max-width:600px; color:#34334d; font-size:20px; line-height:1.55; }
+.hero-note { max-width:580px; margin-top:12px; color:#6d6b80; font-size:15px; line-height:1.65; }
+.button-row { display:flex; flex-wrap:wrap; gap:12px; margin-top:30px; }
+.button { display:inline-flex; min-height:50px; align-items:center; justify-content:center; padding:0 24px; border-radius:14px; font-weight:700; text-decoration:none; transition:transform .2s,box-shadow .2s; }
+.button:hover { transform:translateY(-2px); }
+.button.primary { color:#fff; background:linear-gradient(135deg,#7628f4,#4d0bbd); box-shadow:0 14px 30px rgba(94,23,235,.25); }
+.button.secondary { border:1px solid #dcd8e7; background:#fff; }
+.partner-link { display:inline-block; margin-top:22px; color:#5f5d70; text-decoration:none; }
+.partner-link b { color:#5e17eb; }
+.hero-phones { position:relative; min-height:520px; }
+.phone { position:absolute; }
+.phone-main { top:-10px; right:80px; z-index:2; }
+.phone-side { top:115px; left:0; opacity:.92; }
+.trust-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; border-block:1px solid #e8e5ef; background:#e8e5ef; }
+.trust-strip span { padding:21px 16px; text-align:center; background:#fff; color:#444258; font-size:13px; font-weight:700; }
+.section { padding:104px 0; }
+.section-heading { max-width:760px; margin:0 auto 56px; text-align:center; }
+.section-heading h2,.vision-grid h2,.early-card h2,.partnership-hero h1 { margin:14px 0 16px; font-size:52px; line-height:1.06; letter-spacing:-1.8px; }
+.section-heading p,.vision-grid p,.early-card p { color:#6d6b80; font-size:17px; line-height:1.65; }
+.feature-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.feature-card { position:relative; min-height:275px; padding:30px; border:1px solid #e7e3ef; border-radius:24px; background:linear-gradient(145deg,#fff,#faf8ff); box-shadow:0 16px 50px rgba(31,20,66,.06); }
+.feature-card small { display:block; color:#5e17eb; font-weight:800; letter-spacing:1.2px; text-transform:uppercase; }
+.feature-card h3 { margin:34px 0 10px; font-size:24px; letter-spacing:-.6px; }
+.feature-card p { color:#6d6b80; line-height:1.6; }
+.feature-card a { display:inline-block; margin-top:20px; color:#5e17eb; font-weight:700; text-decoration:none; }
+.status-tag { position:absolute; top:24px; right:24px; max-width:145px; padding:6px 9px; border-radius:999px; background:#eee7ff; color:#5e17eb; font-size:10px; font-weight:800; text-align:center; }
+.vision-section { color:#fff; background:radial-gradient(circle at 80% 20%,rgba(139,44,255,.45),transparent 32%),linear-gradient(135deg,#10002f,#2c086d); }
+.vision-grid p { color:rgba(255,255,255,.72); }
+.light-button { margin-top:26px; color:#3d107d; background:#fff; }
+.architecture { display:flex; flex-direction:column; align-items:center; gap:9px; padding:28px; border:1px solid rgba(255,255,255,.15); border-radius:28px; background:rgba(255,255,255,.06); }
+.architecture span { width:min(100%,360px); padding:14px 18px; border:1px solid rgba(255,255,255,.16); border-radius:12px; background:rgba(255,255,255,.08); text-align:center; font-weight:700; }
+.architecture i { color:#b690ff; font-style:normal; }
+.early-section { background:#f8f5ff; }
+.early-card { display:flex; align-items:center; justify-content:space-between; gap:30px; padding:48px; border:1px solid #e7defa; border-radius:28px; background:#fff; }
+.early-card h2 { font-size:40px; }
+
+.partnership-hero { padding:100px 0; color:#fff; background:radial-gradient(circle at 80% 20%,rgba(139,44,255,.55),transparent 32%),linear-gradient(135deg,#0e0225,#2b0964); }
+.partnership-hero .hero-lead { color:rgba(255,255,255,.78); }
+.partner-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.partner-card { padding:28px; border:1px solid #e5e0ee; border-radius:22px; background:#fff; }
+.partner-card h3 { margin-bottom:12px; font-size:21px; }
+.partner-card ul { padding-left:18px; color:#67657a; line-height:1.8; }
+.capability-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+.capability-grid span { padding:20px; border-radius:15px; background:#f5f0ff; color:#351078; font-weight:700; }
+.legal-note { margin-top:24px; color:#6d6b80; font-size:13px; }
+
+@media (max-width: 900px) {
+  .hero-grid,.vision-grid { grid-template-columns:1fr; }
+  .hero-copy { text-align:center; }
+  .hero-copy h1,.hero-lead,.hero-note { margin-left:auto; margin-right:auto; }
+  .button-row { justify-content:center; }
+  .hero-phones { min-height:430px; }
+  .phone-main { right:50%; transform:translateX(50%); }
+  .phone-side { display:none; }
+  .feature-grid,.partner-cards { grid-template-columns:repeat(2,1fr); }
+  .capability-grid { grid-template-columns:repeat(2,1fr); }
+}
+
+@media (max-width: 600px) {
+  .hero-section { min-height:0; padding:64px 0 20px; }
+  .hero-copy h1 { font-size:46px; letter-spacing:-1.8px; }
+  .hero-lead { font-size:17px; }
+  .hero-phones { min-height:380px; transform:scale(.88); transform-origin:top center; }
+  .trust-strip { grid-template-columns:1fr 1fr; }
+  .section { padding:72px 0; }
+  .section-heading h2,.vision-grid h2,.partnership-hero h1 { font-size:36px; }
+  .feature-grid,.partner-cards,.capability-grid { grid-template-columns:1fr; }
+  .early-card { align-items:flex-start; flex-direction:column; padding:30px; }
+  .early-card h2 { font-size:32px; }
+  .button { width:100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior:auto; }
+  *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+}
+
 /* Responsive utilities */
 @media (max-width: 768px) {
   .mobile-hidden {
