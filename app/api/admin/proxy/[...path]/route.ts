@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ACCESS_COOKIE, clearAuthCookies, refreshAccess, setAuthCookies, staffRequest } from '../../../../../lib/admin-server';
 
-const allowed = new Set(['overview', 'users', 'wallets', 'transactions', 'esims', 'content', 'support', 'marketing', 'partnerships', 'audit']);
+const allowed = new Set(['overview', 'users', 'kyc', 'roles', 'wallets', 'transactions', 'esims', 'content', 'support', 'marketing', 'partnerships', 'audit']);
 const telecom = new Set(['system-health', 'metrics', 'calls', 'fraud-alerts', 'providers', 'numbers', 'assignments', 'cdrs', 'rates', 'webhook-events']);
 
 function target(parts: string[], search: string) {

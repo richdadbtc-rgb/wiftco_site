@@ -7,17 +7,20 @@ import { useRouter } from 'next/navigation';
 type AnyRow = Record<string, any>;
 type Session = { email: string; first_name: string; last_name: string; is_superuser: boolean };
 const sections = [
-  ['dashboard','Dashboard','⌂'], ['users','Users','♙'], ['wallets','Wallets','▣'],
-  ['transactions','Transactions','⇄'], ['esims','eSIM Management','▤'], ['content','Content & Messages','◫'],
-  ['telecom','Telecom','◉'], ['partnerships','Partnerships','◇'], ['marketing','Marketing','✦'],
-  ['support','Support','?'], ['audit','Audit Logs','≡'],
+  ['dashboard','Dashboard','⌂',''],
+  ['users','Users','♙','MANAGEMENT'], ['kyc','KYC Verification','◇',''], ['subscribers','Email Subscribers','✉',''], ['campaigns','Email Campaigns','⚡',''],
+  ['wallets','Wallets','▣','SERVICES'], ['transactions','Transactions','↔',''], ['esims','eSIM Management','◉',''], ['telecom','Telecom','⌁',''],
+  ['partnerships','Overview','◆','PARTNERSHIPS'], ['companies','Companies','▦',''], ['contacts','Contacts','♙',''], ['outreach','Outreach','✉',''], ['templates','Templates','▤',''], ['followups','Follow-ups','◷',''], ['documents','Documents','▧',''], ['partnership_settings','Settings','⚙',''],
+  ['posts','Feed Posts','▤','SOCIAL'], ['comments','Comments','☵',''], ['reactions','Reactions','☆',''],
+  ['messages','Messages','▰','COMMUNICATION'],
+  ['admins','Admins','♟','SYSTEM'], ['roles','Roles & Permissions','⬡',''], ['support','Support','?',''], ['audit','Audit Logs','▧',''],
 ];
 const sectionInfo: Record<string,[string,string]> = {
   users:['Users','Review accounts, verification and access'], wallets:['Wallets','Monitor customer wallet balances'],
   transactions:['Transactions','Track all wallet activity'], esims:['eSIM Management','Monitor customer eSIMs'],
-  content:['Content & Messages','Moderate posts, messages and notifications'], telecom:['Telecom operations','Live provider and calling health'],
+  kyc:['KYC Verification','Review verification status without exposing sensitive identity numbers'], subscribers:['Email Subscribers','Manage launch and product update subscribers'], campaigns:['Email Campaigns','Monitor marketing campaign delivery'], telecom:['Telecom operations','Live provider and calling health'],
   partnerships:['Partnerships','Manage the telecom outreach pipeline'], marketing:['Marketing','Subscribers and email campaign delivery'],
-  support:['Support','Resolve customer support requests'], audit:['Audit logs','Review administrator actions'],
+  companies:['Partnership Companies','Track prospective and active partners'], contacts:['Partnership Contacts','Manage partner contacts'], outreach:['Partnership Outreach','Review outbound partnership emails'], templates:['Email Templates','Manage partnership outreach templates'], followups:['Follow-ups','Track upcoming partnership actions'], documents:['Partnership Documents','Review shared partnership materials'], partnership_settings:['Partnership Settings','Review outreach sender configuration'], posts:['Feed Posts','Moderate social feed posts'], comments:['Comments','Review user comments'], reactions:['Reactions','Monitor feed reactions'], messages:['Messages','Review platform messaging activity'], admins:['Administrators','Review staff accounts'], roles:['Roles & Permissions','Review administrator permission groups'], support:['Support','Resolve customer support requests'], audit:['Audit logs','Review administrator actions'],
 };
 
 async function api(path: string, init?: RequestInit) {
@@ -65,7 +68,14 @@ export default function AdminDashboard() {
         const resources = ['system-health','metrics','calls','providers','numbers','assignments','cdrs','rates','webhook-events','fraud-alerts'];
         const values = await Promise.all(resources.map(p => api(`telecom/${p}`)));
         result = Object.fromEntries(resources.map((key,index)=>[key.replaceAll('-','_'),values[index]]));
-      } else result = await api(`${section}${['users','wallets','transactions','esims','audit'].includes(section) ? `?search=${encodeURIComponent(search)}` : ''}`);
+      } else if (['subscribers','campaigns'].includes(section)) result = (await api('marketing'))[section];
+      else if (['companies','contacts','outreach','templates','followups','documents','partnership_settings'].includes(section)) {
+        const partnership = await api('partnerships');
+        const key = section === 'outreach' ? 'emails' : section === 'partnership_settings' ? 'settings' : section;
+        result = partnership[key];
+      } else if (['posts','comments','reactions','messages'].includes(section)) result = (await api('content'))[section];
+      else if (section === 'admins') result = await api(`users?status=staff&search=${encodeURIComponent(search)}`);
+      else result = await api(`${section}${['users','kyc','wallets','transactions','esims','audit'].includes(section) ? `?search=${encodeURIComponent(search)}` : ''}`);
       setData(result);
     } catch (reason:any) { if (reason.message === 'SESSION_EXPIRED') router.replace('/admin/login'); else setError(reason.message); }
     finally { setLoading(false); }
@@ -81,7 +91,7 @@ export default function AdminDashboard() {
   return <main className="admin-shell">
     <aside className={`admin-sidebar ${menu?'open':''}`}>
       <div className="sidebar-brand"><Image src="/wiftco%20icon.png" alt="" width={38} height={38}/><strong>Wiftco<span>Admin</span></strong><button onClick={()=>setMenu(false)}>×</button></div>
-      <nav>{sections.map(([id,label,icon],i)=><div key={id}>{[1,4,6,9].includes(i)&&<small>{i===1?'MANAGEMENT':i===4?'SERVICES':i===6?'OPERATIONS':'SYSTEM'}</small>}<button className={section===id?'active':''} onClick={()=>{setSection(id);setSearch('');setMenu(false)}}><i>{icon}</i>{label}</button></div>)}</nav>
+      <nav>{sections.map(([id,label,icon,group])=><div key={id}>{group&&<small>{group}</small>}<button className={section===id?'active':''} onClick={()=>{setSection(id);setSearch('');setMenu(false)}}><i>{icon}</i>{label}<em>›</em></button></div>)}</nav>
       <div className="system-online"><i/> System online</div>
     </aside>
     <section className="admin-main">
@@ -101,8 +111,8 @@ function Dashboard({data}:{data:any}) {
 function PanelTitle({title,subtitle}:{title:string,subtitle?:string}) { return <div className="panel-title"><div><h2>{title}</h2>{subtitle&&<span>{subtitle}</span>}</div></div>; }
 function Section({section,data,toggleUser}:{section:string,data:any,toggleUser:(r:AnyRow)=>void}) {
   if (section==='telecom') return <div className="dashboard-grid"><article className="panel full"><PanelTitle title="System health"/><ObjectCards value={data.system_health}/></article><article className="panel full"><PanelTitle title="Telecom metrics"/><ObjectCards value={data.metrics}/></article>{Object.entries(data).filter(([key])=>!['system_health','metrics'].includes(key)).map(([key,value]:[string,any])=><article className="panel full" key={key}><PanelTitle title={pretty(key)}/><DataTable rows={value?.results||value?.items||(Array.isArray(value)?value:[])}/></article>)}</div>;
-  if (['content','marketing','partnerships'].includes(section)) return <div className="stacked-panels">{Object.entries(data||{}).map(([key,value])=><article className="panel" key={key}><PanelTitle title={pretty(key)}/><DataTable rows={Array.isArray(value)?value:[]}/></article>)}</div>;
+  if (section==='partnerships') return <div className="stacked-panels">{Object.entries(data||{}).map(([key,value])=><article className="panel" key={key}><PanelTitle title={pretty(key)}/><DataTable rows={Array.isArray(value)?value:[]}/></article>)}</div>;
   const rows=Array.isArray(data)?data:(data?.results||[]);
-  return <article className="panel full"><PanelTitle title={`${pretty(section)} (${data?.count ?? rows.length})`}/><DataTable rows={rows} onToggle={section==='users'?toggleUser:undefined}/></article>;
+  return <article className="panel full"><PanelTitle title={`${pretty(section)} (${data?.count ?? rows.length})`}/><DataTable rows={rows} onToggle={['users','admins'].includes(section)?toggleUser:undefined}/></article>;
 }
 function ObjectCards({value}:{value:any}) { const entries=Object.entries(value?.metrics||value||{}).filter(([,v])=>['string','number','boolean'].includes(typeof v)); return <div className="object-cards">{entries.map(([key,val])=><div key={key}><span>{pretty(key)}</span><b>{display(val,key)}</b></div>)}</div>; }
