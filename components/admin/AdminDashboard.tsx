@@ -118,7 +118,13 @@ function Section({section,data,crm,reload,toggleUser}:{section:string,data:any,c
   if(section==='wave1') return <CampaignReview rows={data||[]} crm={crm} reload={reload}/>;
   const rows=Array.isArray(data)?data:(data?.results||[]);
   const crmSection=['companies','contacts','outreach','templates','followups','documents','partnership_settings'].includes(section);
-  return <>{crmSection&&<CrmAction section={section} crm={crm} reload={reload}/>}<article className="panel full"><PanelTitle title={`${pretty(section)} (${data?.count ?? rows.length})`}/><DataTable rows={rows} onToggle={['users','admins'].includes(section)?toggleUser:undefined}/></article></>;
+  return <>{crmSection&&<CrmAction section={section} crm={crm} reload={reload}/>} {section==='inbox'&&<InboxSync reload={reload}/>}<article className="panel full"><PanelTitle title={`${pretty(section)} (${data?.count ?? rows.length})`}/><DataTable rows={rows} onToggle={['users','admins'].includes(section)?toggleUser:undefined}/></article></>;
+}
+
+function InboxSync({reload}:{reload:()=>void}) {
+  const [busy,setBusy]=useState(false); const [notice,setNotice]=useState('');
+  async function syncInbox(){setBusy(true);setNotice('');try{const result=await api('partnerships/inbox/sync',{method:'POST'});setNotice(`Inbox synced: ${result.imported} new, ${result.existing} already stored.`);reload();}catch(reason:any){setNotice(reason.message||'Could not sync inbox.');}finally{setBusy(false);}}
+  return <div className="crm-actions"><div><b>Resend inbox</b><span>Received emails normally arrive automatically. Sync recovers messages retained by Resend after a missed webhook.</span></div><button className="primary-button" disabled={busy} onClick={syncInbox}>{busy?'Syncing…':'↻ Sync inbox'}</button>{notice&&<small>{notice}</small>}</div>;
 }
 function ObjectCards({value}:{value:any}) { const entries=Object.entries(value?.metrics||value||{}).filter(([,v])=>['string','number','boolean'].includes(typeof v)); return <div className="object-cards">{entries.map(([key,val])=><div key={key}><span>{pretty(key)}</span><b>{display(val,key)}</b></div>)}</div>; }
 
