@@ -25,12 +25,12 @@ export default function HomePage() {
         <div className="hero-copy">
           <span className="eyebrow">THE NEXT WAY TO CONNECT</span>
           <h1>One app for the way you <span>connect.</span></h1>
-          <p className="hero-lead">Message, call, manage connectivity and access everyday digital services through one beautifully simple experience.</p>
-          <p className="hero-note">Wiftco is building a digital-first communications platform for Nigeria and beyond.</p>
+          <p className="hero-lead">For the quick “I’m outside”, the long catch-ups, the data top-ups and the everyday things that keep life moving.</p>
+          <p className="hero-note">Message, call, manage connectivity and access everyday digital services through one beautifully simple experience.</p>
           <div className="button-row"><Link className="button primary" href="/download">Get early access</Link><Link className="button secondary" href="/features">Explore Wiftco</Link></div>
           <Link className="partner-link" href="/business/partnerships">Telecom or technology partner? <b>Partner with Wiftco →</b></Link>
         </div>
-        <div className="hero-phones" aria-label="Wiftco mobile application preview"><div className="phone phone-main"><PhoneMockup screen="dashboard" scale={0.58}/></div><div className="phone phone-side"><PhoneMockup screen="chat" scale={0.45} tilt={-7}/></div></div>
+        <div className="hero-phones" aria-label="Wiftco mobile application preview"><div className="phone phone-main"><PhoneMockup screen="dashboard" scale={0.58}/></div><div className="phone phone-side"><PhoneMockup screen="chat" scale={0.45} tilt={-7}/></div><div className="hero-chat chat-a"><span>AM</span><p>Are you free for a quick call?</p></div><div className="hero-chat chat-b"><span>CO</span><p>Yes — give me one minute 👋</p></div></div>
       </div></Container>
     </section>
     <section className="trust-strip" aria-label="Product status">{trust.map(item=><span key={item}>✓ {item}</span>)}</section>
