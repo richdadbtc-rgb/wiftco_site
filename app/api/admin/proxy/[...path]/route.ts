@@ -13,7 +13,7 @@ function target(parts: string[], search: string) {
 async function handle(request: NextRequest, context: { params: { path: string[] } }) {
   const path = target(context.params.path, request.nextUrl.search);
   if (!path) return NextResponse.json({ detail: 'Admin resource not allowed.' }, { status: 404 });
-  const body = ['GET', 'HEAD'].includes(request.method) ? undefined : await request.text();
+  const body = ['GET', 'HEAD'].includes(request.method) ? undefined : await request.arrayBuffer();
   const init = { method: request.method, body, headers: body ? { 'Content-Type': request.headers.get('content-type') || 'application/json' } : undefined };
   let token = request.cookies.get(ACCESS_COOKIE)?.value;
   let refreshed = null;
