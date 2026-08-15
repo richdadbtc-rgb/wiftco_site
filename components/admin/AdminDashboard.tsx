@@ -44,15 +44,16 @@ const display = (value: any, key='') => {
   return String(value);
 };
 
-function DataTable({ rows, onToggle, actionLabel }: { rows: AnyRow[]; onToggle?: (row: AnyRow) => void; actionLabel?: string }) {
+function DataTable({ rows, onToggle, actionLabel }: { rows: unknown; onToggle?: (row: AnyRow) => void; actionLabel?: string }) {
+  const safeRows: AnyRow[] = Array.isArray(rows) ? rows.filter(row => row && typeof row === 'object') : [];
   const keys = useMemo(() => {
     const preferred = ['name','email','user','company','reference','subject','type','status','balance','amount','active','verified','created_at','joined'];
-    const all = Array.from(new Set(rows.flatMap(Object.keys))).filter(k => k !== 'id' && !['message','content','body','attachments'].includes(k));
+    const all = Array.from(new Set(safeRows.flatMap(Object.keys))).filter(k => k !== 'id' && !['message','content','body','attachments'].includes(k));
     return [...preferred.filter(k => all.includes(k)), ...all.filter(k => !preferred.includes(k))].slice(0, 7);
-  }, [rows]);
-  if (!rows.length) return <div className="empty-state"><b>No records yet</b><span>New activity will appear here automatically.</span></div>;
+  }, [safeRows]);
+  if (!safeRows.length) return <div className="empty-state"><b>No records yet</b><span>New activity will appear here automatically.</span></div>;
   return <div className="table-wrap"><table><thead><tr>{keys.map(k => <th key={k}>{pretty(k)}</th>)}{onToggle && <th>Action</th>}</tr></thead>
-    <tbody>{rows.map((row, index) => <tr key={row.id ?? index}>{keys.map(key => <td key={key}>{['status','active','verified','priority'].includes(key) ? <span className={`status status-${String(row[key]).toLowerCase()}`}>{display(row[key],key)}</span> : display(row[key],key)}</td>)}{onToggle && <td><button className="tiny-button" onClick={() => onToggle(row)}>{actionLabel||(row.active ? 'Deactivate' : 'Activate')}</button></td>}</tr>)}</tbody></table></div>;
+    <tbody>{safeRows.map((row, index) => <tr key={row.id ?? index}>{keys.map(key => <td key={key}>{['status','active','verified','priority'].includes(key) ? <span className={`status status-${String(row[key]).toLowerCase()}`}>{display(row[key],key)}</span> : display(row[key],key)}</td>)}{onToggle && <td><button className="tiny-button" onClick={() => onToggle(row)}>{actionLabel||(row.active ? 'Deactivate' : 'Activate')}</button></td>}</tr>)}</tbody></table></div>;
 }
 
 export default function AdminDashboard() {
