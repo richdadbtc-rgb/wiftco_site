@@ -47,7 +47,7 @@ const display = (value: any, key='') => {
 function DataTable({ rows, onToggle, actionLabel }: { rows: AnyRow[]; onToggle?: (row: AnyRow) => void; actionLabel?: string }) {
   const keys = useMemo(() => {
     const preferred = ['name','email','user','company','reference','subject','type','status','balance','amount','active','verified','created_at','joined'];
-    const all = Array.from(new Set(rows.flatMap(Object.keys))).filter(k => k !== 'id' && !['message','content'].includes(k));
+    const all = Array.from(new Set(rows.flatMap(Object.keys))).filter(k => k !== 'id' && !['message','content','body','attachments'].includes(k));
     return [...preferred.filter(k => all.includes(k)), ...all.filter(k => !preferred.includes(k))].slice(0, 7);
   }, [rows]);
   if (!rows.length) return <div className="empty-state"><b>No records yet</b><span>New activity will appear here automatically.</span></div>;
@@ -118,13 +118,21 @@ function Section({section,data,crm,reload,toggleUser}:{section:string,data:any,c
   if(section==='wave1') return <CampaignReview rows={data||[]} crm={crm} reload={reload}/>;
   const rows=Array.isArray(data)?data:(data?.results||[]);
   const crmSection=['companies','contacts','outreach','templates','followups','documents','partnership_settings'].includes(section);
-  return <>{crmSection&&<CrmAction section={section} crm={crm} reload={reload}/>} {section==='inbox'&&<InboxSync reload={reload}/>}<article className="panel full"><PanelTitle title={`${pretty(section)} (${data?.count ?? rows.length})`}/><DataTable rows={rows} onToggle={['users','admins'].includes(section)?toggleUser:undefined}/></article></>;
+  if(section==='inbox') return <><InboxSync reload={reload}/><InboxTable rows={rows}/></>;
+  return <>{crmSection&&<CrmAction section={section} crm={crm} reload={reload}/>}<article className="panel full"><PanelTitle title={`${pretty(section)} (${data?.count ?? rows.length})`}/><DataTable rows={rows} onToggle={['users','admins'].includes(section)?toggleUser:undefined}/></article></>;
 }
 
 function InboxSync({reload}:{reload:()=>void}) {
   const [busy,setBusy]=useState(false); const [notice,setNotice]=useState('');
   async function syncInbox(){setBusy(true);setNotice('');try{const result=await api('partnerships/inbox/sync',{method:'POST'});setNotice(`Inbox synced: ${result.imported} new, ${result.existing} already stored.`);reload();}catch(reason:any){setNotice(reason.message||'Could not sync inbox.');}finally{setBusy(false);}}
   return <div className="crm-actions"><div><b>Resend inbox</b><span>Received emails normally arrive automatically. Sync recovers messages retained by Resend after a missed webhook.</span></div><button className="primary-button" disabled={busy} onClick={syncInbox}>{busy?'Syncing…':'↻ Sync inbox'}</button>{notice&&<small>{notice}</small>}</div>;
+}
+
+function InboxTable({rows}:{rows:AnyRow[]}) {
+  const [selected,setSelected]=useState<AnyRow|null>(null);
+  useEffect(()=>{if(!selected)return;const close=(event:KeyboardEvent)=>event.key==='Escape'&&setSelected(null);window.addEventListener('keydown',close);return()=>window.removeEventListener('keydown',close);},[selected]);
+  const attachments=Array.isArray(selected?.attachments)?selected.attachments:[];
+  return <><article className="panel full"><PanelTitle title={`Inbox (${rows.length})`}/><DataTable rows={rows} onToggle={setSelected} actionLabel="View email"/></article>{selected&&<div className="modal-backdrop" onMouseDown={()=>setSelected(null)}><section className="crm-modal inbox-modal" role="dialog" aria-modal="true" aria-labelledby="inbox-email-subject" onMouseDown={event=>event.stopPropagation()}><header><div><span className="eyebrow">RECEIVED EMAIL</span><h2 id="inbox-email-subject">{selected.subject||'(No subject)'}</h2></div><button type="button" aria-label="Close email" onClick={()=>setSelected(null)}>×</button></header><div className="inbox-meta"><div><span>From</span><b>{selected.from_email||'Unknown sender'}</b></div><div><span>To</span><b>{Array.isArray(selected.to)?selected.to.join(', '):selected.to||'partnerships@wiftco.com'}</b></div><div><span>Received</span><b>{display(selected.received_at,'received_at')}</b></div><div><span>Content status</span><b>{pretty(selected.status||'unknown')}</b></div></div><div className="inbox-body">{selected.body||'The message body is not available yet. Use Sync inbox to retry retrieval.'}</div>{attachments.length>0&&<div className="inbox-attachments"><span>Attachments</span>{attachments.map((item:AnyRow,index:number)=><div key={item.id||index}>▧ {item.filename||`Attachment ${index+1}`} {item.content_type&&<small>{item.content_type}</small>}</div>)}</div>}<footer><button type="button" className="primary-button" onClick={()=>setSelected(null)}>Close</button></footer></section></div>}</>;
 }
 function ObjectCards({value}:{value:any}) { const entries=Object.entries(value?.metrics||value||{}).filter(([,v])=>['string','number','boolean'].includes(typeof v)); return <div className="object-cards">{entries.map(([key,val])=><div key={key}><span>{pretty(key)}</span><b>{display(val,key)}</b></div>)}</div>; }
 
