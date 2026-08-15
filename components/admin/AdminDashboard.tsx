@@ -1,0 +1,108 @@
+'use client';
+
+import Image from 'next/image';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+type AnyRow = Record<string, any>;
+type Session = { email: string; first_name: string; last_name: string; is_superuser: boolean };
+const sections = [
+  ['dashboard','Dashboard','⌂'], ['users','Users','♙'], ['wallets','Wallets','▣'],
+  ['transactions','Transactions','⇄'], ['esims','eSIM Management','▤'], ['content','Content & Messages','◫'],
+  ['telecom','Telecom','◉'], ['partnerships','Partnerships','◇'], ['marketing','Marketing','✦'],
+  ['support','Support','?'], ['audit','Audit Logs','≡'],
+];
+const sectionInfo: Record<string,[string,string]> = {
+  users:['Users','Review accounts, verification and access'], wallets:['Wallets','Monitor customer wallet balances'],
+  transactions:['Transactions','Track all wallet activity'], esims:['eSIM Management','Monitor customer eSIMs'],
+  content:['Content & Messages','Moderate posts, messages and notifications'], telecom:['Telecom operations','Live provider and calling health'],
+  partnerships:['Partnerships','Manage the telecom outreach pipeline'], marketing:['Marketing','Subscribers and email campaign delivery'],
+  support:['Support','Resolve customer support requests'], audit:['Audit logs','Review administrator actions'],
+};
+
+async function api(path: string, init?: RequestInit) {
+  const response = await fetch(`/api/admin/proxy/${path}`, { ...init, cache: 'no-store' });
+  if (response.status === 401) throw new Error('SESSION_EXPIRED');
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(body.detail || 'Request failed');
+  return body;
+}
+const pretty = (key: string) => key.replaceAll('_',' ').replace(/\b\w/g, letter => letter.toUpperCase());
+const display = (value: any, key='') => {
+  if (value === null || value === undefined || value === '') return '—';
+  if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+  if (key.includes('amount') || key.includes('balance') || key.includes('volume') || key.includes('revenue') || key.includes('cost')) {
+    const number = Number(value); if (!Number.isNaN(number)) return `₦${number.toLocaleString('en-NG', { minimumFractionDigits: 2 })}`;
+  }
+  if ((key.includes('date') || key.includes('_at') || key === 'joined') && !Number.isNaN(Date.parse(value))) return new Date(value).toLocaleString();
+  if (typeof value === 'object') return JSON.stringify(value);
+  return String(value);
+};
+
+function DataTable({ rows, onToggle }: { rows: AnyRow[]; onToggle?: (row: AnyRow) => void }) {
+  const keys = useMemo(() => {
+    const preferred = ['name','email','user','company','reference','subject','type','status','balance','amount','active','verified','created_at','joined'];
+    const all = Array.from(new Set(rows.flatMap(Object.keys))).filter(k => k !== 'id' && !['message','content'].includes(k));
+    return [...preferred.filter(k => all.includes(k)), ...all.filter(k => !preferred.includes(k))].slice(0, 7);
+  }, [rows]);
+  if (!rows.length) return <div className="empty-state"><b>No records yet</b><span>New activity will appear here automatically.</span></div>;
+  return <div className="table-wrap"><table><thead><tr>{keys.map(k => <th key={k}>{pretty(k)}</th>)}{onToggle && <th>Action</th>}</tr></thead>
+    <tbody>{rows.map((row, index) => <tr key={row.id ?? index}>{keys.map(key => <td key={key}>{['status','active','verified','priority'].includes(key) ? <span className={`status status-${String(row[key]).toLowerCase()}`}>{display(row[key],key)}</span> : display(row[key],key)}</td>)}{onToggle && <td><button className="tiny-button" onClick={() => onToggle(row)}>{row.active ? 'Deactivate' : 'Activate'}</button></td>}</tr>)}</tbody></table></div>;
+}
+
+export default function AdminDashboard() {
+  const router = useRouter();
+  const [section,setSection] = useState('dashboard'); const [session,setSession] = useState<Session|null>(null);
+  const [data,setData] = useState<any>(null); const [loading,setLoading] = useState(true); const [error,setError] = useState('');
+  const [menu,setMenu] = useState(false); const [search,setSearch] = useState('');
+
+  const load = useCallback(async () => {
+    setLoading(true); setError('');
+    try {
+      let result:any;
+      if (section === 'dashboard') result = await api('overview');
+      else if (section === 'telecom') {
+        const resources = ['system-health','metrics','calls','providers','numbers','assignments','cdrs','rates','webhook-events','fraud-alerts'];
+        const values = await Promise.all(resources.map(p => api(`telecom/${p}`)));
+        result = Object.fromEntries(resources.map((key,index)=>[key.replaceAll('-','_'),values[index]]));
+      } else result = await api(`${section}${['users','wallets','transactions','esims','audit'].includes(section) ? `?search=${encodeURIComponent(search)}` : ''}`);
+      setData(result);
+    } catch (reason:any) { if (reason.message === 'SESSION_EXPIRED') router.replace('/admin/login'); else setError(reason.message); }
+    finally { setLoading(false); }
+  },[section,search,router]);
+
+  useEffect(() => { fetch('/api/admin/auth/session').then(async r => { if (!r.ok) throw 0; setSession(await r.json()); }).catch(() => router.replace('/admin/login')); },[router]);
+  useEffect(() => { const timer=setTimeout(load, search ? 300 : 0); return () => clearTimeout(timer); },[load,search]);
+
+  async function logout() { await fetch('/api/admin/auth/logout',{method:'POST'}); router.replace('/admin/login'); router.refresh(); }
+  async function toggleUser(row:AnyRow) { await api(`users/${row.id}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({is_active:!row.active})}); load(); }
+
+  const title = section === 'dashboard' ? ['Dashboard',`Welcome back, ${session?.first_name || 'Admin'}. Here’s what’s happening with Wiftco.`] : sectionInfo[section];
+  return <main className="admin-shell">
+    <aside className={`admin-sidebar ${menu?'open':''}`}>
+      <div className="sidebar-brand"><Image src="/wiftco%20icon.png" alt="" width={38} height={38}/><strong>Wiftco<span>Admin</span></strong><button onClick={()=>setMenu(false)}>×</button></div>
+      <nav>{sections.map(([id,label,icon],i)=><div key={id}>{[1,4,6,9].includes(i)&&<small>{i===1?'MANAGEMENT':i===4?'SERVICES':i===6?'OPERATIONS':'SYSTEM'}</small>}<button className={section===id?'active':''} onClick={()=>{setSection(id);setSearch('');setMenu(false)}}><i>{icon}</i>{label}</button></div>)}</nav>
+      <div className="system-online"><i/> System online</div>
+    </aside>
+    <section className="admin-main">
+      <header className="admin-topbar"><button className="menu-button" onClick={()=>setMenu(true)}>☰</button><div className="global-search">⌕ <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search current section…" /></div><div className="admin-identity"><span><b>{session?.first_name || 'Admin'} {session?.last_name}</b><small>{session?.is_superuser?'Super Admin':'Administrator'}</small></span><div className="avatar">{session?.first_name?.[0] || 'A'}</div><button onClick={logout}>Log out</button></div></header>
+      <div className="admin-content"><div className="page-heading"><div><h1>{title?.[0]}</h1><p>{title?.[1]}</p></div><button className="refresh" onClick={load}>↻ Refresh</button></div>
+        {loading ? <div className="loading-grid">{[1,2,3,4].map(i=><i key={i}/>)}</div> : error ? <div className="error-panel"><b>Could not load this section</b><span>{error}</span><button onClick={load}>Try again</button></div> : section==='dashboard' ? <Dashboard data={data}/> : <Section section={section} data={data} toggleUser={toggleUser}/>} 
+      </div>
+    </section>
+  </main>;
+}
+
+function Dashboard({data}:{data:any}) {
+  const m=data?.metrics||{}; const cards=[['Total users',m.total_users,'♙','violet'],['Active users',m.active_users,'✓','green'],['Wallet balance',m.wallet_balance,'▣','blue'],['Transactions',m.transactions,'⇄','orange'],['Active eSIMs',m.active_esims,'▤','pink']];
+  return <><div className="metric-grid">{cards.map(([label,value,icon,color])=><article className="metric-card" key={String(label)}><div><span>{label}</span><strong>{label==='Wallet balance'?display(value,'balance'):Number(value||0).toLocaleString()}</strong><small>Live system total</small></div><i className={String(color)}>{icon}</i></article>)}</div>
+  <div className="dashboard-grid"><article className="panel wide"><PanelTitle title="Recent users" subtitle={`${m.verified_users||0} verified accounts`}/><DataTable rows={data.recent_users||[]}/></article><article className="panel"><PanelTitle title="System snapshot"/><div className="snapshot"><div><b>{m.open_support||0}</b><span>Open support</span></div><div><b>{m.partnership_prospects||0}</b><span>Partnership leads</span></div><div><b>{m.marketing_subscribers||0}</b><span>Subscribers</span></div><div><b>{display(m.transaction_volume,'volume')}</b><span>Transaction volume</span></div></div></article><article className="panel full"><PanelTitle title="Recent transactions"/><DataTable rows={data.recent_transactions||[]}/></article></div></>;
+}
+function PanelTitle({title,subtitle}:{title:string,subtitle?:string}) { return <div className="panel-title"><div><h2>{title}</h2>{subtitle&&<span>{subtitle}</span>}</div></div>; }
+function Section({section,data,toggleUser}:{section:string,data:any,toggleUser:(r:AnyRow)=>void}) {
+  if (section==='telecom') return <div className="dashboard-grid"><article className="panel full"><PanelTitle title="System health"/><ObjectCards value={data.system_health}/></article><article className="panel full"><PanelTitle title="Telecom metrics"/><ObjectCards value={data.metrics}/></article>{Object.entries(data).filter(([key])=>!['system_health','metrics'].includes(key)).map(([key,value]:[string,any])=><article className="panel full" key={key}><PanelTitle title={pretty(key)}/><DataTable rows={value?.results||value?.items||(Array.isArray(value)?value:[])}/></article>)}</div>;
+  if (['content','marketing','partnerships'].includes(section)) return <div className="stacked-panels">{Object.entries(data||{}).map(([key,value])=><article className="panel" key={key}><PanelTitle title={pretty(key)}/><DataTable rows={Array.isArray(value)?value:[]}/></article>)}</div>;
+  const rows=Array.isArray(data)?data:(data?.results||[]);
+  return <article className="panel full"><PanelTitle title={`${pretty(section)} (${data?.count ?? rows.length})`}/><DataTable rows={rows} onToggle={section==='users'?toggleUser:undefined}/></article>;
+}
+function ObjectCards({value}:{value:any}) { const entries=Object.entries(value?.metrics||value||{}).filter(([,v])=>['string','number','boolean'].includes(typeof v)); return <div className="object-cards">{entries.map(([key,val])=><div key={key}><span>{pretty(key)}</span><b>{display(val,key)}</b></div>)}</div>; }
