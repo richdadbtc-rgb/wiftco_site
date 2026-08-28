@@ -33,6 +33,21 @@ export default function Footer() {
             <a href="mailto:partnerships@wiftco.com" style={{ display: 'inline-block', marginTop: 18, color: '#cdb8ff', textDecoration: 'none' }}>
               partnerships@wiftco.com
             </a>
+            <div style={{ marginTop: 20 }}>
+              <div style={{ marginBottom: 9, color: 'rgba(255,255,255,.48)', fontSize: 9, fontWeight: 800, letterSpacing: 1.4 }}>FOLLOW WIFTCO</div>
+              <a
+                href={LINKS.x}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Follow Wiftco on X"
+                title="Follow Wiftco on X"
+                style={{ display: 'inline-grid', width: 38, height: 38, placeItems: 'center', border: '1px solid rgba(255,255,255,.2)', borderRadius: '50%', color: '#fff', background: 'rgba(255,255,255,.07)', textDecoration: 'none' }}
+              >
+                <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="currentColor" d="M18.24 2H21l-6.03 6.9L22 22h-5.5l-4.3-5.63L7.27 22H4.5l6.4-7.32L4.16 2h5.64l3.9 5.15L18.24 2Zm-.97 17.7h1.53L8.96 4.18H7.32L17.27 19.7Z" />
+                </svg>
+              </a>
+            </div>
             <div className="footer-store-buttons" style={{ display: 'flex', flexWrap: 'wrap', gap: 9, marginTop: 22 }}>
               <a href={LINKS.playStore} target="_blank" rel="noreferrer" aria-label="Get Wiftco on Google Play" style={storeButtonStyle}>
                 <img src="/google-play-icon.svg" alt="" width={24} height={28} style={{ display: 'block', flexShrink: 0 }} />
