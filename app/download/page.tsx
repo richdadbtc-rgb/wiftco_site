@@ -53,7 +53,18 @@ export default function DownloadPage() {
                     </div>
                   </div>
                   <a href={LINKS.playStore} target="_blank" rel="noreferrer" aria-label="Get Wiftco on Google Play" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 22px', background: '#000', borderRadius: 14, border: '1px solid rgba(255,255,255,0.28)', cursor: 'pointer', textDecoration: 'none' }}>
-                    <div style={{ fontSize: 24 }} aria-hidden="true">▶</div>
+                    <svg
+                      width="28"
+                      height="31"
+                      viewBox="0 0 28 31"
+                      aria-hidden="true"
+                      style={{ flexShrink: 0 }}
+                    >
+                      <path fill="#00D7FE" d="M1.1 1.6c-.4.6-.6 1.4-.6 2.4v23c0 1 .2 1.8.6 2.4l13.2-13.9L1.1 1.6Z" />
+                      <path fill="#00F076" d="m14.3 15.5 4.4-4.6L3.4 2.1C2.5 1.6 1.7 1.4 1.1 1.6l13.2 13.9Z" />
+                      <path fill="#FF3A44" d="M1.1 29.4c.6.2 1.4 0 2.3-.5l15.4-8.8-4.5-4.6L1.1 29.4Z" />
+                      <path fill="#FFCE00" d="m25.2 13-6.5-3.8-4.4 4.6v3.4l4.5 4.6 6.4-3.7c2.4-1.4 2.4-3.7 0-5.1Z" />
+                    </svg>
                     <div>
                       <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.7)', letterSpacing: 0.5 }}>GET IT ON</div>
                       <div style={{ fontSize: 17, fontWeight: 700, color: '#fff', marginTop: 1 }}>Google Play</div>
