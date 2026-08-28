@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import Container from '@/components/Container';
@@ -10,6 +10,7 @@ import { useResponsive } from '@/lib/useResponsive';
 
 export default function DownloadPage() {
   const { isMobile } = useResponsive();
+  const [iosNotice, setIosNotice] = useState(false);
 
   return (
     <div style={{ fontFamily: SC.font, color: SC.ink }}>
@@ -45,32 +46,27 @@ export default function DownloadPage() {
               <div style={{ marginTop: 32 }}>
                 <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.55)', fontWeight: 600, letterSpacing: 2, marginBottom: 14 }}>MOBILE RELEASE STATUS</div>
                 <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 12 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 22px', background: '#000', borderRadius: 14, border: '1px solid rgba(255,255,255,0.15)' }}>
-                    <div style={{ fontSize: 24 }} aria-hidden="true">●</div>
+                  <button type="button" onClick={() => setIosNotice(true)} aria-label="Wiftco for iPhone is coming soon" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 22px', background: '#000', borderRadius: 14, border: '1px solid rgba(255,255,255,0.15)', cursor: 'pointer', textAlign: 'left' }}>
+                    <img src="/app-store-icon.svg" alt="" width={31} height={31} style={{ display: 'block', flexShrink: 0 }} />
                     <div>
-                      <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.7)', letterSpacing: 0.5 }}>PREPARING FOR RELEASE</div>
-                      <div style={{ fontSize: 17, fontWeight: 700, color: '#fff', marginTop: 1 }}>iOS</div>
+                      <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.7)', letterSpacing: 0.5 }}>COMING SOON ON THE</div>
+                      <div style={{ fontSize: 17, fontWeight: 700, color: '#fff', marginTop: 1 }}>App Store</div>
                     </div>
-                  </div>
+                  </button>
                   <a href={LINKS.playStore} target="_blank" rel="noreferrer" aria-label="Get Wiftco on Google Play" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 22px', background: '#000', borderRadius: 14, border: '1px solid rgba(255,255,255,0.28)', cursor: 'pointer', textDecoration: 'none' }}>
-                    <svg
-                      width="28"
-                      height="31"
-                      viewBox="0 0 28 31"
-                      aria-hidden="true"
-                      style={{ flexShrink: 0 }}
-                    >
-                      <path fill="#00D7FE" d="M1.1 1.6c-.4.6-.6 1.4-.6 2.4v23c0 1 .2 1.8.6 2.4l13.2-13.9L1.1 1.6Z" />
-                      <path fill="#00F076" d="m14.3 15.5 4.4-4.6L3.4 2.1C2.5 1.6 1.7 1.4 1.1 1.6l13.2 13.9Z" />
-                      <path fill="#FF3A44" d="M1.1 29.4c.6.2 1.4 0 2.3-.5l15.4-8.8-4.5-4.6L1.1 29.4Z" />
-                      <path fill="#FFCE00" d="m25.2 13-6.5-3.8-4.4 4.6v3.4l4.5 4.6 6.4-3.7c2.4-1.4 2.4-3.7 0-5.1Z" />
-                    </svg>
+                    <img src="/google-play-icon.svg" alt="" width={29} height={33} style={{ display: 'block', flexShrink: 0 }} />
                     <div>
                       <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.7)', letterSpacing: 0.5 }}>GET IT ON</div>
                       <div style={{ fontSize: 17, fontWeight: 700, color: '#fff', marginTop: 1 }}>Google Play</div>
                     </div>
                   </a>
                 </div>
+                {iosNotice && (
+                  <div role="status" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14, marginTop: 12, padding: '11px 14px', border: '1px solid rgba(255,255,255,.22)', borderRadius: 12, color: '#fff', background: 'rgba(255,255,255,.12)', fontSize: 13 }}>
+                    <span>Wiftco for iPhone is coming soon.</span>
+                    <button type="button" onClick={() => setIosNotice(false)} aria-label="Dismiss" style={{ border: 0, padding: 4, color: '#fff', background: 'transparent', cursor: 'pointer', fontSize: 18 }}>×</button>
+                  </div>
+                )}
               </div>
 
               <div style={{ display: 'flex', alignItems: isMobile ? 'flex-start' : 'center', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 12 : 28, marginTop: 36, fontSize: 13, color: 'rgba(255,255,255,0.75)' }}>
