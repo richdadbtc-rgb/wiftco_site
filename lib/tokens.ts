@@ -28,4 +28,8 @@ export const WEB = {
 export const LINKS = {
   playStore: 'https://play.google.com/store/apps/details?id=com.wiftco.app',
   x: 'https://x.com/PIMALLMETRO',
+  facebook: 'https://facebook.com/',
+  instagram: 'https://instagram.com/',
+  linkedin: 'https://linkedin.com/',
+  tiktok: 'https://tiktok.com/',
 } as const;
