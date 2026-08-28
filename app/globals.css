@@ -32,6 +32,30 @@ button {
   font-family: inherit;
 }
 
+.ben-floating-button {
+  position: fixed;
+  z-index: 900;
+  right: max(22px, env(safe-area-inset-right));
+  bottom: max(22px, env(safe-area-inset-bottom));
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 58px;
+  padding: 8px 18px 8px 8px;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg,#7628f4,#4d0bbd);
+  box-shadow: 0 16px 38px rgba(70,15,180,.36);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 800;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.ben-floating-button:hover { transform: translateY(-3px); box-shadow: 0 20px 46px rgba(70,15,180,.44); }
+.ben-floating-icon { display:grid; width:42px; height:42px; place-items:center; border-radius:50%; color:#5e17eb; background:#fff; }
+.ben-online-dot { width:8px; height:8px; border:2px solid rgba(255,255,255,.65); border-radius:50%; background:#18e66b; box-shadow:0 0 10px rgba(24,230,107,.8); }
+
 :focus-visible { outline: 3px solid rgba(94,23,235,.35); outline-offset: 3px; }
 .marketing-page { overflow: hidden; }
 .hero-section { position: relative; min-height: 720px; padding: 96px 0 72px; background: radial-gradient(circle at 82% 15%,rgba(94,23,235,.16),transparent 34%),linear-gradient(180deg,#fff 0%,#f7f3ff 100%); }
@@ -132,6 +156,8 @@ button {
 }
 
 @media (max-width: 600px) {
+  .ben-floating-button { right:14px; bottom:max(14px,env(safe-area-inset-bottom)); min-height:52px; padding:6px 14px 6px 6px; font-size:13px; }
+  .ben-floating-icon { width:40px; height:40px; }
   .hero-section { min-height:0; padding:64px 0 20px; }
   .hero-copy h1 { font-size:46px; letter-spacing:-1.8px; }
   .hero-lead { font-size:17px; }

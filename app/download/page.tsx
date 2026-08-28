@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import Container from '@/components/Container';
 import LaunchSignup from '@/components/LaunchSignup';
 import PhoneMockup from '@/components/PhoneMockup';
-import { SC } from '@/lib/tokens';
+import { LINKS, SC } from '@/lib/tokens';
 import { useResponsive } from '@/lib/useResponsive';
 
 export default function DownloadPage() {
@@ -45,23 +45,25 @@ export default function DownloadPage() {
               <div style={{ marginTop: 32 }}>
                 <div style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.55)', fontWeight: 600, letterSpacing: 2, marginBottom: 14 }}>MOBILE RELEASE STATUS</div>
                 <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 12 }}>
-                  {[
-                    { store: 'iOS', label: 'PREPARING FOR RELEASE', icon: '' },
-                    { store: 'Android', label: 'PREPARING FOR RELEASE', icon: '▶' },
-                  ].map((b, i) => (
-                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 22px', background: '#000', borderRadius: 14, border: '1px solid rgba(255,255,255,0.15)', cursor: 'pointer' }}>
-                      <div style={{ fontSize: 24 }}>{b.icon}</div>
-                      <div>
-                        <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.7)', letterSpacing: 0.5 }}>{b.label}</div>
-                        <div style={{ fontSize: 17, fontWeight: 700, color: '#fff', marginTop: 1 }}>{b.store}</div>
-                      </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 22px', background: '#000', borderRadius: 14, border: '1px solid rgba(255,255,255,0.15)' }}>
+                    <div style={{ fontSize: 24 }} aria-hidden="true">●</div>
+                    <div>
+                      <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.7)', letterSpacing: 0.5 }}>PREPARING FOR RELEASE</div>
+                      <div style={{ fontSize: 17, fontWeight: 700, color: '#fff', marginTop: 1 }}>iOS</div>
                     </div>
-                  ))}
+                  </div>
+                  <a href={LINKS.playStore} target="_blank" rel="noreferrer" aria-label="Get Wiftco on Google Play" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 22px', background: '#000', borderRadius: 14, border: '1px solid rgba(255,255,255,0.28)', cursor: 'pointer', textDecoration: 'none' }}>
+                    <div style={{ fontSize: 24 }} aria-hidden="true">▶</div>
+                    <div>
+                      <div style={{ fontSize: 9.5, color: 'rgba(255,255,255,0.7)', letterSpacing: 0.5 }}>GET IT ON</div>
+                      <div style={{ fontSize: 17, fontWeight: 700, color: '#fff', marginTop: 1 }}>Google Play</div>
+                    </div>
+                  </a>
                 </div>
               </div>
 
               <div style={{ display: 'flex', alignItems: isMobile ? 'flex-start' : 'center', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 12 : 28, marginTop: 36, fontSize: 13, color: 'rgba(255,255,255,0.75)' }}>
-                {[['Private', 'development'], ['Early access', 'updates'], ['Android', 'preparing for release']].map(([v, l], i) => (
+                {[['Private', 'development'], ['Early access', 'updates'], ['Android', 'available on Google Play']].map(([v, l], i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
                     <span style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>{v}</span>
                     <span>{l}</span>
@@ -94,7 +96,7 @@ export default function DownloadPage() {
               <div style={{ fontSize: 12, fontWeight: 700, color: SC.primary, letterSpacing: 2, marginBottom: 8 }}>SUPPORTED ON</div>
               <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: -0.6 }}>Mobile-first,<br />release preparation.</div>
             </div>
-            {[['iOS', 'Release details to follow'], ['Android', 'Preparing for release'], ['Availability', 'Early-access updates']].map(([v, l], i) => (
+            {[['iOS', 'Release details to follow'], ['Android', 'Available on Google Play'], ['Availability', 'Nigeria']].map(([v, l], i) => (
               <div key={i} style={{ padding: 20, background: '#FAFAFB', borderRadius: 14, border: `1px solid ${SC.hairline}` }}>
                 <div style={{ fontSize: 18, fontWeight: 700 }}>{v}</div>
                 <div style={{ fontSize: 13, color: SC.muted, marginTop: 2 }}>{l}</div>

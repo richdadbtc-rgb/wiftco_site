@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import BenFloatingButton from '@/components/BenFloatingButton';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.wiftco.com'),
@@ -22,7 +23,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <BenFloatingButton />
+      </body>
     </html>
   );
 }

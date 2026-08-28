@@ -24,3 +24,7 @@ export const WEB = {
   navH: 72,
   font: 'Outfit, Inter, "SF Pro Display", -apple-system, system-ui, sans-serif',
 } as const;
+
+export const LINKS = {
+  playStore: 'https://play.google.com/store/apps/details?id=com.wiftco.app',
+} as const;

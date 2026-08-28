@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { SC, WEB } from '@/lib/tokens';
+import { LINKS, SC, WEB } from '@/lib/tokens';
 import { IcoBolt } from '@/components/icons';
 import { useResponsive } from '@/lib/useResponsive';
 
@@ -59,7 +59,7 @@ export default function Nav({ dark = false }: NavProps) {
         {!isMobile && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <Link href="/download" style={{ fontSize: 13.5, color: muted, fontWeight: 500, textDecoration: 'none' }}>Sign in</Link>
-            <Link href="/download" style={{ padding: '8px 16px', background: dark ? '#fff' : SC.primary, color: dark ? SC.primary : '#fff', borderRadius: 10, fontSize: 13, fontWeight: 600, textDecoration: 'none', boxShadow: dark ? '0 10px 24px rgba(0,0,0,0.10)' : '0 10px 24px rgba(94,23,235,0.30)' }}>Get early access</Link>
+            <a href={LINKS.playStore} target="_blank" rel="noreferrer" style={{ padding: '8px 16px', background: dark ? '#fff' : SC.primary, color: dark ? SC.primary : '#fff', borderRadius: 10, fontSize: 13, fontWeight: 600, textDecoration: 'none', boxShadow: dark ? '0 10px 24px rgba(0,0,0,0.10)' : '0 10px 24px rgba(94,23,235,0.30)' }}>Get the app</a>
           </div>
         )}
 
@@ -105,9 +105,9 @@ export default function Nav({ dark = false }: NavProps) {
             })}
             <Link href="/business/partnerships" onClick={() => setOpen(false)} style={{display:'block',padding:'14px 24px',fontSize:17,fontWeight:500,color:SC.ink,textDecoration:'none',borderLeft:'3px solid transparent'}}>Telecom Partnerships</Link>
             <div style={{ margin: '16px 24px 0' }}>
-              <Link href="/download" onClick={() => setOpen(false)} style={{ display: 'block', textAlign: 'center', padding: '14px', background: SC.primary, color: '#fff', borderRadius: 12, fontSize: 15, fontWeight: 600, textDecoration: 'none', boxShadow: '0 8px 20px rgba(94,23,235,0.30)' }}>
-                Get early access ⚡
-              </Link>
+              <a href={LINKS.playStore} target="_blank" rel="noreferrer" onClick={() => setOpen(false)} style={{ display: 'block', textAlign: 'center', padding: '14px', background: SC.primary, color: '#fff', borderRadius: 12, fontSize: 15, fontWeight: 600, textDecoration: 'none', boxShadow: '0 8px 20px rgba(94,23,235,0.30)' }}>
+                Get Wiftco on Google Play
+              </a>
             </div>
           </div>
         </>

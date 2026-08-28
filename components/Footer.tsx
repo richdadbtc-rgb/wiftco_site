@@ -1,8 +1,9 @@
 'use client';
 import Link from 'next/link';
+import { LINKS } from '@/lib/tokens';
 
 const columns=[
-  ['Product',[['Messages','/features'],['Calls','/features'],['Connectivity','/features#connectivity'],['Wallet','/features'],['Ben','/features'],['Feed','/features']]],
+  ['Product',[['Google Play',LINKS.playStore],['Messages','/features'],['Calls','/features'],['Connectivity','/features#connectivity'],['Wallet','/features'],['Ben','/features'],['Feed','/features']]],
   ['Business',[['For Businesses','/business'],['Telecom Partnerships','/business/partnerships'],['Technology/API','/business'],['Contact','mailto:partnerships@wiftco.com']]],
   ['Company',[['About','/about'],['Careers','/careers'],['Press','/press'],['Blog','/blog']]],
   ['Legal',[['Privacy','/privacy'],['Terms','/terms'],['Account deletion','/account-deletion']]],
