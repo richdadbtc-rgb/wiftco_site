@@ -1,6 +1,7 @@
 import type {Metadata} from 'next'; import EditorialPage from '@/components/EditorialPage';
 export const metadata:Metadata={title:'About Wiftco',description:'Wiftco is a Nigerian technology company building a unified digital communications experience.'};
-export default function Page(){return <EditorialPage eyebrow="ABOUT WIFTCO" title="A simpler digital communications experience." intro="Wiftco is a Nigerian technology company building a new digital communications experience around messaging, connectivity and everyday services." items={[
+export default function Page(){return <EditorialPage eyebrow="ABOUT WIFTCO" title="A simpler digital experience for everyday life." intro="Wiftco Tech Services is a Nigerian technology company developing digital platforms that simplify access to communication, payments and everyday digital services. Our Wiftco mobile application allows users to access services such as airtime and mobile data purchases, bill payments, digital communication features and other technology-enabled services." items={[
 {title:'Our mission',body:'Make communication and digital connectivity feel coherent, accessible and beautifully simple.'},
-{title:'What we are building',body:'A cross-platform application and provider-independent control layer that can connect users to supported services through authorised partners.'},
+{title:'Available on Android',body:'The Wiftco mobile app is available on Google Play through our Early Access release while we continue testing and improving the experience.'},
+{title:'What we are building',body:'A cross-platform application and provider-independent technology layer that can connect users to supported services through authorised partners.'},
 {title:'How we work',body:'We build deliberately, communicate product status honestly and treat security, reconciliation and user authorisation as core product requirements.'}]} cta={{label:'Partner with Wiftco',href:'/business/partnerships'}}/>}

@@ -28,13 +28,13 @@ export default function DownloadPage() {
             <div>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '5px 12px', background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.18)', borderRadius: 999, fontSize: 12.5, marginBottom: 24 }}>
                 <span style={{ width: 6, height: 6, borderRadius: 3, background: SC.success, boxShadow: '0 0 8px #10B981', display: 'inline-block' }} />
-                Private development · early access
+                Android · Google Play Early Access
               </div>
               <h1 style={{ margin: 0, fontSize: isMobile ? 52 : 76, fontWeight: 800, letterSpacing: isMobile ? -2 : -2.8, lineHeight: 1 }}>
                 Get on the<br />list.
               </h1>
               <p style={{ marginTop: 24, fontSize: 18, color: 'rgba(255,255,255,0.75)', maxWidth: 480, lineHeight: 1.55 }}>
-                Join the Wiftco early-access list. We&apos;ll email you with genuine product and launch updates as release preparation progresses.
+                Download Wiftco for Android through Google Play Early Access, or join our update list for product news and future release announcements.
               </p>
 
               {/* Email capture */}
@@ -70,7 +70,7 @@ export default function DownloadPage() {
               </div>
 
               <div style={{ display: 'flex', alignItems: isMobile ? 'flex-start' : 'center', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 12 : 28, marginTop: 36, fontSize: 13, color: 'rgba(255,255,255,0.75)' }}>
-                {[['Private', 'development'], ['Early access', 'updates'], ['Android', 'available on Google Play']].map(([v, l], i) => (
+                {[['Early Access', 'release'], ['Product', 'updates'], ['Android', 'available on Google Play']].map(([v, l], i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
                     <span style={{ fontSize: 22, fontWeight: 800, color: '#fff' }}>{v}</span>
                     <span>{l}</span>

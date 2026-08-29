@@ -3,12 +3,13 @@
 import type React from 'react';
 import Link from 'next/link';
 import { LINKS } from '@/lib/tokens';
+import { BUSINESS } from '@/lib/business';
 
 const columns = [
   ['Product', [['Messages', '/features'], ['Calls', '/features'], ['Connectivity', '/features#connectivity'], ['Wallet', '/features'], ['Ben', '/features'], ['Feed', '/features']]],
-  ['Business', [['For Businesses', '/business'], ['Telecom Partnerships', '/business/partnerships'], ['Technology/API', '/business'], ['Contact', 'mailto:partnerships@wiftco.com']]],
+  ['Business', [['For Businesses', '/business'], ['Telecom Partnerships', '/business/partnerships'], ['Technology/API', '/business'], ['Contact Us', '/contact']]],
   ['Company', [['About', '/about'], ['Careers', '/careers'], ['Press', '/press'], ['Blog', '/blog']]],
-  ['Legal', [['Privacy', '/privacy'], ['Terms', '/terms'], ['Account deletion', '/account-deletion']]],
+  ['Legal', [['Privacy Policy', '/privacy'], ['Terms & Conditions', '/terms'], ['Refund Policy', '/refund-policy'], ['Account deletion', '/account-deletion']]],
 ] as const;
 
 const storeButtonStyle: React.CSSProperties = {
@@ -30,8 +31,8 @@ export default function Footer() {
             <p style={{ maxWidth: 280, marginTop: 20, color: 'rgba(255,255,255,.66)', lineHeight: 1.65 }}>
               Communication, connectivity and everyday digital services - one experience.
             </p>
-            <a href="mailto:partnerships@wiftco.com" style={{ display: 'inline-block', marginTop: 18, color: '#cdb8ff', textDecoration: 'none' }}>
-              partnerships@wiftco.com
+            <a href={`mailto:${BUSINESS.supportEmail}`} style={{ display: 'inline-block', marginTop: 18, color: '#cdb8ff', textDecoration: 'none' }}>
+              {BUSINESS.supportEmail}
             </a>
             <div style={{ marginTop: 20 }}>
               <div style={{ marginBottom: 9, color: 'rgba(255,255,255,.48)', fontSize: 9, fontWeight: 800, letterSpacing: 1.4 }}>FOLLOW WIFTCO</div>
@@ -86,7 +87,8 @@ export default function Footer() {
           ))}
         </div>
         <div style={{ marginTop: 50, paddingTop: 26, borderTop: '1px solid rgba(255,255,255,.12)', color: 'rgba(255,255,255,.48)', fontSize: 12 }}>
-          © 2026 Wiftco. Carrier-dependent services require authorised partners and applicable regulatory approval.
+          <div>© 2026 {BUSINESS.legalName} · CAC {BUSINESS.registration}. Carrier-dependent services require authorised partners and applicable regulatory approval.</div>
+          <div style={{ marginTop: 8 }}>Wiftco may use approved third-party payment processors and service providers to process payments and fulfil digital services.</div>
         </div>
       </div>
       <style jsx>{`

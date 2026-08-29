@@ -5,6 +5,7 @@ import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import Container from '@/components/Container';
 import PhoneMockup from '@/components/PhoneMockup';
+import { LINKS } from '@/lib/tokens';
 
 const products = [
   ['Messages', 'Conversations without friction.', 'Message Wiftco users through a modern, responsive communication experience.', 'Built'],
@@ -15,7 +16,7 @@ const products = [
   ['Feed', 'More than a utility app.', 'Share updates, media and conversations with the Wiftco community.', 'Built'],
 ];
 
-const trust = ['Private development', 'Secure architecture', 'Provider-independent telecom layer', 'Built in Nigeria'];
+const trust = ['Google Play Early Access', 'Secure architecture', 'Provider-independent technology layer', 'Built in Nigeria'];
 
 export default function HomePage() {
   return <main className="marketing-page">
@@ -27,6 +28,7 @@ export default function HomePage() {
           <h1>One app for the way you <span>connect.</span></h1>
           <p className="hero-lead">For the quick “I’m outside”, the long catch-ups, the data top-ups and the everyday things that keep life moving.</p>
           <p className="hero-note">Message, call, manage connectivity and access everyday digital services through one beautifully simple experience.</p>
+          <p className="hero-note">Wiftco Tech Services is a Nigerian technology company developing digital platforms that simplify access to communication, payments and everyday digital services.</p>
           <div className="button-row"><Link className="button primary" href="/download">Get early access</Link><Link className="button secondary" href="/features">Explore Wiftco</Link></div>
           <Link className="partner-link" href="/business/partnerships">Telecom or technology partner? <b>Partner with Wiftco →</b></Link>
         </div>
@@ -42,7 +44,7 @@ export default function HomePage() {
       <div><span className="eyebrow light">THE WIFTCO VISION</span><h2>From an app to a connection layer.</h2><p>Wiftco is being designed so users can eventually access communication and connectivity services through a single digital identity - supported by licensed network and infrastructure partners.</p><Link className="button light-button" href="/business/partnerships">Learn about telecom partnerships →</Link></div>
       <div className="architecture" aria-label="Wiftco connection architecture"><span>Wiftco user</span><i>↓</i><span>Wiftco app</span><i>↓</i><span>Telecom control layer</span><i>↓</i><span>Authorised network partner</span><i>↓</i><span>Mobile infrastructure</span></div>
     </div></Container></section>
-    <section className="section early-section"><Container><div className="early-card"><div><span className="eyebrow">EARLY ACCESS</span><h2>Be first to experience Wiftco.</h2><p>The application is in private development. Join the early-access list for product and launch updates.</p></div><Link className="button primary" href="/download">Join the list</Link></div></Container></section>
+    <section className="section early-section"><Container><div className="early-card"><div><span className="eyebrow">GOOGLE PLAY EARLY ACCESS</span><h2>Experience Wiftco on Android.</h2><p>The Wiftco mobile application is available on Google Play through Early Access. Download it now or join the list for product and launch updates.</p></div><a className="button primary" href={LINKS.playStore} target="_blank" rel="noreferrer">Get it on Google Play</a></div></Container></section>
     <Footer />
   </main>;
 }

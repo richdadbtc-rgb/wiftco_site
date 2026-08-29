@@ -5,7 +5,7 @@ import BenFloatingButton from '@/components/BenFloatingButton';
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.wiftco.com'),
   title: 'Wiftco — Communication, Connectivity & Digital Services',
-  description: 'Wiftco is building a unified mobile experience for messaging, calling, connectivity and everyday digital services.',
+  description: 'Wiftco Tech Services develops digital platforms that simplify access to communication, payments and everyday digital services.',
   keywords: ['Wiftco', 'Nigeria', 'communications', 'connectivity', 'messaging', 'voice calling', 'eSIM'],
   alternates: { canonical: '/' },
   openGraph: { title:'Wiftco — Communication, Connectivity & Digital Services', description:'One app for the way you connect.', url:'https://www.wiftco.com', siteName:'Wiftco', type:'website', images:[{url:'/wiftco%20icon.png',width:512,height:512,alt:'Wiftco'}] },
