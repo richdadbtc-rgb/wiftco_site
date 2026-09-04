@@ -32,7 +32,7 @@ export default function HomePage() {
           <div className="button-row"><Link className="button primary" href="/download">Get early access</Link><Link className="button secondary" href="/features">Explore Wiftco</Link></div>
           <Link className="partner-link" href="/business/partnerships">Telecom or technology partner? <b>Partner with Wiftco →</b></Link>
         </div>
-        <div className="hero-people" aria-label="Friends connecting through Wiftco"><img src="/people/home-connection.png" alt="Three Nigerian friends sharing a moment around a phone"/><div className="hero-phone-float"><PhoneMockup screen="dashboard" scale={0.34}/></div><div className="hero-chat chat-a"><span>AM</span><p>Are you free for a quick call?</p></div><div className="hero-chat chat-b"><span>CO</span><p>Yes — give me one minute 👋</p></div></div>
+        <div className="hero-people parallax" aria-label="Friends connecting through Wiftco"><img src="/people/home-connection.png" alt="Three Nigerian friends sharing a moment around a phone"/><div className="hero-phone-float"><PhoneMockup screen="dashboard" scale={0.34}/></div><div className="hero-chat chat-a"><span>AM</span><p>Are you free for a quick call?</p></div><div className="hero-chat chat-b"><span>CO</span><p>Yes — give me one minute 👋</p></div></div>
       </div></Container>
     </section>
     <section className="trust-strip" aria-label="Product status">{trust.map(item=><span key={item}>✓ {item}</span>)}</section>

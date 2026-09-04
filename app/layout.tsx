@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import BenFloatingButton from '@/components/BenFloatingButton';
 import CookieConsent from '@/components/CookieConsent';
+import SmoothMotion from '@/components/SmoothMotion';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.wiftco.com'),
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <CookieConsent />
         <BenFloatingButton />
+        <SmoothMotion />
       </body>
     </html>
   );
