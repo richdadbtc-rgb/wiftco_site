@@ -9,7 +9,7 @@ const columns = [
   ['Product', [['Messages', '/features'], ['Calls', '/features'], ['Connectivity', '/features#connectivity'], ['Wallet', '/features'], ['Ben', '/features'], ['Feed', '/features']]],
   ['Business', [['For Businesses', '/business'], ['Telecom Partnerships', '/business/partnerships'], ['Technology/API', '/business'], ['Contact Us', '/contact']]],
   ['Company', [['About', '/about'], ['Careers', '/careers'], ['Press', '/press'], ['Blog', '/blog']]],
-  ['Legal', [['Privacy Policy', '/privacy'], ['Terms & Conditions', '/terms'], ['Refund Policy', '/refund-policy'], ['Account deletion', '/account-deletion']]],
+  ['Legal', [['Privacy Policy', '/privacy'], ['Cookie Policy', '/cookie-policy'], ['Terms & Conditions', '/terms'], ['Refund Policy', '/refund-policy'], ['Account deletion', '/account-deletion']]],
 ] as const;
 
 const storeButtonStyle: React.CSSProperties = {
@@ -87,7 +87,24 @@ export default function Footer() {
           ))}
         </div>
         <div style={{ marginTop: 50, paddingTop: 26, borderTop: '1px solid rgba(255,255,255,.12)', color: 'rgba(255,255,255,.48)', fontSize: 12 }}>
-          <div>© 2026 {BUSINESS.legalName} · CAC {BUSINESS.registration}. Carrier-dependent services require authorised partners and applicable regulatory approval.</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+            <span>© 2026 {BUSINESS.legalName} · CAC {BUSINESS.registration}. Carrier-dependent services require authorised partners and applicable regulatory approval.</span>
+            <button
+              type="button"
+              onClick={() => {
+                try {
+                  window.localStorage.removeItem('wiftco_cookie_consent_v1');
+                  window.location.reload();
+                } catch {
+                  window.location.reload();
+                }
+              }}
+              style={{ background: 'transparent', border: 'none', color: '#cdb8ff', cursor: 'pointer', fontSize: 12, fontWeight: 600, padding: 0 }}
+              aria-label="Reopen cookie preferences"
+            >
+              Cookie preferences
+            </button>
+          </div>
           <div style={{ marginTop: 8 }}>Wiftco may use approved third-party payment processors and service providers to process payments and fulfil digital services.</div>
         </div>
       </div>
