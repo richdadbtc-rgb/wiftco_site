@@ -62,6 +62,8 @@ export default function AdminDashboard() {
   const [data,setData] = useState<any>(null); const [loading,setLoading] = useState(true); const [error,setError] = useState('');
   const [menu,setMenu] = useState(false); const [search,setSearch] = useState('');
   const [crm,setCrm] = useState<any>(null);
+  const [newMailNotice,setNewMailNotice] = useState('');
+  const [unreadMail,setUnreadMail] = useState(0);
 
   const load = useCallback(async () => {
     setLoading(true); setError('');
@@ -76,7 +78,7 @@ export default function AdminDashboard() {
       else if (['partnerships','companies','contacts','outreach','templates','followups','documents','partnership_settings','wave1','inbox','delivery_events'].includes(section)) {
         const partnership = await api('partnerships');
         const key = section === 'outreach' ? 'emails' : section === 'partnership_settings' ? 'settings' : section === 'wave1' ? 'campaign_members' : section;
-        setCrm(partnership); result = section === 'partnerships' ? partnership : partnership[key];
+        setCrm(partnership); setUnreadMail((partnership.inbox||[]).filter((row:AnyRow)=>!row.is_read).length); result = section === 'partnerships' ? partnership : partnership[key];
       } else if (['posts','comments','reactions','messages'].includes(section)) result = (await api('content'))[section];
       else if (section === 'admins') result = await api(`users?status=staff&search=${encodeURIComponent(search)}`);
       else result = await api(`${section}${['users','kyc','wallets','transactions','esims','audit'].includes(section) ? `?search=${encodeURIComponent(search)}` : ''}`);
@@ -87,6 +89,28 @@ export default function AdminDashboard() {
 
   useEffect(() => { fetch('/api/admin/auth/session').then(async r => { if (!r.ok) throw 0; setSession(await r.json()); }).catch(() => router.replace('/admin/login')); },[router]);
   useEffect(() => { const timer=setTimeout(load, search ? 300 : 0); return () => clearTimeout(timer); },[load,search]);
+  useEffect(() => {
+    if(section!=='inbox') return;
+    let knownIds = new Set((Array.isArray(data)?data:[]).map((row:AnyRow)=>String(row.id)));
+    let initialized = knownIds.size > 0;
+    const timer=window.setInterval(async()=>{
+      try {
+        const inbox=await api('partnerships/inbox');
+        const rows=Array.isArray(inbox.results)?inbox.results:[];
+        const arrivals=initialized?rows.filter((row:AnyRow)=>!knownIds.has(String(row.id))):[];
+        knownIds=new Set(rows.map((row:AnyRow)=>String(row.id)));
+        initialized=true;
+        if(arrivals.length){
+          const latest=arrivals[0];
+          setNewMailNotice(`${arrivals.length} new email${arrivals.length===1?'':'s'} received from ${latest.from_email}`);
+          document.title=`(${inbox.unread_count}) Wiftco Admin`;
+          if(typeof Notification!=='undefined'&&Notification.permission==='granted') new Notification('New Wiftco partnership email',{body:`${latest.from_email}: ${latest.subject||'(No subject)'}`});
+        }
+        setUnreadMail(Number(inbox.unread_count||0)); setData(rows);
+      } catch { /* Keep the current inbox visible during a transient refresh failure. */ }
+    },15000);
+    return()=>window.clearInterval(timer);
+  },[section]);
 
   async function logout() { await fetch('/api/admin/auth/logout',{method:'POST'}); router.replace('/admin/login'); router.refresh(); }
   async function toggleUser(row:AnyRow) { await api(`users/${row.id}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({is_active:!row.active})}); load(); }
@@ -95,12 +119,12 @@ export default function AdminDashboard() {
   return <main className="admin-shell">
     <aside className={`admin-sidebar ${menu?'open':''}`}>
       <div className="sidebar-brand"><Image src="/wiftco%20icon.png" alt="" width={38} height={38}/><strong>Wiftco<span>Admin</span></strong><button onClick={()=>setMenu(false)}>×</button></div>
-      <nav>{sections.map(([id,label,icon,group])=><div key={id}>{group&&<small>{group}</small>}<button className={section===id?'active':''} onClick={()=>{setSection(id);setSearch('');setMenu(false)}}><i>{icon}</i>{label}<em>›</em></button></div>)}</nav>
+      <nav>{sections.map(([id,label,icon,group])=><div key={id}>{group&&<small>{group}</small>}<button className={section===id?'active':''} onClick={()=>{setSection(id);setSearch('');setMenu(false)}}><i>{icon}</i>{label}{id==='inbox'&&unreadMail>0&&<span className="mail-badge">{unreadMail}</span>}<em>›</em></button></div>)}</nav>
       <div className="system-online"><i/> System online</div>
     </aside>
     <section className="admin-main">
       <header className="admin-topbar"><button className="menu-button" onClick={()=>setMenu(true)}>☰</button><div className="global-search">⌕ <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search current section…" /></div><div className="admin-identity"><span><b>{session?.first_name || 'Admin'} {session?.last_name}</b><small>{session?.is_superuser?'Super Admin':'Administrator'}</small></span><div className="avatar">{session?.first_name?.[0] || 'A'}</div><button onClick={logout}>Log out</button></div></header>
-      <div className="admin-content"><div className="page-heading"><div><h1>{title?.[0]}</h1><p>{title?.[1]}</p></div><button className="refresh" onClick={load}>↻ Refresh</button></div>
+      <div className="admin-content"><div className="page-heading"><div><h1>{title?.[0]}</h1><p>{title?.[1]}</p></div><button className="refresh" onClick={load}>↻ Refresh</button></div>{newMailNotice&&section==='inbox'&&<button className="new-mail-notice" onClick={()=>setNewMailNotice('')}>✉ {newMailNotice}<span>×</span></button>}
         {loading ? <div className="loading-grid">{[1,2,3,4].map(i=><i key={i}/>)}</div> : error ? <div className="error-panel"><b>Could not load this section</b><span>{error}</span><button onClick={load}>Try again</button></div> : section==='dashboard' ? <Dashboard data={data}/> : <Section section={section} data={data} crm={crm} reload={load} toggleUser={toggleUser}/>}
       </div>
     </section>
@@ -118,22 +142,34 @@ function Section({section,data,crm,reload,toggleUser}:{section:string,data:any,c
   if (section==='partnerships') return <div className="stacked-panels">{Object.entries(data||{}).map(([key,value])=><article className="panel" key={key}><PanelTitle title={pretty(key)}/><DataTable rows={Array.isArray(value)?value:[]}/></article>)}</div>;
   if(section==='wave1') return <CampaignReview rows={data||[]} crm={crm} reload={reload}/>;
   const rows=Array.isArray(data)?data:(data?.results||[]);
+  if(section==='campaigns') return <><NewsletterAction reload={reload}/><article className="panel full"><PanelTitle title={`Email Campaigns (${rows.length})`}/><DataTable rows={rows}/></article></>;
   const crmSection=['companies','contacts','outreach','templates','followups','documents','partnership_settings'].includes(section);
-  if(section==='inbox') return <><InboxSync reload={reload}/><InboxTable rows={rows}/></>;
+  if(section==='inbox') return <><InboxSync reload={reload}/><InboxTable rows={rows} documents={crm?.documents||[]} reload={reload}/></>;
   return <>{crmSection&&<CrmAction section={section} crm={crm} reload={reload}/>}<article className="panel full"><PanelTitle title={`${pretty(section)} (${data?.count ?? rows.length})`}/><DataTable rows={rows} onToggle={['users','admins'].includes(section)?toggleUser:undefined}/></article></>;
+}
+
+function NewsletterAction({reload}:{reload:()=>void}) {
+  const [open,setOpen]=useState(false); const [busy,setBusy]=useState(false); const [notice,setNotice]=useState(''); const [audience,setAudience]=useState<AnyRow>({subscribers:0,all_users:0});
+  useEffect(()=>{api('marketing/audience').then(setAudience).catch(()=>{});},[]);
+  async function submit(event:React.FormEvent<HTMLFormElement>){event.preventDefault();const form=new FormData(event.currentTarget);const target=String(form.get('audience')||'subscribers');const count=Number(audience[target]||0);if(!window.confirm(`Send this newsletter to ${count} recipient${count===1?'':'s'}?`))return;setBusy(true);setNotice('');try{await api('marketing/campaigns',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subject:form.get('subject'),preview_text:form.get('preview_text'),body:form.get('body'),audience:target,send_now:true})});setNotice(`Newsletter queued for ${count} recipient${count===1?'':'s'}. Delivery progress will update in Campaigns.`);setOpen(false);reload();}catch(error:any){setNotice(error.message||'Newsletter could not be sent.');}finally{setBusy(false)}}
+  return <><div className="crm-actions"><div><b>Wiftco newsletters</b><span>Send branded product news to opted-in subscribers or all active registered users. Unsubscribed addresses remain suppressed.</span></div><button className="primary-button" onClick={()=>setOpen(true)}>＋ Compose newsletter</button>{notice&&<small>{notice}</small>}</div>{open&&<div className="modal-backdrop" onMouseDown={()=>setOpen(false)}><form className="crm-modal" onSubmit={submit} onMouseDown={event=>event.stopPropagation()}><header><div><span className="eyebrow">MARKETING</span><h2>Compose newsletter</h2></div><button type="button" onClick={()=>setOpen(false)}>×</button></header><div className="form-grid"><label className="span-2">Audience<select name="audience" required defaultValue="subscribers"><option value="subscribers">Opted-in subscribers ({audience.subscribers||0})</option><option value="all_users">All active registered users ({audience.all_users||0})</option></select></label><label className="span-2">Subject<input name="subject" maxLength={180} required placeholder="What’s new at Wiftco"/></label><label className="span-2">Preview text<input name="preview_text" maxLength={240} placeholder="Short summary shown by email apps"/></label><label className="span-2">Newsletter content<textarea name="body" rows={12} required placeholder="Write the newsletter here. Paragraph breaks are preserved."/></label><div className="span-2 newsletter-warning"><b>Review before sending</b><span>Sending starts immediately after confirmation and successful recipients will not be duplicated if a failed campaign is retried.</span></div></div><footer><button type="button" className="tiny-button" onClick={()=>setOpen(false)}>Cancel</button><button className="primary-button" disabled={busy}>{busy?'Sending…':'Send newsletter'}</button></footer></form></div>}</>;
 }
 
 function InboxSync({reload}:{reload:()=>void}) {
   const [busy,setBusy]=useState(false); const [notice,setNotice]=useState('');
   async function syncInbox(){setBusy(true);setNotice('');try{const result=await api('partnerships/inbox/sync',{method:'POST'});setNotice(`Inbox synced: ${result.imported} new, ${result.existing} already stored.`);reload();}catch(reason:any){setNotice(reason.message||'Could not sync inbox.');}finally{setBusy(false);}}
-  return <div className="crm-actions"><div><b>Resend inbox</b><span>Received emails normally arrive automatically. Sync recovers messages retained by Resend after a missed webhook.</span></div><button className="primary-button" disabled={busy} onClick={syncInbox}>{busy?'Syncing…':'↻ Sync inbox'}</button>{notice&&<small>{notice}</small>}</div>;
+  async function enableNotifications(){if(typeof Notification!=='undefined')await Notification.requestPermission();}
+  return <div className="crm-actions"><div><b>Live inbox</b><span>Automatically refreshes every 15 seconds. Manual sync recovers messages after a missed webhook.</span></div><button className="tiny-button" type="button" onClick={enableNotifications}>Enable notifications</button><button className="primary-button" disabled={busy} onClick={syncInbox}>{busy?'Syncing…':'↻ Sync inbox'}</button>{notice&&<small>{notice}</small>}</div>;
 }
 
-function InboxTable({rows}:{rows:AnyRow[]}) {
-  const [selected,setSelected]=useState<AnyRow|null>(null);
+function InboxTable({rows,documents,reload}:{rows:AnyRow[],documents:AnyRow[],reload:()=>void}) {
+  const [selected,setSelected]=useState<AnyRow|null>(null); const [replying,setReplying]=useState(false); const [busy,setBusy]=useState(false); const [notice,setNotice]=useState('');
+  async function openEmail(row:AnyRow){setSelected(row);setReplying(false);setNotice('');if(!row.is_read){try{const updated=await api(`partnerships/inbox/${row.id}/read`,{method:'PATCH'});setSelected(updated);reload();}catch{/* Reading must still work if marking read temporarily fails. */}}}
+  async function sendReply(event:React.FormEvent<HTMLFormElement>){event.preventDefault();if(!selected)return;setBusy(true);setNotice('');const form=new FormData(event.currentTarget);const body={subject:form.get('subject'),body:form.get('body'),cc:form.get('cc')||'',bcc:form.get('bcc')||'',attachment_ids:form.getAll('attachment_ids')};try{await api(`partnerships/inbox/${selected.id}/reply`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});setNotice('Reply and selected attachments were accepted for delivery.');setReplying(false);reload();}catch(error:any){setNotice(error.message||'Reply could not be sent.');}finally{setBusy(false)}}
   useEffect(()=>{if(!selected)return;const close=(event:KeyboardEvent)=>event.key==='Escape'&&setSelected(null);window.addEventListener('keydown',close);return()=>window.removeEventListener('keydown',close);},[selected]);
   const attachments=Array.isArray(selected?.attachments)?selected.attachments:[];
-  return <><article className="panel full"><PanelTitle title={`Inbox (${rows.length})`}/><DataTable rows={rows} onToggle={setSelected} actionLabel="View email"/></article>{selected&&<div className="modal-backdrop" onMouseDown={()=>setSelected(null)}><section className="crm-modal inbox-modal" role="dialog" aria-modal="true" aria-labelledby="inbox-email-subject" onMouseDown={event=>event.stopPropagation()}><header><div><span className="eyebrow">RECEIVED EMAIL</span><h2 id="inbox-email-subject">{selected.subject||'(No subject)'}</h2></div><button type="button" aria-label="Close email" onClick={()=>setSelected(null)}>×</button></header><div className="inbox-meta"><div><span>From</span><b>{selected.from_email||'Unknown sender'}</b></div><div><span>To</span><b>{Array.isArray(selected.to)?selected.to.join(', '):selected.to||'partnerships@wiftco.com'}</b></div><div><span>Received</span><b>{display(selected.received_at,'received_at')}</b></div><div><span>Content status</span><b>{pretty(selected.status||'unknown')}</b></div></div><div className="inbox-body">{selected.body||'The message body is not available yet. Use Sync inbox to retry retrieval.'}</div>{attachments.length>0&&<div className="inbox-attachments"><span>Attachments</span>{attachments.map((item:AnyRow,index:number)=><div key={item.id||index}>▧ {item.filename||`Attachment ${index+1}`} {item.content_type&&<small>{item.content_type}</small>}</div>)}</div>}<footer><button type="button" className="primary-button" onClick={()=>setSelected(null)}>Close</button></footer></section></div>}</>;
+  const authorized=documents.filter(d=>d.company==='General'||String(d.company_id)===String(selected?.company_id));
+  return <><article className="panel full"><PanelTitle title={`Inbox (${rows.length} · ${rows.filter(row=>!row.is_read).length} unread)`}/><DataTable rows={rows} onToggle={openEmail} actionLabel="View email"/></article>{selected&&<div className="modal-backdrop" onMouseDown={()=>setSelected(null)}><section className="crm-modal inbox-modal" role="dialog" aria-modal="true" aria-labelledby="inbox-email-subject" onMouseDown={event=>event.stopPropagation()}><header><div><span className="eyebrow">{selected.is_read?'RECEIVED EMAIL':'NEW EMAIL'}</span><h2 id="inbox-email-subject">{selected.subject||'(No subject)'}</h2></div><button type="button" aria-label="Close email" onClick={()=>setSelected(null)}>×</button></header><div className="inbox-meta"><div><span>From</span><b>{selected.from_email||'Unknown sender'}</b></div><div><span>To</span><b>{Array.isArray(selected.to)?selected.to.join(', '):selected.to||'partnerships@wiftco.com'}</b></div><div><span>Received</span><b>{display(selected.received_at,'received_at')}</b></div><div><span>Content status</span><b>{pretty(selected.status||'unknown')}</b></div></div><div className="inbox-body">{selected.body||'The message body is not available yet. Use Sync inbox to retry retrieval.'}</div>{attachments.length>0&&<div className="inbox-attachments"><span>Received attachments</span>{attachments.map((item:AnyRow,index:number)=><div key={item.id||index}>▧ {item.filename||`Attachment ${index+1}`} {item.content_type&&<small>{item.content_type}</small>}</div>)}</div>}{replying&&<form className="reply-form" onSubmit={sendReply}><label>To<input value={selected.from_email||''} readOnly/></label><label>Subject<input name="subject" required defaultValue={String(selected.subject||'').toLowerCase().startsWith('re:')?selected.subject:`Re: ${selected.subject||''}`}/></label><label>Message<textarea name="body" rows={7} required autoFocus placeholder="Write your reply…"/></label><div className="reply-addresses"><label>CC<input name="cc" type="text" placeholder="Optional, comma-separated"/></label><label>BCC<input name="bcc" type="text" placeholder="Optional, comma-separated"/></label></div><fieldset className="attachment-picker"><legend>Attach CRM documents <small>(optional)</small></legend>{authorized.length?authorized.map(doc=><label key={doc.id}><input type="checkbox" name="attachment_ids" value={doc.id}/><span><b>{doc.title}</b><small>{doc.company} · {doc.type}</small></span></label>):<p>Upload a general or company document in Documents to attach it.</p>}</fieldset><div className="reply-actions"><button type="button" className="tiny-button" onClick={()=>setReplying(false)}>Cancel</button><button className="primary-button" disabled={busy}>{busy?'Sending…':'Send reply'}</button></div></form>}{notice&&<div className={notice.includes('accepted')?'form-success':'form-error'}>{notice}</div>}<footer><button type="button" className="tiny-button" onClick={()=>setSelected(null)}>Close</button>{!replying&&<button type="button" className="primary-button" disabled={!selected.contact_id&&!selected.thread_email_id} onClick={()=>setReplying(true)}>↩ Reply</button>}</footer></section></div>}</>;
 }
 function ObjectCards({value}:{value:any}) { const entries=Object.entries(value?.metrics||value||{}).filter(([,v])=>['string','number','boolean'].includes(typeof v)); return <div className="object-cards">{entries.map(([key,val])=><div key={key}><span>{pretty(key)}</span><b>{display(val,key)}</b></div>)}</div>; }
 
