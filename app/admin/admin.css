@@ -22,3 +22,5 @@
 
 .crm-reader-back{display:none}.crm-mail-reader>.reply-form{margin-top:18px;margin-bottom:18px}
 @media(max-width:700px){.crm-reader-back{display:block}.crm-mail-reader>header{gap:10px}.crm-mail-reader>header>div{min-width:0;flex:1}.crm-mail-reader>header h2{overflow-wrap:anywhere}}
+
+.crm-email-content{white-space:normal;line-height:1.75;font-size:15px}.crm-email-content p{margin:0 0 1.15em}.crm-email-content p:last-child{margin-bottom:0}.crm-email-content a{color:#6536ce;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}.crm-email-content a:hover{color:#421e99}.crm-email-content ul{margin:0 0 1.15em;padding-left:24px}.crm-email-content li{margin:5px 0}.crm-quoted-email{margin-top:24px;padding-top:18px;border-top:1px solid #dce0e9;color:#596174;font-size:13px}.crm-quoted-email summary{cursor:pointer;color:#6536ce;font-weight:600;margin-bottom:16px}.crm-quoted-email summary:focus-visible{outline:2px solid #7146ee;outline-offset:4px}
